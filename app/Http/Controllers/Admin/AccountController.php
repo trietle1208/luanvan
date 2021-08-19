@@ -34,6 +34,7 @@ class AccountController extends Controller
             ]);
             $output = 'Duyêt';
             return response()->json($output);
+            'commit';
         }
     }
 }
