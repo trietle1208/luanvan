@@ -82,6 +82,7 @@
         <script>
             CKEDITOR.replace('detail_product');
         </script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 {{--        CHANGE-STATUS-USER--}}
         <script>
             $(document).ready(function (){
@@ -136,6 +137,9 @@
                 })
             })
         </script>
+{{--    FILLTER BY TYPE--}}
+
+{{--    CHECKBOX PARA--}}
         <script>
             $(document).ready(function (){
                 $(document).on('click','.thongso', function () {
@@ -159,5 +163,247 @@
                 })
             })
         </script>
+
+{{--    CHECKBOX PARA--}}
+
+{{--    FILTER PRODUCT--}}
+        <script>
+            $(document).ready(function (){
+                $('.select-cate').change(function (){
+                    var id = $(this).val();
+                    $.ajax({
+                        url: '{{ route('sup.receipt.selectCate', ['param' => 'cate']) }}',
+                        method : 'GET',
+                        data : {
+                            'id' : id,
+                        },
+                        success:function (data)
+                        {
+                            $('.result-product').html(data);
+                        }
+                    })
+                });
+                $('.select-brand').change(function (){
+                    var id = $(this).val();
+                    $.ajax({
+                        url: '{{ route('sup.receipt.selectCate', ['param' => 'brand']) }}',
+                        method : 'GET',
+                        data : {
+                            'id' : id,
+                        },
+                        success:function (data)
+                        {
+                            $('.result-product').html(data);
+                        }
+                    })
+                })
+            })
+        </script>
+{{--    FILTER PRODUCT--}}
+
+{{--    CHECKBOX PRODUCT--}}
+        <script>
+            $(document).ready(function (){
+                $(document).on('click','.product', function (){
+                    var key_check = $(this).data('id');
+                    var quantity = $('.quantity');
+                    var price = $('.price');
+                    if(this.checked){
+                        for (let i = 0; i < quantity.length; i++) {
+                            if(key_check == $(quantity[i]).data('id')) {
+                                $(quantity[i]).removeAttr('readonly');
+
+                            }
+                        }
+                        for (let i = 0; i < price.length; i++) {
+                            if(key_check == $(price[i]).data('id')) {
+                                $(price[i]).removeAttr('readonly');
+                            }
+                        }
+                    }else {
+                        for (let i = 0; i < quantity.length; i++) {
+                            if(key_check == $(quantity[i]).data('id')) {
+                                $(quantity[i]).attr('readonly','readonly');
+                                $(quantity[i]).val('');
+                            }
+                        }
+
+                        for (let i = 0; i < price.length; i++) {
+                            if(key_check == $(price[i]).data('id')) {
+                                $(price[i]).attr('readonly','readonly');
+                                $(price[i]).val('');
+                            }
+                        }
+                    }
+                })
+            })
+        </script>
+
+{{--    CHECKBOX PRODUCT--}}
+
+{{--    ADD PRODUCT--}}
+        <script>
+            $(document).on('click','.addProduct', function () {
+                var key_check = $('.product:checked');
+                var arr_quantity = new Array();
+                var arr_price = new Array();
+                var arr_idsp = new Array();
+                for (let i = 0; i < key_check.length; i++) {
+                    arr_idsp.push($(key_check[i]).parent().find('input[name="product[]"]').val());
+                    arr_quantity.push($(key_check[i]).parent().find('input[name="quantity[]"]').val());
+                    arr_price.push($(key_check[i]).parent().find('input[name="price[]"]').val());
+                }
+                $.ajax({
+                    url: '{{ route('sup.receipt.addProduct') }}',
+                    method : 'GET',
+                    data : {
+                        'arr_idsp' : arr_idsp,
+                        'arr_quantity' : arr_quantity,
+                        'arr_price' : arr_price,
+                    },
+                    success:function (data)
+                    {
+                        $('.sum').val(data);
+                        $('.result-product').html("");
+                        $('.select-cate option').removeAttr('selected');
+                        $('.select-cate option:first-child').attr('selected','selected');
+                    }
+                })
+            })
+        </script>
+
+{{--    ADD PRODUCT--}}
+
+{{--    CHECK QUANTITY--}}
+        <script>
+            $(document).on('change','.quantity', function (){
+                var soluong = $(this).val();
+                var idsp = $(this).parent().find('input[name="product[]"]').val();
+
+                $.ajax({
+                    url: '{{ route('sup.receipt.checkQuantity') }}',
+                    method : 'GET',
+                    data : {
+                        'soluong' : soluong,
+                        'idsp' : idsp,
+                    },
+                    success:function (data)
+                    {
+                        if(data == 0) {
+                            alert('Vui lòng nhập số lượng nhỏ hơn số lượng còn lại trong kho!!!');
+                        }
+                    }
+                })
+            })
+        </script>
+{{--    CHECK QUANTITY--}}
+
+{{--        CHECK NAME CATE--}}
+        <script>
+            $(document).on('change','.name-cate', function () {
+                var name = $(this).val();
+                $.ajax({
+                    url: '{{ route('admin.cate.check') }}',
+                    method : 'GET',
+                    data : {
+                        'name' : name,
+                    },
+                    success:function (data)
+                    {
+                        if(data == 1) {
+                            alert('Tên danh mục đã được sử dụng');
+                            $('.name-cate').val('');
+                        }
+                    }
+                })
+            })
+        </script>
+{{--        CHECK NAME CATE--}}
+{{--        DELETE AJAX CATE--}}
+    <script>
+        function deleteCate(e) {
+            e.preventDefault();
+            var urlRequest = $(this).data('url');
+            var that = $(this);
+            Swal.fire({
+                title: 'Bạn có chắc chắn muốn xóa danh mục này không?',
+                text: "Bạn sẽ không thể khôi phục lại!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Có, tôi đồng ý!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    $.ajax({
+                        type : 'GET',
+                        url : urlRequest,
+                        success : function (data) {
+                            if(data.code == 200) {
+                                that.parent().parent().remove();
+                                Swal.fire(
+                                    'Đã xóa',
+                                    'Danh mục bạn chọn đã được xóa',
+                                    'success'
+                                )
+                            }
+                        },
+                        error : function () {
+
+                        }
+                    })
+                }
+            })
+        }
+
+        $(function () {
+            $(document).on('click','.delete-cate',deleteCate);
+        })
+    </script>
+{{--        DELETE AJAX CATE--}}
+{{--        DELETE AJAX BRAND--}}
+    <script>
+        function deleteBrand(e) {
+            e.preventDefault();
+            var urlRequest = $(this).data('url');
+            var that = $(this);
+            Swal.fire({
+                title: 'Bạn có chắc chắn muốn xóa thương hiệu này không?',
+                text: "Bạn sẽ không thể khôi phục lại!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Có, tôi đồng ý!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    $.ajax({
+                        type : 'GET',
+                        url : urlRequest,
+                        success : function (data) {
+                            if(data.code == 200) {
+                                that.parent().parent().remove();
+                                Swal.fire(
+                                    'Đã xóa',
+                                    'Thương hiệu bạn chọn đã được xóa',
+                                    'success'
+                                )
+                            }
+                        },
+                        error : function () {
+
+                        }
+                    })
+                }
+            })
+        }
+
+        $(function () {
+            $(document).on('click','.delete-brand',deleteBrand);
+        })
+    </script>
+{{--        DELETE AJAX BRAND--}}
     </body>
 </html>

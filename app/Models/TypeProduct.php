@@ -22,7 +22,7 @@ class TypeProduct extends Model
 
     public function parameter()
     {
-        return $this->hasMany('App\Models\Parameter','loaisp_id');
+        return $this->hasMany(Parameter::class,'loaisp_id');
     }
 
 

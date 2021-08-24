@@ -23,9 +23,13 @@
                         <label class="col-4 col-xl-3 col-form-label">Nhập tên thương hiệu:</label>
                         <div class="col-8 col-xl-9">
                             <input type="text" class="form-control" id="inputPassword3"
-                                   name="name"
+                                   name="th_ten"
                                    value="{{ $brand['th_ten'] }}"
+                                   class="@error('th_ten') is-invalid @enderror"
                                    placeholder="Nhập vào tên thương hiệu muốn tạo">
+                            @error('th_ten')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -33,8 +37,12 @@
                         <div class="col-8 col-xl-9">
                             <input type="file" class="form-control" id="inputPassword5"
                                    name="image"
+                                   class="@error('image') is-invalid @enderror"
                                    placeholder="Nhập vào hình ảnh của thương hiệu">
                             <img src="{{ $brand['th_hinhanh'] }}" style="width: 180px ; height: 120px">
+                            @error('image')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
                         </div>
 
                     </div>
@@ -44,7 +52,11 @@
                             <input type="text" class="form-control" id="inputPassword5"
                                    name="desc"
                                    value="{{ $brand['th_mota'] }}"
+                                   class="@error('desc') is-invalid @enderror"
                                    placeholder="Nhập vào mô tả của thương hiệu">
+                            @error('desc')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
                     <div class="justify-content-end row">

@@ -14,11 +14,11 @@ class TaoBangChiTietPhieuNhap extends Migration
     public function up()
     {
         Schema::create('chitietphieunhap', function (Blueprint $table) {
+            $table->id('ctpn_id');
             $table->bigInteger('sp_id')->unsigned();
             $table->bigInteger('pnh_id')->unsigned();
             $table->integer('soluong');
             $table->float('giagoc');
-            $table->primary(['sp_id','pnh_id']);
             $table->timestamps();
             $table->foreign('sp_id')->references('sp_id')->on('sanpham');
             $table->foreign('pnh_id')->references('pnh_id')->on('phieunhaphang');

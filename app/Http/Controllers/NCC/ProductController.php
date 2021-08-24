@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\DanhMuc;
 use App\Models\DetailPara;
+use App\Models\Discount;
 use App\Models\Product;
 use App\Models\TypeProduct;
 use App\Models\ProductImage;
@@ -25,14 +26,17 @@ class ProductController extends Controller
     private $type;
     private $productImage;
     private $detail;
+    private $discount;
     private $htmlSelectCate = '';
     private $htmlSelectBrand = '';
     private $htmlSelectType = '';
-    public function __construct(DanhMuc $category, Product $product, Brand $brand, TypeProduct $type, ProductImage $productImage, DetailPara $detail) {
+    public function __construct(DanhMuc $category, Product $product, Brand $brand, TypeProduct $type,
+                                ProductImage $productImage, DetailPara $detail, Discount $discount) {
         $this->category = $category;
         $this->product = $product;
         $this->brand = $brand;
         $this->type = $type;
+        $this->discount = $discount;
         $this->productImage = $productImage;
         $this->detail = $detail;
     }
@@ -105,7 +109,6 @@ class ProductController extends Controller
 
     public function getPara(Request $request) {
         $type = $this->type->find($request->id);
-//        dd($request->idProduct);
         $output = '';
         if($type){
             foreach ($type->parameter as $key => $para) {
@@ -131,17 +134,18 @@ class ProductController extends Controller
                     <input type="text" class="chitiet" name="chitietthongso[]" value="'.$chitietthongso.'" data-key="'.$key.'" '.$readonly.'>
                     <input type="hidden" name="thongso[]" value="'.$para->ts_id.'"></br></br>';
                 }
-//                dd($para->detail($request->idProduct)->get());
+
             }
         }
 
-//        if ()
+
         return response()->json($output);
     }
 
     public function edit($id){
         $products = $this->product->find($id);
         $productImages = $this->productImage->where('sp_id',$id)->get();
+        $discounts = $this->discount->where('ncc_id',Auth::user()->ncc->ncc_id)->get();
         $categories = $this->category->all();
         $brands = $this->brand->all();
         $types = $this->type->all();
@@ -177,7 +181,7 @@ class ProductController extends Controller
         $htmlCate = $this->htmlSelectCate;
         $htmlBrand = $this->htmlSelectBrand;
         $htmlType = $this->htmlSelectType;
-        return view('admin.nhacungcap.product.edit',compact('products','productImages','htmlCate','htmlBrand','htmlType'));
+        return view('admin.nhacungcap.product.edit',compact('products','productImages','htmlCate','htmlBrand','htmlType','discounts'));
     }
 
     public function update($id, Request $request) {
@@ -192,6 +196,7 @@ class ProductController extends Controller
             'ncc_id' => Auth::user()->ncc->ncc_id,
             'th_id' => $request->brand,
             'dm_id' => $request->cate,
+            'km_id' => $request->discount,
         ];
 
         $dataUpload = $this->storageTraitUpload($request, 'image', 'product');

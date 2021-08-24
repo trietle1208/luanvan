@@ -111,6 +111,19 @@
 
                         </tbody>
                     </table>
+{{--                    <div class="col-12">--}}
+{{--                        <div class="col-6">--}}
+{{--                            @foreach($product->para as $para)--}}
+{{--                                <label>{{ $para->ts_tenthongso }}</label><br><br>--}}
+{{--                            @endforeach--}}
+{{--                        </div>--}}
+{{--                        <div class="col-6">--}}
+{{--                            @foreach($product->detail as $detail)--}}
+{{--                                <p>{{ $detail->chitietthongso }}</p><br>--}}
+{{--                            @endforeach--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+
 
                 </div>
                 <div class="modal-footer">

@@ -113,6 +113,17 @@
                         </div>
                     </div>
                     <div class="row mb-3">
+                        <label for="inputEmail3" class="col-4 col-xl-3 col-form-label">Chọn thương hiệu:</label>
+                        <div class="col-8 col-xl-9">
+                            <select class="form-select" name="discount">
+                                <option value="">--- Chọn khuyến mãi ---</option>
+                                @foreach($discounts as $discount)
+                                    <option value="{{ $discount->km_id }}">{{ $discount->km_ten }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
                         <label for="inputEmail3" class="col-4 col-xl-3 col-form-label">Chọn loại:</label>
                         <div class="col-8 col-xl-9">
                             <select class="form-select select_type select_type_product" data-id="{{ $products->sp_id }}" name="type">

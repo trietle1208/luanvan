@@ -17,14 +17,30 @@ Danh mục sản phẩm
                 Session::put('message',null);
             }
             ?>
+{{--            <div class="row mb-3">--}}
+{{--                @if ($errors->any())--}}
+{{--                    <div class="alert alert-danger">--}}
+{{--                        <ul>--}}
+{{--                            @foreach ($errors->all() as $error)--}}
+{{--                                <li>{{ $error }}</li>--}}
+{{--                            @endforeach--}}
+{{--                        </ul>--}}
+{{--                    </div>--}}
+{{--                @endif--}}
+{{--            </div>--}}
             <form class="form-horizontal" action="{{ route('admin.cate.store') }}" method="post">
                 @csrf
                 <div class="row mb-3">
                     <label class="col-4 col-xl-3 col-form-label">Nhập tên danh mục:</label>
                     <div class="col-8 col-xl-9">
-                        <input type="text" class="form-control" id="inputPassword3"
-                               name="name"
+                        <input type="text" class="form-control name-cate" id="inputPassword3"
+                               name="dm_ten"
+                               required
+                               class="@error('dm_ten') is-invalid @enderror"
                                placeholder="Nhập vào tên danh mục muốn tạo">
+                        @error('dm_ten')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -41,12 +57,18 @@ Danh mục sản phẩm
                     <div class="col-8 col-xl-9">
                         <input type="text" class="form-control" id="inputPassword5"
                                name="desc"
+                               required
+                               class="@error('desc') is-invalid @enderror"
                                placeholder="Nhập vào mô tả của danh mục">
+                        @error('desc')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
+
                 </div>
                 <div class="justify-content-end row">
                     <div class="col-8 col-xl-9">
-                        <button type="submit" class="btn btn-info waves-effect waves-light">Lưu</button>
+                        <button type="submit" class="btn btn-lg btn-info waves-effect waves-light">Lưu</button>
                     </div>
                 </div>
             </form>

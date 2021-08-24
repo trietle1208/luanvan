@@ -1,7 +1,7 @@
 @extends('admin.layout')
 
 @section('title')
-    Thương hiệu sản phẩm
+    Loại sản phẩm
 @endsection
 
 @section('content')
@@ -9,7 +9,7 @@
         <div class="col-lg-12 pt-5">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="header-title text-center">DANH SÁCH THƯƠNG HIỆU</h4>
+                    <h4 class="header-title text-center">DANH SÁCH LOẠI</h4>
                     <?php
                     $message = Session::get('message');
                     if($message)
@@ -23,24 +23,23 @@
                             <thead class="table-light">
                             <tr>
                                 <th>ID</th>
-                                <th>Tên thương hiệu</th>
-                                <th>Hinh ảnh thương hiệu</th>
+                                <th>Tên loại</th>
                                 <th>Mô tả</th>
+                                <th>Slug</th>
                                 <th>Hành động</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($brands as $brand)
+                            @foreach($types as $type)
                                 <tr>
-                                    <th scope="row">{{ $brand['th_id'] }}</th>
-                                    <td>{{ $brand['th_ten'] }}</td>
+                                    <th scope="row">{{ $type['loaisp_id'] }}</th>
+                                    <td>{{ $type['loaisp_ten'] }}</td>
+
+                                    <td>{{ $type['loaisp_mota'] }}</td>
+                                    <td>{{ $type['loaisp_slug'] }}</td>
                                     <td>
-                                        <img src="{{ $brand['th_hinhanh'] }}" style="width: 180px ; height: 120px">
-                                    </td>
-                                    <td>{{ $brand['th_mota'] }}</td>
-                                    <td>
-                                        <a href="{{ route('admin.brand.edit', ['id' => $brand->th_id]) }}" class="btn btn-info">Chỉnh sửa</a>
-                                        <a data-url="{{ route('admin.brand.delete', ['id' => $brand->th_id]) }}" class="btn btn-danger delete-brand">Xóa</a>
+                                        <a href="{{ route('admin.type.edit', ['id' => $type->loaisp_id]) }}" class="btn btn-info">Chỉnh sửa</a>
+                                        <a onclick="return confirm('Bạn có chắc chắn muốn xóa loại này không?')" href="{{ route('admin.type.delete', ['id' => $type->loaisp_id]) }}" class="btn btn-danger">Xóa</a>
                                     </td>
                                 </tr>
                             @endforeach

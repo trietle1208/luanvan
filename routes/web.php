@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\AccountController;
 use App\Http\Controllers\Admin\AccountNCC;
 use App\Http\Controllers\NCC\ProductController;
 use App\Http\Controllers\NCC\DiscountController;
+use App\Http\Controllers\NCC\ReceiptController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -101,6 +102,10 @@ Route::middleware(['auth','verified'])->group(function () {
                 Route::get('/daxoa', [
                     'as' => 'cate.hasdelete',
                     'uses' => 'App\Http\Controllers\Admin\CategoryController@hasDelete'
+                ]);
+                Route::get('/check', [
+                    'as' => 'cate.check',
+                    'uses' => 'App\Http\Controllers\Admin\CategoryController@checkName'
                 ]);
             });
 
@@ -300,6 +305,49 @@ Route::middleware(['auth','verified'])->group(function () {
                     'uses' => 'App\Http\Controllers\NCC\DiscountController@hasDelete'
                 ]);
 
+            });
+
+            Route::prefix('phieunhaphang')->group(function () {
+                Route::get('/danhsach', [
+                    'as' => 'receipt.list',
+                    'uses' => 'App\Http\Controllers\NCC\ReceiptController@index'
+                ]);
+                Route::get('/them', [
+                    'as' => 'receipt.create',
+                    'uses' => 'App\Http\Controllers\NCC\ReceiptController@create'
+                ]);
+                Route::post('/luu', [
+                    'as' => 'receipt.store',
+                    'uses' => 'App\Http\Controllers\NCC\ReceiptController@store'
+                ]);
+                Route::get('/chinhsua/{id}', [
+                    'as' => 'receipt.edit',
+                    'uses' => 'App\Http\Controllers\NCC\ReceiptController@edit'
+                ]);
+                Route::post('/luuchinhsua/{id}', [
+                    'as' => 'receipt.update',
+                    'uses' => 'App\Http\Controllers\NCC\ReceiptController@update'
+                ]);
+                Route::get('/xoa/{id}', [
+                    'as' => 'receipt.delete',
+                    'uses' => 'App\Http\Controllers\NCC\ReceiptController@delete'
+                ]);
+                Route::get('/daxoa', [
+                    'as' => 'receipt.hasdelete',
+                    'uses' => 'App\Http\Controllers\NCC\ReceiptController@hasDelete'
+                ]);
+                Route::get('/ajax/{param}', [
+                    'as' => 'receipt.selectCate',
+                    'uses' => 'App\Http\Controllers\NCC\ReceiptController@selectCate'
+                ]);
+                Route::get('/addProduct', [
+                    'as' => 'receipt.addProduct',
+                    'uses' => 'App\Http\Controllers\NCC\ReceiptController@addProduct'
+                ]);
+                Route::get('/checkQuantity', [
+                    'as' => 'receipt.checkQuantity',
+                    'uses' => 'App\Http\Controllers\NCC\ReceiptController@checkQuantity'
+                ]);
             });
         });
 });

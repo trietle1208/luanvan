@@ -23,8 +23,12 @@ Thương hiệu sản phẩm
                     <label class="col-4 col-xl-3 col-form-label">Nhập tên thương hiệu:</label>
                     <div class="col-8 col-xl-9">
                         <input type="text" class="form-control" id="inputPassword3"
-                               name="name"
+                               name="th_ten"
+                               class="@error('th_ten') is-invalid @enderror"
                                placeholder="Nhập vào tên thương hiệu muốn tạo">
+                        @error('th_ten')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -32,7 +36,11 @@ Thương hiệu sản phẩm
                     <div class="col-8 col-xl-9">
                         <input type="file" class="form-control" id="inputPassword5"
                                name="image"
+                               class="@error('image') is-invalid @enderror"
                                placeholder="Nhập vào hình ảnh của thương hiệu">
+                        @error('image')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -40,7 +48,11 @@ Thương hiệu sản phẩm
                     <div class="col-8 col-xl-9">
                         <input type="text" class="form-control" id="inputPassword5"
                                    name="desc"
+                               class="@error('desc') is-invalid @enderror"
                                placeholder="Nhập vào mô tả của thương hiệu">
+                        @error('desc')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
                 <div class="justify-content-end row">

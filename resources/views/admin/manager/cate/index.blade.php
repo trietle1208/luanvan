@@ -50,21 +50,22 @@
                                     <td>{{ $category['dm_mota'] }}</td>
                                     <td>
                                         <a href="{{ route('admin.cate.edit', ['id' => $category->dm_id]) }}" class="btn btn-info">Chỉnh sửa</a>
-                                        <a onclick="return confirm('Bạn có chắc chắn muốn xóa danh mục này không?')" href="{{ route('admin.cate.delete', ['id' => $category->dm_id]) }}" class="btn btn-danger">Xóa</a>
+{{--                                        <a onclick="return confirm('Bạn có chắc chắn muốn xóa danh mục này không?')" href="{{ route('admin.cate.delete', ['id' => $category->dm_id]) }}" class="btn btn-danger">Xóa</a>--}}
+                                        <a href="{{ route('admin.cate.delete', ['id' => $category->dm_id]) }}" class="btn btn-danger delete-cate" data-url="{{ route('admin.cate.delete', ['id' => $category->dm_id]) }}" >Xóa</a>
                                     </td>
                                 </tr>
                             @endforeach
                             </tbody>
                         </table>
 
-                    {{$categories->links()}}
+
                     </div> <!-- end table-responsive-->
                 </div>
+
             </div> <!-- end card -->
+            {{$categories->links()}}
         </div> <!-- end col -->
-        <div class="col-2">
-           <a href="{{ route('admin.cate.hasdelete') }}" class="btn btn-blue">Đã xóa</a>
-        </div>
+
     </div>
 
 @endsection

@@ -176,7 +176,7 @@
                         <div class="collapse" id="sidebarDashboards">
                             <ul class="nav-second-level">
                                 <li>
-                                    <a href="{{ route('sup.product.create') }}">Thêm sản phẩm</a>
+                                    <i class="fas fa-plus-square"></i><a href="{{ route('sup.product.create') }}">Thêm sản phẩm</a>
                                 </li>
                                 <li>
                                     <a href="{{ route('sup.product.list') }}">Danh sách sản phẩm</a>
@@ -198,6 +198,24 @@
                                 </li>
                                 <li>
                                     <a href="{{ route('sup.discount.list') }}">Danh sách khuyến mãi</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li>
+                        <a href="#sidebarEmail" data-bs-toggle="collapse">
+                            <i data-feather="mail"></i>
+                            <span> Quản Lý Phiếu Nhập </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="collapse" id="sidebarEmail">
+                            <ul class="nav-second-level">
+                                <li>
+                                    <a href="{{ route('sup.receipt.create') }}">Thêm phiếu nhập</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('sup.receipt.list') }}">Danh sách phiếu nhập</a>
                                 </li>
                             </ul>
                         </div>

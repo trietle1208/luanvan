@@ -17,13 +17,25 @@
                     Session::put('message',null);
                 }
                 ?>
-                <form class="form-horizontal" action="{{ route('cate.update', ['id' => $category->dm_id]) }}" method="post">
+                <div class="row mb-3">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                </div>
+                <form class="form-horizontal" action="{{ route('admin.cate.update', ['id' => $category->dm_id]) }}" method="post">
                     @csrf
                     <div class="row mb-3">
                         <label class="col-4 col-xl-3 col-form-label">Nhập tên danh mục:</label>
                         <div class="col-8 col-xl-9">
                             <input type="text" class="form-control" id="inputPassword3"
-                                   name="name"
+                                   name="dm_ten"
+                                   required
                                    value="{{ $category['dm_ten'] }}"
                                    placeholder="Nhập vào tên danh mục muốn tạo">
                         </div>
@@ -42,6 +54,7 @@
                         <div class="col-8 col-xl-9">
                             <input type="text" class="form-control" id="inputPassword5"
                                    name="desc"
+                                   required
                                    value="{{ $category['dm_mota'] }}"
                                    placeholder="Nhập vào mô tả của danh mục">
                         </div>

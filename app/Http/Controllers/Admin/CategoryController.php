@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoryAdd;
 use Illuminate\Http\Request;
 use App\Models\DanhMuc;
 use App\Component\Recusive;
@@ -15,7 +16,7 @@ class CategoryController extends Controller
         $this->category = $category;
     }
     public function index() {
-        $categories = $this->category->latest()->paginate(3);
+        $categories = $this->category->latest()->paginate(5);
         $category_parent = $this->category->where('dm_idcha',0)->get();
         return view('admin.manager.cate.index', compact('categories','category_parent'));
     }
@@ -25,9 +26,9 @@ class CategoryController extends Controller
         return view('admin.manager.cate.create', compact('htmlOption'));
     }
 
-    public function store(Request $request) {
+    public function store(CategoryAdd $request) {
         $this->category->create([
-           'dm_ten' => $request->name,
+           'dm_ten' => $request->dm_ten,
            'dm_idcha' => $request->parent,
            'dm_mota' => $request->desc,
            'dm_slug' => str_slug($request->name),
@@ -50,20 +51,22 @@ class CategoryController extends Controller
         return view('admin.manager.cate.edit', compact('category','htmlOption'));
     }
 
-    public function update($id, Request $request) {
+    public function update($id, CategoryAdd $request) {
         $this->category->find($id)->update([
-            'dm_ten' => $request->name,
+            'dm_ten' => $request->dm_ten,
             'dm_idcha' => $request->parent,
             'dm_mota' => $request->desc,
-            'dm_slug' => str_slug($request->name),
+            'dm_slug' => str_slug($request->dm_ten),
         ]);
 
         return redirect()->route('admin.cate.list');
     }
     public function delete($id) {
         $this->category->find($id)->delete();
-
-        return redirect()->route('admin.cate.list');
+        return response()->json([
+            'code' => 200,
+            'message' => 'success',
+        ], 200);
     }
 
     public function hasDelete() {
@@ -71,5 +74,16 @@ class CategoryController extends Controller
         dd($categories);
         $category_parent = $this->category->where('dm_idcha',0)->get();
         return view('admin.manager.cate.delete', compact('categories','category_parent'));
+    }
+
+    public function checkName(Request $request) {
+        if($request->name) {
+            $check = 0;
+            $category = $this->category->where('dm_ten',$request->name)->get();
+            if(count($category) > 0) {
+                $check = 1;
+            }
+            return response()->json($check);
+        }
     }
 }
