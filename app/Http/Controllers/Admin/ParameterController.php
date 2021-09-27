@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ParaAdd;
 use Illuminate\Http\Request;
 use App\Models\Parameter;
 use App\Models\TypeProduct;
@@ -19,8 +20,8 @@ class ParameterController extends Controller
 
     }
     public function index() {
-        $parameters = $this->para->latest()->paginate(10);
-        return view('admin.manager.para.index', compact('parameters'));
+        $types = $this->type->all();
+        return view('admin.manager.para.index', compact('types'));
     }
 
     public function create() {
@@ -28,7 +29,7 @@ class ParameterController extends Controller
         return view('admin.manager.para.create', compact('types'));
     }
 
-    public function store(Request $request) {
+    public function store(ParaAdd $request) {
         $this->para->create([
             'ts_tenthongso' => $request->name,
             'loaisp_id' => $request->parent,
@@ -66,9 +67,15 @@ class ParameterController extends Controller
 
     public function delete($id) {
         $this->para->find($id)->delete();
-
-        Session::put('message','Xóa thông số thành công !!!');
-        return redirect()->route('admin.para.list');
+        return response()->json([
+            'code' => 200,
+            'message' => 'success',
+        ], 200);
     }
 
+    public function modalAjax(Request $request) {
+        $paras = $this->para->where('loaisp_id',$request->id)->get();
+        $type = $this->type->find($request->id);
+        return view('admin.manager.type.chitiet',compact('paras','type'))->render();
+    }
 }

@@ -66,6 +66,16 @@ class BrandController extends Controller
         return redirect()->route('admin.brand.list');
     }
 
+    public function checkName(Request $request) {
+        if($request->name) {
+            $check = 0;
+            $brand = $this->brand->where('th_ten',$request->name)->get();
+            if(count($brand) > 0) {
+                $check = 1;
+            }
+            return response()->json($check);
+        }
+    }
     public function delete($id) {
         $this->brand->find($id)->delete();
         return response()->json([
@@ -73,4 +83,6 @@ class BrandController extends Controller
             'message' => 'success',
         ],200);
     }
+
+
 }

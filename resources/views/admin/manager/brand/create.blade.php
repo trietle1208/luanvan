@@ -22,7 +22,7 @@ Thương hiệu sản phẩm
                 <div class="row mb-3">
                     <label class="col-4 col-xl-3 col-form-label">Nhập tên thương hiệu:</label>
                     <div class="col-8 col-xl-9">
-                        <input type="text" class="form-control" id="inputPassword3"
+                        <input type="text" class="form-control name-brand" id="inputPassword3"
                                name="th_ten"
                                class="@error('th_ten') is-invalid @enderror"
                                placeholder="Nhập vào tên thương hiệu muốn tạo">

@@ -18,6 +18,7 @@ class TypeProduct extends Model
         'loaisp_ten',
         'loaisp_mota',
         'loaisp_slug',
+        'dm_id',
     ];
 
     public function parameter()
@@ -25,5 +26,13 @@ class TypeProduct extends Model
         return $this->hasMany(Parameter::class,'loaisp_id');
     }
 
+    public function cate()
+    {
+        return $this->belongsTo(DanhMuc::class,'dm_id','dm_id');
+    }
+
+    public function product() {
+        return $this->hasMany(Product::class,'loaisp_id');
+    }
 
 }

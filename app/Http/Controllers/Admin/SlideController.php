@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SlideAdd;
 use App\Models\Slide;
 use App\Traits\StorageImageTrait;
 use Illuminate\Http\Request;
@@ -24,9 +25,9 @@ class SlideController extends Controller
         return view('admin.manager.slide.create');
     }
 
-    public function store(Request $request) {
+    public function store(SlideAdd $request) {
         $dataCreate = [
-            'sl_ten' => $request->name,
+            'sl_ten' => $request->sl_ten,
             'sl_mota' => $request->desc,
         ];
         $dataUpload = $this->storageTraitUpload($request, 'image', 'slide');
@@ -60,11 +61,21 @@ class SlideController extends Controller
         Session::put('message','Cập nhật Slide thành công !!!');
         return redirect()->route('admin.slide.list');
     }
-
+    public function checkName(Request $request) {
+        if($request->name) {
+            $check = 0;
+            $slide = $this->slide->where('sl_ten',$request->name)->get();
+            if(count($slide) > 0) {
+                $check = 1;
+            }
+            return response()->json($check);
+        }
+    }
     public function delete($id) {
         $this->slide->find($id)->delete();
-
-        Session::put('message','Xóa Slide thành công !!!');
-        return redirect()->route('admin.slide.list');
+        return response()->json([
+            'code' => 200,
+            'message' => 'success',
+        ],200);
     }
 }

@@ -119,6 +119,24 @@
                 </div>
             </li>
             <li>
+                <a href="#sidebarAuth" data-bs-toggle="collapse">
+                    <i data-feather="file-text"></i>
+                    <span> Quản Lý Hình Thức </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarAuth">
+                    <ul class="nav-second-level">
+
+                        <li>
+                            <a href="{{ route('admin.ship.create') }}">Thêm hình thức</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.ship.list') }}">Danh sách hình thức</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li>
                 <a href="#sidebarProjects" data-bs-toggle="collapse">
                     <i data-feather="briefcase"></i>
                     <span>Quản Lý Loại/Thông Số</span>
@@ -135,8 +153,21 @@
                         <li>
                             <a href="{{ route('admin.para.create') }}">Thêm thông số sản phẩm</a>
                         </li>
+
+                    </ul>
+                </div>
+            </li>
+
+            <li>
+                <a href="#sidebarTasks" data-bs-toggle="collapse">
+                    <i data-feather="briefcase"></i>
+                    <span> Quản Lý Phiếu Nhập </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarTasks">
+                    <ul class="nav-second-level">
                         <li>
-                            <a href="{{ route('admin.para.list') }}">Danh thông số sản phẩm</a>
+                            <a href="{{ route('admin.receipt.list') }}">Danh sách phiếu nhập</a>
                         </li>
                     </ul>
                 </div>
@@ -176,7 +207,7 @@
                         <div class="collapse" id="sidebarDashboards">
                             <ul class="nav-second-level">
                                 <li>
-                                    <i class="fas fa-plus-square"></i><a href="{{ route('sup.product.create') }}">Thêm sản phẩm</a>
+                                        <a href="{{ route('sup.product.create') }}">Thêm sản phẩm</a>
                                 </li>
                                 <li>
                                     <a href="{{ route('sup.product.list') }}">Danh sách sản phẩm</a>
@@ -216,6 +247,80 @@
                                 </li>
                                 <li>
                                     <a href="{{ route('sup.receipt.list') }}">Danh sách phiếu nhập</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li>
+                        <a href="#sidebarTickets" data-bs-toggle="collapse">
+                            <i data-feather="aperture"></i>
+                            <span> Quản Lý Mã Giảm Giá </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="collapse" id="sidebarTickets">
+                            <ul class="nav-second-level">
+                                <li>
+                                    <a href="{{ route('sup.voucher.create') }}">Thêm mã giảm</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('sup.voucher.list') }}">Danh sách mã giảm</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li>
+                        <a href="#sidebarTables" data-bs-toggle="collapse">
+                            <i data-feather="grid"></i>
+                            <span> Quản Lý Đơn Hàng </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="collapse" id="sidebarTables">
+                            <ul class="nav-second-level">
+                                <li>
+                                    <a href="{{ route('sup.order.list') }}">Danh sách đơn hàng</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="#sidebarCharts" data-bs-toggle="collapse">
+                            <i data-feather="bar-chart-2"></i>
+                            <span> Quản Lý Phân Quyền </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="collapse" id="sidebarCharts">
+                            <ul class="nav-second-level">
+                                <li>
+                                    <a href="{{ route('sup.role.list') }}">Danh sách vai trò</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('sup.role.create') }}">Thêm vai trò</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('sup.permission.list') }}">Danh sách quyềǹ</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('sup.permission.create') }}">Thêm quyền</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li>
+                        <a href="#sidebarMaps" data-bs-toggle="collapse">
+                            <i data-feather="map"></i>
+                            <span> Quản Lý Tài Khoản </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="collapse" id="sidebarMaps">
+                            <ul class="nav-second-level">
+                                <li>
+                                    <a href="{{ route('sup.account.list') }}">Danh sách tài khoản</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('sup.account.create') }}">Thêm tài khoản</a>
                                 </li>
                             </ul>
                         </div>

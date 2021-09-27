@@ -24,18 +24,27 @@ Thông số sản phẩm
                     <div class="col-8 col-xl-9">
                         <input type="text" class="form-control" id="inputPassword3"
                                name="name"
+                               value="{{ old('name') }}"
+                               class="@error('name') is-invalid @enderror"
                                placeholder="Nhập vào tên thông số muốn tạo">
+                        @error('name')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
                 <div class="row mb-3">
                     <label for="inputEmail3" class="col-4 col-xl-3 col-form-label">Chọn loại của thông số:</label>
                     <div class="col-8 col-xl-9">
-                        <select class="form-select" name="parent">
-                            <option value="0">--- Chọn loại ---</option>
+                        <select class="form-select required" name="parent">
+                            class="@error('parent') is-invalid @enderror"
+                            <option value="">--- Chọn loại ---</option>
                             @foreach($types as $type)
                                 <option value="{{ $type['loaisp_id'] }}">{{ $type['loaisp_ten'] }}</option>
                             @endforeach
                         </select>
+                        @error('parent')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
                 <div class="justify-content-end row">

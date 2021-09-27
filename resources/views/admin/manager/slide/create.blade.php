@@ -22,9 +22,13 @@ Slide
                 <div class="row mb-3">
                     <label class="col-4 col-xl-3 col-form-label">Nhập tên Slide:</label>
                     <div class="col-8 col-xl-9">
-                        <input type="text" class="form-control" id="inputPassword3"
-                               name="name"
+                        <input type="text" class="form-control name-slide" id="inputPassword3"
+                               name="sl_ten"
+                               class="@error('sl_ten') is-invalid @enderror"
                                placeholder="Nhập vào tên Slide muốn tạo">
+                        @error('sl_ten')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -32,7 +36,11 @@ Slide
                     <div class="col-8 col-xl-9">
                         <input type="file" class="form-control" id="inputPassword5"
                                name="image"
+                               class="@error('image') is-invalid @enderror"
                                placeholder="Nhập vào hình ảnh của Slide">
+                        @error('image')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -40,7 +48,11 @@ Slide
                     <div class="col-8 col-xl-9">
                         <input type="text" class="form-control" id="inputPassword5"
                                    name="desc"
+                               class="@error('desc') is-invalid @enderror"
                                placeholder="Nhập vào mô tả của Slide">
+                        @error('desc')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
                 <div class="justify-content-end row">

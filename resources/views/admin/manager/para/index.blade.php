@@ -23,34 +23,33 @@
                             <thead class="table-light">
                             <tr>
                                 <th>ID</th>
-                                <th>Tên thông số</th>
-                                <th>Thuộc loại</th>
+                                <th>Tên loại</th>
+                                <th>Thuộc danh mục</th>
+                                <th>Mô tả</th>
                                 <th>Hành động</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($parameters as $parameter)
+                            @foreach($types as $type)
                                 <tr>
-                                    <th scope="row">{{ $parameter['ts_id'] }}</th>
-                                    <td>{{ $parameter['ts_tenthongso'] }}</td>
-                                    <td class="text-primary">{{ $parameter->typeproduct['loaisp_ten'] }}</td>
+                                    <th scope="row">{{ $type['loaisp_id'] }}</th>
+                                    <td>{{ $type['loaisp_ten'] }}</td>
+                                    <td class="text-success">{{ $type->cate->dm_ten }}</td>
+                                    <td>{{ $type['loaisp_mota'] }}</td>
                                     <td>
-                                        <a href="{{ route('admin.para.edit', ['id' => $parameter->ts_id]) }}" class="btn btn-info">Chỉnh sửa</a>
-                                        <a onclick="return confirm('Bạn có chắc chắn muốn xóa thông số này không?')" href="{{ route('admin.para.delete', ['id' => $parameter->ts_id]) }}" class="btn btn-danger">Xóa</a>
+
+                                            <a href="" data-id="{{ $type->loaisp_id }}" class="btn btn-primary para-detail">Chi tiết</a>
                                     </td>
                                 </tr>
                             @endforeach
                             </tbody>
                         </table>
-
-
                     </div> <!-- end table-responsive-->
                 </div>
             </div> <!-- end card -->
+
         </div> <!-- end col -->
-        <div class="col-2">
-           <a href="{{ route('admin.cate.hasdelete') }}" class="btn btn-blue">Đã xóa</a>
-        </div>
+
     </div>
 
 @endsection

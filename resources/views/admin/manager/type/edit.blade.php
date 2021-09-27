@@ -29,6 +29,21 @@
                         </div>
                     </div>
                     <div class="row mb-3">
+                        <label for="inputEmail3" class="col-4 col-xl-3 col-form-label">Chọn danh mục cho loại:</label>
+                        <div class="col-8 col-xl-9">
+                            <select class="form-select" name="parent">
+                                <option value="0">--- Chọn loại ---</option>
+                                @foreach($categories as $category)
+                                    @if($category->dm_id == $type->dm_id)
+                                        <option selected value = "{{ $category->dm_id }}">{{ $category->dm_ten }}</option>
+                                    @else
+                                        <option value = "{{ $category->dm_id }}">{{ $category->dm_ten }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
                         <label class="col-4 col-xl-3 col-form-label">Mô tả :</label>
                         <div class="col-8 col-xl-9">
                             <input type="text" class="form-control" id="inputPassword5"

@@ -24,6 +24,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Tên loại</th>
+                                <th>Thuộc danh mục</th>
                                 <th>Mô tả</th>
                                 <th>Slug</th>
                                 <th>Hành động</th>
@@ -34,12 +35,13 @@
                                 <tr>
                                     <th scope="row">{{ $type['loaisp_id'] }}</th>
                                     <td>{{ $type['loaisp_ten'] }}</td>
-
+                                    <td class="text-success">{{ $type->cate->dm_ten }}</td>
                                     <td>{{ $type['loaisp_mota'] }}</td>
                                     <td>{{ $type['loaisp_slug'] }}</td>
                                     <td>
+                                        <a href="" data-id="{{ $type->loaisp_id }}" class="btn btn-primary para-detail">Chi tiết</a>
                                         <a href="{{ route('admin.type.edit', ['id' => $type->loaisp_id]) }}" class="btn btn-info">Chỉnh sửa</a>
-                                        <a onclick="return confirm('Bạn có chắc chắn muốn xóa loại này không?')" href="{{ route('admin.type.delete', ['id' => $type->loaisp_id]) }}" class="btn btn-danger">Xóa</a>
+                                        <a href="" data-url="{{ route('admin.type.delete', ['id' => $type->loaisp_id]) }}" class="btn btn-danger delete-type">Xóa</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -50,10 +52,11 @@
                     </div> <!-- end table-responsive-->
                 </div>
             </div> <!-- end card -->
+            {{ $types->links() }}
         </div> <!-- end col -->
-        <div class="col-2">
-           <a href="{{ route('admin.cate.hasdelete') }}" class="btn btn-blue">Đã xóa</a>
-        </div>
-    </div>
 
+    </div>
+    <div class="modal fade" id="chitietthongso" tabindex="-1">
+
+    </div>
 @endsection

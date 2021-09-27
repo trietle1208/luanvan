@@ -128,12 +128,6 @@
                         <div class="col-8 col-xl-9">
                             <select class="form-select select_type select_type_product" data-id="{{ $products->sp_id }}" name="type">
                                 <option value="0">--- Chọn loại ---</option>
-{{--                                @foreach($types as $type)--}}
-{{--                                    <option--}}
-{{--                                        data-id="{{ $type->loaisp_id }}"--}}
-{{--                                        value="{{ $type->loaisp_id }}">{{ $type->loaisp_ten }}--}}
-{{--                                    </option>--}}
-{{--                                @endforeach--}}
                                 {!! $htmlType !!}
                             </select>
                         </div>

@@ -40,7 +40,7 @@
                                     <td>{{ $slide['sl_mota'] }}</td>
                                     <td>
                                         <a href="{{ route('admin.slide.edit', ['id' => $slide->sl_id]) }}" class="btn btn-info">Chỉnh sửa</a>
-                                        <a onclick="return confirm('Bạn có chắc chắn muốn xóa slide này không?')" href="{{ route('admin.slide.delete', ['id' => $slide->sl_id]) }}" class="btn btn-danger">Xóa</a>
+                                        <a href="" data-url="{{ route('admin.slide.delete', ['id' => $slide->sl_id]) }}" class="btn btn-danger delete-slide">Xóa</a>
                                     </td>
                                 </tr>
                             @endforeach

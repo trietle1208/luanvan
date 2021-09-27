@@ -26,4 +26,12 @@ class DanhMuc extends Model
     {
         return $this->hasMany('App\Models\Product','dm_id');
     }
+
+    public function type() {
+        return $this->hasMany(TypeProduct::class,'dm_id','dm_id');
+    }
+
+    public function productCheck() {
+        return $this->hasMany(Product::class,'dm_id','dm_id')->where('sp_trangthai',1);
+    }
 }

@@ -30,6 +30,7 @@ Phiếu nhập hàng
                 <div class="row mb-3">
                     <label class="col-4 col-xl-3 col-form-label">Chọn các sản phẩm cho phiếu:</label>
                     <div class="col-8 col-xl-9">
+                        <input type="text" class="form-control select-name" name="" placeholder="Tìm kiếm theo tên sản phẩm"><br>
                         <select class="form-select select-cate"  name="type">
                             <option value="">--- Tìm theo danh mục ---</option>
                             @foreach($categories as $category)
@@ -55,7 +56,14 @@ Phiếu nhập hàng
                 <div class="row mb-3">
                     <label class="col-4 col-xl-3 col-form-label">Các sản phẩm được chọn:</label>
                     <div class="col-8 col-xl-9 select-product">
-
+                        <?php
+                            $product = Session::get('product');
+                        ?>
+                        @if(isset($product))
+                            @foreach($product as $item)
+                                <span>{{ $item['idsp'] }}</span>
+                            @endforeach
+                        @endif
                     </div>
                 </div>
                 <div class="row mb-3">

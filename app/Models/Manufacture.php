@@ -27,4 +27,9 @@ class Manufacture extends Model
     public function product() {
         return $this->hasMany(Product::class,'ncc_id');
     }
+
+    public static function getData($id)
+    {
+        return Manufacture::find($id);
+    }
 }

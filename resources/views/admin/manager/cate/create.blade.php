@@ -13,7 +13,7 @@ Danh mục sản phẩm
             $message = Session::get('message');
             if($message)
             {
-                echo '<span class="text-primary">'.$message.'</span>';
+                echo '<span class="text-danger">'.$message.'</span>';
                 Session::put('message',null);
             }
             ?>

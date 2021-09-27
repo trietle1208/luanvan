@@ -22,9 +22,28 @@ Loại sản phẩm
                 <div class="row mb-3">
                     <label class="col-4 col-xl-3 col-form-label">Nhập tên loại:</label>
                     <div class="col-8 col-xl-9">
-                        <input type="text" class="form-control" id="inputPassword3"
-                               name="name"
+                        <input type="text" class="form-control name-type" id="inputPassword3"
+                               name="loaisp_ten"
+                               class="@error('loaisp_ten') is-invalid @enderror"
                                placeholder="Nhập vào tên loại muốn tạo">
+                        @error('loaisp_ten')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="inputEmail3" class="col-4 col-xl-3 col-form-label">Chọn danh mục cho loại:</label>
+                    <div class="col-8 col-xl-9">
+                        <select class="form-select required" name="parent">
+                            class="@error('parent') is-invalid @enderror"
+                            <option value="">--- Chọn loại ---</option>
+                            @foreach($categories as $category)
+                                <option value="{{ $category['dm_id'] }}">{{ $category['dm_ten'] }}</option>
+                            @endforeach
+                        </select>
+                        @error('parent')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -32,7 +51,11 @@ Loại sản phẩm
                     <div class="col-8 col-xl-9">
                         <input type="text" class="form-control" id="inputPassword5"
                                    name="desc"
+                               class="@error('desc') is-invalid @enderror"
                                placeholder="Nhập vào mô tả của loại">
+                        @error('desc')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
                 <div class="justify-content-end row">

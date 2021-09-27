@@ -23,4 +23,8 @@ class Discount extends Model
         'km_trangthai',
         'ncc_id',
     ];
+
+    public function product() {
+        return $this->hasMany(Product::class,'km_id','km_id');
+    }
 }

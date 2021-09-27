@@ -23,8 +23,8 @@
                             <thead class="table-light">
                             <tr>
                                 <th>ID</th>
-                                <th>Tên thương hiệu</th>
-                                <th>Hinh ảnh thương hiệu</th>
+                                <th>Tên khuyến mãi</th>
+                                <th>Hinh ảnh khuyến mãi</th>
                                 <th>Mô tả</th>
                                 <th>Hình thức</th>
                                 <th>Giảm giá</th>
@@ -50,13 +50,14 @@
                                     @endif
 
                                     @if( $discount['km_trangthai'] == 0)
-                                    <td>Tắt</td>
+                                        <td><span data-status="0" class="btn badge bg-dark text-light status inactive-discount" data-id="{{ $discount['km_id'] }}" style="height: 30px ; width: 50px; line-height: 30px; font-size: 14px"><i class="fe-thumbs-down"></i></span></td>
                                     @else
-                                    <td>Hiển thị</td>
+                                        <td><span data-status="1" class="btn badge bg-success status active-discount" data-id="{{ $discount['km_id'] }}" style="height: 30px ; width: 50px; line-height: 25px; font-size: 14px"><i class="fe-thumbs-up"></i></span></td>
                                     @endif
                                     <td>
+                                        <a href="" data-id="{{ $discount->km_id }}" class="btn btn-primary product-discount">Chọn</a>
                                         <a href="{{ route('sup.discount.edit', ['id' => $discount->km_id]) }}" class="btn btn-info">Chỉnh sửa</a>
-                                        <a onclick="return confirm('Bạn có chắc chắn muốn xóa khuyến mãi này không?')" href="{{ route('sup.discount.delete', ['id' => $discount->km_id]) }}" class="btn btn-danger">Xóa</a>
+                                        <a href="" class="btn btn-danger delete-discount" data-url="{{ route('sup.discount.delete', ['id' => $discount->km_id]) }}" >Xóa</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -68,9 +69,9 @@
                 </div>
             </div> <!-- end card -->
         </div> <!-- end col -->
-        <div class="col-2">
-           <a href="{{ route('admin.cate.hasdelete') }}" class="btn btn-blue">Đã xóa</a>
-        </div>
-    </div>
 
+    </div>
+    <div class="modal fade" id="danhsachsp" tabindex="-1">
+
+    </div>
 @endsection

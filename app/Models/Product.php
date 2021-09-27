@@ -25,6 +25,7 @@ class Product extends Model
         'sp_thoigianbaohanh',
         'sp_trangthai',
         'sp_hinhanh',
+        'loaisp_id',
         'ncc_id',
         'th_id',
         'dm_id',
@@ -54,4 +55,17 @@ class Product extends Model
     public function detail() {
         return $this->hasMany(DetailPara::class,'sp_id','sp_id');
     }
+
+    public function receiptdetail($id) {
+        return $this->hasMany(ReceiptDetail::class,'sp_id','sp_id')->where('pnh_id',$id);
+    }
+
+    public function detailquantity() {
+        return $this->hasMany(ReceiptDetail::class,'sp_id','sp_id');
+    }
+
+    public function discount() {
+        return $this->belongsTo(Discount::class,'km_id','km_id')->where('km_trangthai',1);
+    }
+
 }

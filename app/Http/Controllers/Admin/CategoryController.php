@@ -16,7 +16,7 @@ class CategoryController extends Controller
         $this->category = $category;
     }
     public function index() {
-        $categories = $this->category->latest()->paginate(5);
+        $categories = $this->category->latest()->paginate(10);
         $category_parent = $this->category->where('dm_idcha',0)->get();
         return view('admin.manager.cate.index', compact('categories','category_parent'));
     }
@@ -31,7 +31,7 @@ class CategoryController extends Controller
            'dm_ten' => $request->dm_ten,
            'dm_idcha' => $request->parent,
            'dm_mota' => $request->desc,
-           'dm_slug' => str_slug($request->name),
+           'dm_slug' => str_slug($request->dm_ten),
         ]);
 
         Session::put('message','Thêm danh mục thành công !!!');

@@ -25,7 +25,7 @@
                                 <th>ID</th>
                                 <th>Tên sản phẩm</th>
                                 <th>Hinh ảnh sản phẩm</th>
-                                <th>Mô tả</th>
+{{--                                <th>Mô tả</th>--}}
                                 <th>Giá bán ra</th>
                                 <th>Số lượng</th>
                                 <th>Thời gian bảo hành</th>
@@ -41,7 +41,7 @@
                                     <td>
                                         <img src="{{ $product['sp_hinhanh'] }}" style="width: 180px ; height: 120px">
                                     </td>
-                                    <td>{{ $product['sp_mota'] }}</td>
+{{--                                    <td>{{ $product['sp_mota'] }}</td>--}}
                                     <td>{{ number_format($product['sp_giabanra']) }} VNĐ</td>
                                     <td>{{ $product['sp_soluong'] }}</td>
                                     <td>{{ $product['sp_thoigianbaohanh'] }}</td>
@@ -52,8 +52,12 @@
                                     @endif
                                     <td>
                                         <a href="" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#chitiet_{{ $product->sp_id }}">Chi tiết</a>
-                                        <a href="{{ route('sup.product.edit', ['id' => $product->sp_id]) }}" class="btn btn-info">Chỉnh sửa</a>
-                                        <a onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?')" href="{{ route('sup.product.delete', ['id' => $product->sp_id]) }}" class="btn btn-danger">Xóa</a>
+                                        @can('Edit Product')
+                                            <a href="{{ route('sup.product.edit', ['id' => $product->sp_id]) }}" class="btn btn-info">Chỉnh sửa</a>
+                                        @endcan
+                                        @can('Delete Product')
+                                            <a onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?')" href="{{ route('sup.product.delete', ['id' => $product->sp_id]) }}" class="btn btn-danger">Xóa</a>
+                                        @endcan
                                     </td>
                                 </tr>
                             @endforeach
@@ -65,9 +69,6 @@
                 </div>
             </div> <!-- end card -->
         </div> <!-- end col -->
-        <div class="col-2">
-            <a href="{{ route('admin.cate.hasdelete') }}" class="btn btn-blue">Đã xóa</a>
-        </div>
     </div>
    @foreach($products as $product)
     <div class="modal fade" id="chitiet_{{ $product->sp_id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -98,7 +99,7 @@
                         <thead>
                         <tr>
                             @foreach($product->para as $para)
-                            <th scope="col">{{ $para->ts_tenthongso }}</th>
+                            <th scope="row">{{ $para->ts_tenthongso }}</th>
                             @endforeach
                         </tr>
                         </thead>
@@ -111,20 +112,6 @@
 
                         </tbody>
                     </table>
-{{--                    <div class="col-12">--}}
-{{--                        <div class="col-6">--}}
-{{--                            @foreach($product->para as $para)--}}
-{{--                                <label>{{ $para->ts_tenthongso }}</label><br><br>--}}
-{{--                            @endforeach--}}
-{{--                        </div>--}}
-{{--                        <div class="col-6">--}}
-{{--                            @foreach($product->detail as $detail)--}}
-{{--                                <p>{{ $detail->chitietthongso }}</p><br>--}}
-{{--                            @endforeach--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
