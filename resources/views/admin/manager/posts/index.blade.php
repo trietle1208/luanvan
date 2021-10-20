@@ -23,23 +23,25 @@
                             <thead class="table-light">
                             <tr>
                                 <th>ID</th>
-                                <th>Tên danh mục</th>
-                                <th>Mô tả</th>
+                                <th>Tên bài viết</th>
+                                <th>Hình ảnh</th>
+                                <th>Thuộc danh mục</th>
                                 <th>Slug</th>
                                 <th>Hành động</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($categories as $category)
+                            @foreach($posts as $post)
                                 <tr>
-                                    <th scope="row">{{ $category['dmbv_id'] }}</th>
-                                    <td>{{ $category['dmbv_ten'] }}</td>
-                                    <td>{{ $category['dmbv_mota'] }}</td>
-                                    <td>{{ $category['dmbv_slug'] }}</td>
+                                    <th scope="row">{{ $post['bv_id'] }}</th>
+                                    <td>{{ $post['bv_ten'] }}</td>
+                                    <td><img src="{{ $post['bv_hinhanh'] }}" style="width: 200px; height: 150px" class="img-fluid"></td>
+                                    <td><strong>{{ $post->cateposts->dmbv_ten }}</strong></td>
+                                    <td>{{ $post->bv_slug }}</td>
                                     <td>
-                                        <a href="{{ route('admin.cate_posts.edit', ['id' => $category->dmbv_id]) }}" class="btn btn-info">Chỉnh sửa</a>
+                                        <a href="{{ route('admin.posts.edit', ['id' => $post->bv_id]) }}" class="btn btn-info">Chỉnh sửa</a>
 {{--                                        <a onclick="return confirm('Bạn có chắc chắn muốn xóa danh mục này không?')" href="{{ route('admin.cate.delete', ['id' => $category->dm_id]) }}" class="btn btn-danger">Xóa</a>--}}
-                                        <a href="{{ route('admin.cate_posts.delete', ['id' => $category->dmbv_id]) }}" class="btn btn-danger delete-cate" data-url="{{ route('admin.cate_posts.delete', ['id' => $category->dmbv_id]) }}" >Xóa</a>
+                                        <a href="{{ route('admin.posts.delete', ['id' => $post->bv_id]) }}" class="btn btn-danger delete-cate" data-url="{{ route('admin.posts.delete', ['id' => $post->bv_id]) }}" >Xóa</a>
                                     </td>
                                 </tr>
                             @endforeach

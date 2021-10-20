@@ -49,10 +49,16 @@
                                     <td>{{ $discount['km_giamgia'] }} %</td>
                                     @endif
 
-                                    @if( $discount['km_trangthai'] == 0)
-                                        <td><span data-status="0" class="btn badge bg-dark text-light status inactive-discount" data-id="{{ $discount['km_id'] }}" style="height: 30px ; width: 50px; line-height: 30px; font-size: 14px"><i class="fe-thumbs-down"></i></span></td>
+                                    @if( $discount['km_trangthai'] == 1)
+                                        <td>
+                                            <button class="btn btn-success changeStatusDiscountOff" style="display : block" data-type="1" data-id="{{ $discount->km_id }}" data-url="{{ route('sup.discount.changeStatus') }}">Hiển thị</button>
+                                            <button class="btn btn-danger changeStatusDiscountShow" style="display : none" data-type="0" data-id="{{ $discount->km_id }}" data-url="{{ route('sup.discount.changeStatus') }}">Tắt</button>
+                                        </td>
                                     @else
-                                        <td><span data-status="1" class="btn badge bg-success status active-discount" data-id="{{ $discount['km_id'] }}" style="height: 30px ; width: 50px; line-height: 25px; font-size: 14px"><i class="fe-thumbs-up"></i></span></td>
+                                        <td>
+                                            <button class="btn btn-danger changeStatusDiscountShow" style="display : block" data-type="0" data-id="{{ $discount->km_id }}" data-url="{{ route('sup.discount.changeStatus') }}">Tắt</button>
+                                            <button class="btn btn-success changeStatusDiscountOff" style="display : none" data-type="1" data-id="{{ $discount->km_id }}" data-url="{{ route('sup.discount.changeStatus') }}">Hiển thị</button>
+                                        </td>
                                     @endif
                                     <td>
                                         <a href="" data-id="{{ $discount->km_id }}" class="btn btn-primary product-discount">Chọn</a>

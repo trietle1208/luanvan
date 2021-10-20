@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
+use App\Models\CatePosts;
+use App\Models\Comment;
 use App\Models\DanhMuc;
 use App\Models\DetailPara;
 use App\Models\Product;
 use App\Models\ReceiptDetail;
 use App\Models\Voucher;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Cart;
 use Illuminate\Support\Facades\Session;
@@ -18,16 +21,23 @@ class ProductController extends Controller
     private $sum_price = 0, $arr = [];
     public function detail($ncc,$slug) {
         $quantityProduct = 0;
+        $cateposts = CatePosts::all();
         $categories = DanhMuc::all();
         $brands = Brand::all();
         $product = Product::where('sp_slug',$slug)->first();
         $productRecomments = Product::where('dm_id',$product->dm_id)->where('sp_trangthai',1)->get();
-        $receiptdetail = ReceiptDetail::where('sp_id',$product->sp_id)->get();
+        $receiptdetail = ReceiptDetail::where('sp_id',$product->sp_id)->orderBy('created_at','DESC')->first();
         $paradetail = DetailPara::where('sp_id',$product->sp_id)->get();
-        foreach($receiptdetail as $quantity) {
-            $quantityProduct += $quantity->soluong;
+        $quantityProduct = $receiptdetail->soluong;
+        $comments = Comment::where('sp_id',$product->sp_id)->where('bl_idcha','=',null)->get();
+        if(!empty($comments)){
+            Carbon::setLocale('vi');
+            $now = Carbon::now('Asia/Ho_Chi_Minh');
+            return view('home.product.detail',compact('categories','brands','product','quantityProduct','productRecomments','comments','now','cateposts'));
+        }else{
+            return view('home.product.detail',compact('categories','brands','product','quantityProduct','productRecomments','cateposts'));
+
         }
-        return view('home.product.detail',compact('categories','brands','product','quantityProduct','productRecomments'));
     }
 
     public function ajaxQty(Request $request) {
@@ -50,6 +60,7 @@ class ProductController extends Controller
         $arr_voucher_sort1 = [];
         $totalDiscount = 0;
         $carts = Session::get('cart');
+        $cateposts = CatePosts::all();
         if(isset($carts)) {
             foreach ($carts as $key => $cart) {
                 $subtotal = 0;
@@ -89,9 +100,9 @@ class ProductController extends Controller
                     $arr_voucher_sort1[$key1] = $arr_voucher_sort;
 
                 }
-                return view('home.product.cart.index', compact('arr_voucher_sort1', 'totalDiscount', 'totalCart'));
+                return view('home.product.cart.index', compact('arr_voucher_sort1', 'totalDiscount', 'totalCart','cateposts'));
             }else{
-                return view('home.product.cart.index', compact( 'totalDiscount', 'totalCart'));
+                return view('home.product.cart.index', compact( 'totalDiscount', 'totalCart','cateposts'));
             }
         }
     }

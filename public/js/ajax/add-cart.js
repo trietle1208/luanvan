@@ -21,18 +21,61 @@ $(document).on('click','.add-cart', function () {
     })
 })
 
+$(document).on('click','.add-to-cartAjax', function (e) {
+    e.preventDefault();
+    var qty = $(this).data('qty');
+    var id = $(this).data('id');
+    var ncc_id = $(this).data('key');
+    var url = $(this).data('url');
+    $.ajax({
+        url : url,
+        type : 'GET',
+        data : {
+            'qty' : qty,
+            'id' : id,
+            'ncc_id' : ncc_id,
+        },
+        success : function (data) {
+            if(data.code == 200) {
+                Swal.fire({
+                    title: 'Đã thêm sản phẩm vào giỏ hàng',
+                    text: "Bạn có thể tiếp tục mua hàng hoặc tiến hành thanh toán",
+                    showCancelButton: true,
+                    cancelButtonText: "Xem tiếp",
+                    confirmButtonColor: 'btn-success',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Đi đến giỏ hàng!',
+                    closeOnConfirm: false,
+                },
+                function (){
+                   window.location.href = "{{URL::to('/giohang')}}";
+                });
+            }
+        },
+    })
+})
+
 $(document).on('click','.cart_qty',function (e){
     e.preventDefault();
     var id = $(this).data('id');
     var ncc_id = $(this).data('key');
     var qty = $('#valueQty_' + id).val();
+    var qty_has = $('#valueQty_' + id).data('qty_has');
     var url = $('#valueQty_' + id).data('url');
     var that = $(this);
     if($(this).hasClass('inc'))
     {
-        $('#valueQty_' + id).val(parseInt(qty)+1);
-        updateQtyCart(id,$('#valueQty_' + id).val(),ncc_id,url,that);
-
+        if(qty == qty_has){
+            Swal.fire(
+                'Cảnh báo',
+                'Không thể mua quá số lượng còn lại trong kho',
+                'danger'
+            )
+        }
+        else{
+            $('#valueQty_' + id).val(parseInt(qty)+1);
+            updateQtyCart(id,$('#valueQty_' + id).val(),ncc_id,url,that);
+        }
     }
     else
     {

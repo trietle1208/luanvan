@@ -24,12 +24,20 @@
                                 ?>
                                 <h2>{{ number_format($new_price) }} VND</h2>
                                 <p>{{ Str::words($product->sp_ten,2,'...') }}</p>
-                                <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                <button
+                                    data-id="{{ $product->sp_id }}" data-key="{{ $product->ncc->ncc_id }}" data-qty="1" data-url="{{ route('product.addCart') }}"
+                                    class="btn btn-default add-to-cart add-to-cartAjax"><i class="fa fa-shopping-cart">
+                                    </i>Thêm giỏ hàng
+                                </button>
                             @else
                                 <img src="{{ $product->sp_hinhanh }}" class="img-fluid" style="height: 200px" alt="" />
                                 <h2>{{ number_format($product->sp_giabanra) }} VND</h2>
                                 <p>{{ Str::words($product->sp_ten,2,'...') }}</p>
-                                <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                <button
+                                    data-id="{{ $product->sp_id }}" data-key="{{ $product->ncc->ncc_id }}" data-qty="1" data-url="{{ route('product.addCart') }}"
+                                    class="btn btn-default add-to-cart add-to-cartAjax"><i class="fa fa-shopping-cart">
+                                    </i>Thêm giỏ hàng
+                                </button>
                             @endif
                         </div>
 

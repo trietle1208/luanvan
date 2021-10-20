@@ -7,6 +7,54 @@
                                 <i class="fe-maximize noti-icon"></i>
                             </a>
                         </li>
+                        @if(isset($orders_0))
+                        <li class="dropdown notification-list topbar-dropdown">
+                            <a class="nav-link dropdown-toggle waves-effect waves-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                <i class="fe-bell noti-icon"></i>
+                                @if($count!=0)
+                                <span class="badge bg-danger rounded-circle noti-icon-badge count_order_notify">{{ $count }}</span>
+                                @endif
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end dropdown-lg">
+
+                                <!-- item-->
+                                <div class="dropdown-item noti-title">
+                                    <h5 class="m-0">
+                            <span class="float-end">
+{{--                                <a href="" class="text-dark">--}}
+{{--                                    <small>Clear All</small>--}}
+{{--                                </a>--}}
+                            </span>Thông báo
+                                    </h5>
+                                </div>
+
+                                <div class="noti-scroll" data-simplebar>
+                                    <!-- item-->
+                                    @foreach($orders_0 as $item)
+                                        <div class="notify-order_{{ $item->dhncc_id }}">
+                                            <a href="javascript:void(0);" class="dropdown-item notify-item active">
+                                                <div class="notify-icon">
+                                                    <img src="{{ $item->orderAdmin->address->customer->kh_hinhanh ?? asset('assets/images/avt_null.jpg')  }}" class="img-fluid rounded-circle" alt="" />
+                                                </div>
+                                                <p class="notify-details"><strong>Mã đơn hàng :</strong> {{ $item->orderAdmin->dh_madonhang }}</p>
+                                                <p class="notify-details"><strong>Tổng tiền :</strong> {{ number_format($item->tongtien) }} VNĐ</p>
+                                                <p class="text-muted mb-0 user-msg">
+                                                    <small>{{ $item->orderAdmin->dh_thoigiandathang }}</small>
+                                                </p>
+                                            </a>
+                                        </div>
+                                    @endforeach
+                                </div>
+
+                                <!-- All-->
+                                <a href="javascript:void(0);" class="dropdown-item text-center text-primary notify-item notify-all">
+                                    View all
+                                    <i class="fe-arrow-right"></i>
+                                </a>
+
+                            </div>
+                        </li>
+                        @endif
                         <li class="dropdown notification-list topbar-dropdown">
                             <a class="nav-link dropdown-toggle nav-user me-0 waves-effect waves-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                                 <img src="{{ asset('assets/images/users/user-1.jpg') }}" alt="user-image" class="rounded-circle">

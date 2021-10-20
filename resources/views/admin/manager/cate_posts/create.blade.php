@@ -1,14 +1,14 @@
 @extends('admin.layout')
 
 @section('title')
-Danh mục sản phẩm
+Danh mục bài viết
 @endsection
 
 @section('content')
 <div class="col-lg-12 pt-5">
     <div class="card">
         <div class="card-body">
-            <h2 class="header-title text-center">THÊM DANH MỤC SẢN PHẨM</h2>
+            <h2 class="header-title text-center">THÊM DANH MỤC BÀI VIẾT</h2>
             <?php
             $message = Session::get('message');
             if($message)
@@ -17,18 +17,7 @@ Danh mục sản phẩm
                 Session::put('message',null);
             }
             ?>
-{{--            <div class="row mb-3">--}}
-{{--                @if ($errors->any())--}}
-{{--                    <div class="alert alert-danger">--}}
-{{--                        <ul>--}}
-{{--                            @foreach ($errors->all() as $error)--}}
-{{--                                <li>{{ $error }}</li>--}}
-{{--                            @endforeach--}}
-{{--                        </ul>--}}
-{{--                    </div>--}}
-{{--                @endif--}}
-{{--            </div>--}}
-            <form class="form-horizontal" action="{{ route('admin.cate.store') }}" method="post">
+            <form class="form-horizontal" action="{{ route('admin.cate_posts.store') }}" method="post">
                 @csrf
                 <div class="row mb-3">
                     <label class="col-4 col-xl-3 col-form-label">Nhập tên danh mục:</label>
@@ -41,15 +30,6 @@ Danh mục sản phẩm
                         @error('dm_ten')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="inputEmail3" class="col-4 col-xl-3 col-form-label">Chọn danh mục cha:</label>
-                    <div class="col-8 col-xl-9">
-                        <select class="form-select" name="parent">
-                            <option value="0">--- Chọn danh mục cha ---</option>
-                            {!! $htmlOption !!}
-                        </select>
                     </div>
                 </div>
                 <div class="row mb-3">

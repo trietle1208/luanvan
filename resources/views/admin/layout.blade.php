@@ -24,7 +24,11 @@
 
         <!-- icons -->
         <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+{{--        <link href="//cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">--}}
 
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/dt-1.11.3/datatables.min.css"/>
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css"/>
+        <link rel="stylesheet" href="https://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
     </head>
 
     <!-- body start -->
@@ -80,11 +84,25 @@
         <!-- App js-->
         <script src="{{ asset('assets/js/app.min.js') }}"></script>
         <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+{{--        <script src="//cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>--}}
+{{--        <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>--}}
+        <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.11.3/datatables.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
+        <script src="https://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+        {!! Toastr::message() !!}
         <script>
             CKEDITOR.replace('detail_product');
             CKEDITOR.replace('desc_product');
+            CKEDITOR.replace('desc_posts');
+            CKEDITOR.replace('content_posts');
         </script>
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            $(document).ready( function () {
+                $('#category').DataTable();
+            } );
+        </script>
 {{--        CHANGE-STATUS-USER--}}
         <script>
             $(document).ready(function (){
@@ -823,25 +841,48 @@
             })
         </script>
         <script>
-            $(document).on('click','.status',function (){
+            $(document).on('click','.changeStatusDiscountOff',function (){
                 var that = $(this);
                 var id = $(this).data('id');
-                var status = $(this).data('status');
-                {{--if(that.hasClass('inactive-discount')){--}}
-                {{--    $.ajax({--}}
-                {{--        url : '{{ route('sup.discount.changeStatus') }}',--}}
-                {{--        type : 'GET',--}}
-                {{--        data :--}}
-                {{--        {--}}
-                {{--            'id' : id,--}}
-                {{--            'status' : status,--}}
-                {{--        },--}}
+                var url = $(this).data('url');
+                var type = $(this).data('type');
 
-                {{--        success : function (data) {--}}
-                {{--            --}}
-                {{--        }--}}
-                {{--    })--}}
-                {{--}--}}
+                $.ajax({
+                    type : 'GET',
+                    url : url,
+                    data : {
+                        'id' : id,
+                        'type' : type,
+                    },
+                    success : function (data) {
+                        if(data.code == 200) {
+                            that.css('display','none');
+                            that.parents('tr').find('.changeStatusDiscountShow').css('display','block');
+                        }
+                    }
+                })
+            });
+
+            $(document).on('click','.changeStatusDiscountShow',function (){
+                var that = $(this);
+                var id = $(this).data('id');
+                var url = $(this).data('url');
+                var type = $(this).data('type');
+
+                $.ajax({
+                    type : 'GET',
+                    url : url,
+                    data : {
+                        'id' : id,
+                        'type' : type,
+                    },
+                    success : function (data) {
+                        if(data.code == 200) {
+                            that.css('display','none');
+                            that.parents('tr').find('.changeStatusDiscountOff').css('display','block');
+                        }
+                    }
+                })
             });
         </script>
 {{--    MODAL AJAX KHUYEN MAI --}}
@@ -902,6 +943,7 @@
                e.preventDefault();
                var id = $(this).data('id');
                var key = $(this).data('key');
+               var idNCC = $(this).data('idncc');
                var that = $(this);
                $.ajax({
                    url : '{{ route('sup.order.changeStatus') }}',
@@ -909,11 +951,15 @@
                    data : {
                        'id' : id,
                        'key' : key,
+                       'idNCC' : idNCC,
                    },
                    success : function (data) {
                         if(data.code == 200) {
                             that.removeClass('btn-danger changeStatusOrder').addClass('btn-success');
                             $('.icon_' + id).removeClass().addClass('fe-thumbs-up');
+                            that.parents('tr').find('.shipper').css('display','inline-block');
+                            $('.count_order_notify').html(data.count);
+                            $('.notify-order_' + id).remove();
                         }
                    }
                })
@@ -952,5 +998,367 @@
             });
         </script>
 {{--    ADD PERMISSION FROM ROLE--}}
+
+{{--    SELECT PRODUCT RECEIPT--}}
+    <script>
+        $(document).on('click','.selectReceipt',function (e){
+            e.preventDefault();
+            var id = $(this).data('id');
+            var url = $(this).data('url');
+            $.ajax({
+                type : 'GET',
+                url : url,
+                data : {
+                    'id' : id,
+                },
+                success : function (data){
+                    if(data.code == 200){
+                        $('#danhsachsanpham').html(data.output);
+                        $('#sanphamphieunhap').DataTable();
+                        $('#danhsachsanpham').modal('show');
+                    }
+                }
+            })
+        })
+    </script>
+    <script>
+        $(document).on('click','.addProductReceipt',function (){
+            var id = $(this).data('id');
+            var that = $(this);
+            var url = $(this).data('url');
+            var qty = $('.qty_' + id).val();
+            var price = $('.price_' + id).val();
+            var qty_old = $('.qty_old_' + id).html();
+            var intRegex = /^\d+$/;
+            if(qty == '' || price == ''){
+                alert('Vui lòng nhập đầy đủ số lượng nhập vào và giá gốc trên sản phẩm!')
+            }else if(qty > qty_old){
+                alert('Vui lòng nhập số lượng nhập vào nhỏ hơn số lượng tồn kho!')
+            }else if(!intRegex.test(price) || !intRegex.test(qty)) {
+                alert('Giá nhập vào và số lượng của sản phẩm phải là kiểu số!');
+            }
+            else{
+                $.ajax({
+                    type : 'GET',
+                    url : url,
+                    data : {
+                        'id' : id,
+                        'qty' : qty,
+                        'price' : price,
+                    },
+                    success : function (data) {
+                        if(data.code == 200){
+                            {{--that.removeClass().addClass('btn btn-danger deleteProductReceipt')--}}
+                            {{--    .attr('data-url','{{ route('sup.receipt.deleteProduct') }}')--}}
+                            {{--    .attr('value',1).text('Bỏ chọn');--}}
+                            that.parent().find('.deleteProductReceipt').css('display','block');
+                            that.css('display','none');
+                            $('.qty_' + id).attr('readonly',true);
+                            $('.price_' + id).attr('readonly',true);
+                            $('.sum').val(data.sum);
+                            $('.select-product').append(data.name);
+                        }
+                    }
+                })
+            }
+        })
+    </script>
+
+    <script>
+        $(document).on('click','.deleteProductReceipt',function (){
+            var id = $(this).data('id');
+            var url = $(this).data('url');
+            var that = $(this);
+            $.ajax({
+                type : 'GET',
+                url : url,
+                data : {
+                    'id' : id,
+                },
+                success : function (data){
+                    if(data.code == 200){
+                        {{--that.removeClass().addClass('btn btn-success addProductReceipt')--}}
+                        {{--    .attr('data-url','{{ route('sup.receipt.add') }}')--}}
+                        {{--    .attr('value',0).text('Thêm');--}}
+                        that.parent().find('.addProductReceipt').css('display','block');
+                        $('.qty_' + id).val('').attr('readonly',false);
+                        $('.price_' + id).val('').attr('readonly',false);
+                        that.css('display','none');
+                        $('.sum').val(data.sum);
+
+                    }
+                }
+            })
+        })
+    </script>
+
+    <script>
+        $(document).on('click','.listProductReceipt',function (e){
+            e.preventDefault();
+            var id = $(this).data('id');
+            var url = $(this).data('url');
+
+            $.ajax({
+                type : 'GET',
+                url : url,
+                data : {
+                    'id' : id,
+                },
+                success : function (data) {
+                    if(data.code == 200){
+                        $('#chitietdanhsach').html(data.output);
+                        $('#chitietdanhsach').modal('show');
+                    }
+                }
+            })
+        })
+    </script>
+
+    <script>
+        $(document).on('click','.changeProductReceipt',function (){
+            $(this).parents('tr').find('.price').attr('readonly',false);
+            $(this).parents('tr').find('.qty').attr('readonly',false);
+            $(this).css('display','none');
+            $(this).parents('tr').find('.saveProductReceipt').css('display','block');
+        })
+    </script>
+
+    <script>
+        $(document).on('click','.saveProductReceipt',function (){
+            var that = $(this);
+            var idProduct = $(this).data('product');
+            var idReceiptDetail = $(this).data('id');
+            var idReceipt = $(this).data('receipt');
+            var url = $(this).data('url');
+            var qty = $(this).data('qty');
+            var intRegex = /^\d+$/;
+            var price_up = $(this).parents('tr').find('.price').val();
+            var qty_up = $(this).parents('tr').find('.qty').val();
+            if(price_up == '' || qty_up == ''){
+                alert('Vui lòng không để trống 1 trống 2 mục số lượng và giá nhập vào!');
+            }else if(qty_up > qty){
+                alert('Vui lòng nhập số lượng thấp hơn số lượng tồn kho, hiện số lượng tồn kho đang còn ' + qty + ' sản phẩm');
+            }else if(!intRegex.test(price_up) || !intRegex.test(qty_up)){
+                alert('Giá nhập vào và số lượng của sản phẩm phải là kiểu số!');
+            }else{
+                $.ajax({
+                    type : 'GET',
+                    url : url,
+                    data : {
+                      'idProduct' : idProduct,
+                      'idReceiptDetail' : idReceiptDetail,
+                      'idReceipt' : idReceipt,
+                      'qty' : qty_up,
+                      'price' : price_up,
+                    },
+
+                    success : function (data) {
+                        if(data.code == 200){
+                            Swal.fire(
+                                'Thành công!',
+                                'Chi tiết trong phiếu nhập đã được cập nhật',
+                                'success'
+                            );
+                            that.parents('tr').find('.saveProductReceipt').css('display','none');
+                            that.parents('tr').find('.changeProductReceipt').css('display','block');
+                            $('.sum_after_update').attr('value',data.sum);
+                        }
+                    }
+                })
+            }
+        })
+    </script>
+
+    <script>
+        $(document).on('click','.deleteReceipt',function (e){
+            e.preventDefault();
+            var id = $(this).data('id');
+            var url = $(this).data('url');
+            var that = $(this);
+            Swal.fire({
+                title: 'Bạn có chắc chắn muốn xóa phiếu nhập này không?',
+                text: "Bạn sẽ không thể khôi phục lại!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Có, tôi đồng ý!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    $.ajax({
+                        type : 'GET',
+                        url : url,
+                        data : {
+                            'id' : id,
+                        },
+                        success : function (data) {
+                            if(data.code == 200) {
+                                that.parent().parent().remove();
+                                Swal.fire(
+                                    'Đã xóa',
+                                    'Phiếu nhập bạn chọn đã được xóa',
+                                    'success'
+                                )
+                            }
+                        }
+                    })
+                }
+            })
+        })
+    </script>
+{{--    SELECT PRODUCT RECEIPT--}}
+
+{{--    CHANGE COST--}}
+    <script>
+        $(document).on('click','.changeCost',function (e){
+            e.preventDefault();
+            var id = $(this).data('id');
+            $('#cost_' + id).attr('readonly',false);
+            $(this).removeClass('btn btn-info changeCost').addClass('btn btn-success saveCost').attr('value',1).text('Lưu');
+        })
+    </script>
+    <script>
+        $(document).on('click','.saveCost',function (e){
+            e.preventDefault();
+            var that = $(this);
+            var id = $(this).data('id');
+            var url = $(this).data('url');
+            var cost = $('#cost_' + id).val();
+            var intRegex = /^\d+$/;
+            if(cost == '') {
+                alert('Vui lòng không để trống mục phí vận chuyển!');
+            }else if(!intRegex.test(cost)){
+                alert('Mục phí vận chuyển phải là kiểu số nguyên!');
+            }else{
+                $.ajax({
+                    type : 'GET',
+                    url : url,
+                    data : {
+                        'id' : id,
+                        'cost' : cost,
+                    },
+
+                    success : function (data) {
+                        if(data.code == 200){
+                            Swal.fire(
+                                'Thành công!',
+                                'Phí vận chuyển đã được cập nhật',
+                                'success'
+                            );
+                            that.removeClass('btn btn-success saveCost').addClass('btn btn-info changeCost').attr('value',0).text('Chỉnh sửa');
+                            that.parents('.city').find('#cost_' + id).attr('readonly',true).attr('value',cost);
+                        }
+                    }
+                })
+            }
+        })
+    </script>
+{{--    CHANGE COST--}}
+
+{{--    CHECK EMAIL ACCOUNT --}}
+    <script>
+        $(document).on('change','.inputEmail',function (){
+            var that = $(this);
+            var value = $(this).val();
+            var url = $(this).data('url');
+            $.ajax({
+                type : 'GET',
+                url : url,
+                data : {
+                    'value' : value,
+                },
+                success : function (data) {
+                    if(data.code == 200){
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Cảnh báo!',
+                            text: 'Tên email đã được sử dụng, vui lòng dùng 1 tài khoản khác!',
+                        })
+                        that.val('');
+                    }
+                }
+            })
+        });
+    </script>
+{{--    CHECK EMAIL ACCOUNT --}}
+{{--    SELECT SHIPPER ORER --}}
+    <script>
+        $(document).on('click','.selecteShipper',function (){
+            var that = $(this);
+            var id = $(this).data('id');
+            var key = $(this).data('key')
+            var url = $(this).data('url');
+
+            $.ajax({
+                type : 'GET',
+                url : url,
+                data : {
+                    'id' : id,
+                    'key' : key,
+                },
+                success : function (data) {
+                    if(data.code == 200){
+                        that.removeClass('selecteShipper').addClass('chooseShipper');
+                        toastr.success(data.message,data.title);
+                    }
+                }
+            })
+        })
+    </script>
+
+    <script>
+        $(document).on('click','.selectShipOrder',function (){
+            var that = $(this);
+            var id = $(this).data('id');
+            var key = $(this).data('key')
+            var url = $(this).data('url');
+            $.ajax({
+                type : 'GET',
+                url : url,
+                data : {
+                    'id' : id,
+                    'key' : key,
+                },
+                success : function (data) {
+                    if(data.code == 200){
+                        that.removeClass().addClass('btn btn-success finishOrder').attr('data-url',`{{ route('sup.order.finishShipOrder') }}`).text('Xác nhận đã giao');
+                        $('.count_order_notify').html(data.count);
+                        $('.notify-order_' + key).remove();
+                        toastr.success(data.message,data.title);
+                    }
+                }
+            })
+        })
+    </script>
+    <script>
+        $(document).on('click','.finishOrder',function (){
+            var that = $(this);
+            var id = $(this).data('id');
+            var key = $(this).data('key')
+            var url = $(this).data('url');
+            $.ajax({
+                type : 'GET',
+                url : url,
+                data : {
+                    'id' : id,
+                    'key' : key,
+                },
+                success : function (data) {
+                    if(data.code == 200){
+                        that.removeClass().addClass('btn btn-default').text('Chờ xác nhận');
+                        toastr.success(data.message,data.title);
+                    }
+                }
+            })
+        });
+    </script>
+
+    <script>
+        $(document).on('click','.checkMail',function (){
+            alert(1);
+        })
+    </script>
+{{--     SELECT SHIPPER ORER --}}
     </body>
 </html>

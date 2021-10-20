@@ -13,8 +13,13 @@ class AddTableYeuThich extends Migration
      */
     public function up()
     {
-        Schema::table('yeuthich', function (Blueprint $table) {
-            //
+        Schema::create('yeuthich', function (Blueprint $table) {
+            $table->id('id_yt');
+            $table->bigInteger('kh_id')->unsigned()->nullable();;
+            $table->bigInteger('sp_id')->unsigned()->nullable();;
+            $table->foreign('kh_id')->references('kh_id')->on('khachhang')->onDelete('cascade');
+            $table->foreign('sp_id')->references('sp_id')->on('sanpham')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 

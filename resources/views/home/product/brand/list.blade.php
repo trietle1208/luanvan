@@ -38,20 +38,94 @@
                                                     ?>
                                                     <h2>{{ number_format($new_price) }} VND</h2>
                                                     <p>{{ $product->sp_ten }}</p>
-                                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</a>
+                                                    <ul class="list-inline" title="Average Rating">
+                                                        @php
+                                                            $rating = $product->comment()->avg('bl_sosao');
+                                                        @endphp
+                                                        @for($count = 1; $count<=5; $count++)
+                                                            @if(isset($rating))
+                                                                @php
+                                                                    $rating = $rating;
+                                                                    if($count<=$rating){
+                                                                        $color = 'color:#ffcc00;';
+                                                                    }else{
+                                                                        $color = 'color:#ccc;';
+                                                                    }
+                                                                @endphp
+                                                            @else
+                                                                @php
+                                                                    $rating = 0;
+                                                                    if($count<=$rating){
+                                                                        $color = 'color:#ffcc00;';
+                                                                    }else{
+                                                                        $color = 'color:#ccc;';
+                                                                    }
+                                                                @endphp
+                                                            @endif
+                                                            <li title="đánh giá sao"
+                                                                style="cursor:pointer; {{$color}} font-size: 20px;">
+                                                                &#9733;
+                                                            </li>
+                                                        @endfor
+                                                    </ul>
+                                                    <button
+                                                        data-id="{{ $product->sp_id }}" data-key="{{ $product->ncc->ncc_id }}" data-qty="1" data-url="{{ route('product.addCart') }}"
+                                                        class="btn btn-default add-to-cart add-to-cartAjax"><i class="fa fa-shopping-cart">
+                                                        </i>Thêm giỏ hàng
+                                                    </button>
                                                 @else
                                                     <img src="{{ $product->sp_hinhanh }}" style="width: 250px; height: 250px" alt="" />
                                                     <h2>{{ number_format($product->sp_giabanra) }} VND</h2>
                                                     <p>{{ $product->sp_ten }}</p>
-                                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</a>
+                                                    <ul class="list-inline" title="Average Rating">
+                                                        @php
+                                                            $rating = $product->comment()->avg('bl_sosao');
+                                                        @endphp
+                                                        @for($count = 1; $count<=5; $count++)
+                                                            @if(isset($rating))
+                                                                @php
+                                                                    $rating = $rating;
+                                                                    if($count<=$rating){
+                                                                        $color = 'color:#ffcc00;';
+                                                                    }else{
+                                                                        $color = 'color:#ccc;';
+                                                                    }
+                                                                @endphp
+                                                            @else
+                                                                @php
+                                                                    $rating = 0;
+                                                                    if($count<=$rating){
+                                                                        $color = 'color:#ffcc00;';
+                                                                    }else{
+                                                                        $color = 'color:#ccc;';
+                                                                    }
+                                                                @endphp
+                                                            @endif
+                                                            <li title="đánh giá sao"
+                                                                style="cursor:pointer; {{$color}} font-size: 20px;">
+                                                                &#9733;
+                                                            </li>
+                                                        @endfor
+                                                    </ul>
+                                                    <button
+                                                        data-id="{{ $product->sp_id }}" data-key="{{ $product->ncc->ncc_id }}" data-qty="1" data-url="{{ route('product.addCart') }}"
+                                                        class="btn btn-default add-to-cart add-to-cartAjax"><i class="fa fa-shopping-cart">
+                                                        </i>Thêm giỏ hàng
+                                                    </button>
                                                 @endif
                                             </div>
 
                                         </div>
                                         <div class="choose">
                                             <ul class="nav nav-pills nav-justified">
-                                                <li><a href=""><i class="fa fa-plus-square"></i>Thêm vào danh sách yêu thích</a></li>
-                                                <li><a href=""><i class="fa fa-plus-square"></i>So sánh sản phẩm</a></li>
+                                                @if(Session::get('customer_id'))
+                                                    <li><button class="btn btn-{{ $customer->product_wishlist->contains($product->sp_id) ? 'danger' : 'success' }} addWishlist" style="float: left"
+                                                                value="{{ $customer->product_wishlist->contains($product->sp_id) ? '1' : '0' }}"
+                                                                data-id="{{ $product->sp_id }}"><i class="fa fa-plus-square"></i>{{ $customer->product_wishlist->contains($product->sp_id) ? 'Bỏ yêu thích' : 'Thêm yêu thích' }}</button></li>
+                                                @else
+                                                    <li><button class="btn btn-success" style="float: left"><i class="fa fa-plus-square"></i>Thêm yêu thích</button></li>
+                                                @endif
+                                                    <li><button class="btn btn-success quickView" data-id="{{ $product->sp_id }}" data-url="{{ route('customer.quickView') }}" style="float: right"><i class="fa fa-plus-square"></i>Xem nhanh</button></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -62,14 +136,14 @@
 
                         </div><!--features_items-->
                     </div>
-                    <div class="row text-center">
-                        <ul class="pagination">
-                            <li class="active"><a href="">1</a></li>
-                            <li><a href="">2</a></li>
-                            <li><a href="">3</a></li>
-                            <li><a href="">&raquo;</a></li>
-                        </ul>
-                    </div>
+{{--                    <div class="row text-center">--}}
+{{--                        <ul class="pagination">--}}
+{{--                            <li class="active"><a href="">1</a></li>--}}
+{{--                            <li><a href="">2</a></li>--}}
+{{--                            <li><a href="">3</a></li>--}}
+{{--                            <li><a href="">&raquo;</a></li>--}}
+{{--                        </ul>--}}
+{{--                    </div>--}}
                     @else
                         <div class="row text-center">
                             <p>Hiện chưa có sản phẩm!!!</p>
@@ -80,6 +154,11 @@
         </div>
     </section>
 
+    <div class="modal fade" id="addWishlist" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
+    </div>
+    <div class="modal fade" id="quickView" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    </div>
 @endsection
 

@@ -17,6 +17,7 @@ class Info extends Model
         'tt_sdt',
         'tt_gioitinh',
         'tt_ngaysinh',
+        'tt_hinhanh',
         'us_id',
     ];
 }

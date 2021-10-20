@@ -42,8 +42,8 @@
                                     <td class="text-danger">Chưa duyệt</td>
                                     <td>
                                         <a href="" data-id="{{ $receipt->pnh_id }}" class="btn btn-primary detail">Chi tiết</a>
-                                        <a href="{{ route('admin.type.edit', ['id' => $receipt->pnh_id]) }}" class="btn btn-info">Chỉnh sửa</a>
-                                        <a onclick="return confirm('Bạn có chắc chắn muốn xóa loại này không?')" href="{{ route('admin.type.delete', ['id' => $receipt->pnh_id]) }}" class="btn btn-danger">Xóa</a>
+                                        <a href="{{ route('sup.receipt.edit', ['id' => $receipt->pnh_id]) }}" class="btn btn-info">Chỉnh sửa</a>
+                                        <a href="" data-id="{{ $receipt->pnh_id }}" data-url="{{ route('sup.receipt.delete') }}" class="btn btn-danger deleteReceipt">Xóa</a>
                                     </td>
                                     @else
                                     <td class="text-success">Đã duyệt</td>

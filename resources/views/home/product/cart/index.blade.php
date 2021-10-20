@@ -69,11 +69,16 @@
                                                                     <td class="cart_price">
                                                                         <p>{{ number_format($product['price_discount']) }} VND</p>
                                                                     </td>
+                                                                    @php
+                                                                        $receiptdetail = \App\Models\ReceiptDetail::where('sp_id',$key1)->orderBy('created_at','DESC')->first();
+                                                                        $quantityProduct = $receiptdetail->soluong;
+                                                                    @endphp
                                                                     <td class="cart_quantity">
                                                                         <div class="cart_quantity_button" >
                                                                             <a class="cart_quantity_down cart_qty dec" href="" data-id="{{ $key1 }}" data-key="{{ $key }}"> - </a>
                                                                             <input readonly class="cart_quantity_input" id="valueQty_{{ $key1 }}"
                                                                                    data-url = "{{ route('product.updateCart') }}"
+                                                                                   data-qty_has = "{{ $quantityProduct }}"
                                                                                    name="quantity" value="{{ $product['qty'] }}" autocomplete="off" size="2" min="1">
                                                                             <a class="cart_quantity_up cart_qty inc" href="" data-id="{{ $key1 }}" data-key="{{ $key }}"> + </a>
                                                                         </div>

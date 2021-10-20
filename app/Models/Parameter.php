@@ -31,4 +31,8 @@ class Parameter extends Model
     public function detail($idProduct) {
         return $this->hasMany(DetailPara::class,'ts_id','ts_id')->where('sp_id',$idProduct);
     }
+
+    public function detail_para() {
+        return $this->hasMany(DetailPara::class,'ts_id','ts_id');
+    }
 }

@@ -4,14 +4,17 @@ namespace App\Http\Controllers\NCC;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AccountAdd;
+use App\Http\Requests\AccountShipperAdd;
 use App\Models\Info;
 use App\Models\Manufacture;
+use App\Models\Shipper;
 use App\Models\User;
 use App\Traits\StorageImageTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Spatie\Permission\Models\Role;
+use Toastr;
 
 class AccountController extends Controller
 {
@@ -31,6 +34,7 @@ class AccountController extends Controller
     }
 
     public function store(Request $request) {
+        $dataUpload = $this->storageTraitUpload($request, 'image', 'ncc');
         $info = Info::updateOrCreate(
             [
                 'us_id' => Auth::user()->id,
@@ -40,6 +44,7 @@ class AccountController extends Controller
                 'tt_sdt' => $request->phone,
                 'tt_gioitinh' => $request->sex,
                 'tt_ngaysinh' => $request->age,
+                'tt_hinhanh' => $dataUpload['file_path'],
             ]);
 
         return redirect()->route('sup.account.index');
@@ -73,15 +78,28 @@ class AccountController extends Controller
         return view('admin.nhacungcap.account.create');
     }
 
-    public function store_account(Request $request) {
+    public function create_shipper() {
+        return view('admin.nhacungcap.account.create_shipper');
+    }
+    public function checkEmail(Request $request) {
+        $user = User::where('email',$request->value)->first();
+        $shipper = Shipper::where('gh_email',$request->value)->first();
+        if($user || $shipper){
+            return response()->json([
+                'code' => 200,
+            ],200);
+        }
+    }
+    public function store_account(AccountShipperAdd $shipper) {
         $account = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
+            'name' => $shipper->name,
+            'email' => $shipper->gh_email,
+            'password' => bcrypt($shipper->password),
             'email_verified_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'ncc_id' => Auth::user()->ncc_id,
             'trangthai' => 1,
         ]);
+        Toastr::success('Thêm tài khoản mới thành công!', 'Thành công');
         return back();
     }
 

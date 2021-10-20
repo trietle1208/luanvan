@@ -4,7 +4,7 @@ namespace App\Observers;
 
 use App\Models\OrderDetail;
 use App\Models\ReceiptDetail;
-
+use Illuminate\Support\Facades\Session;
 class OrderDetailObserver
 {
     /**
@@ -19,7 +19,6 @@ class OrderDetailObserver
         $receiptDetail->update([
             'soluong' =>  $receiptDetail->soluong - $orderDetail->soluong,
         ]);
-
     }
 
     /**
@@ -30,7 +29,12 @@ class OrderDetailObserver
      */
     public function updated(OrderDetail $orderDetail)
     {
-        //
+        $qty = Session::get('qty');
+        $receiptDetail = ReceiptDetail::where('sp_id',$orderDetail->sp_id)->orderBy('created_at','DESC')->first();
+        $receiptDetail->update([
+            'soluong' =>  $receiptDetail->soluong - $orderDetail->soluong + $qty,
+        ]);
+        Session::forget('qty');
     }
 
     /**
@@ -41,7 +45,10 @@ class OrderDetailObserver
      */
     public function deleted(OrderDetail $orderDetail)
     {
-        //
+        $receiptDetail = ReceiptDetail::where('sp_id',$orderDetail->sp_id)->orderBy('created_at','DESC')->first();
+        $receiptDetail->update([
+            'soluong' =>  $receiptDetail->soluong + $orderDetail->soluong,
+        ]);
     }
 
     /**

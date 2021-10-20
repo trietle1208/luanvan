@@ -68,4 +68,11 @@ class Product extends Model
         return $this->belongsTo(Discount::class,'km_id','km_id')->where('km_trangthai',1);
     }
 
+    public function customer(){
+        return $this->belongsToMany(Customer::class,'yeuthich','sp_id','kh_id');
+    }
+
+    public function comment(){
+        return $this->hasMany(Comment::class,'sp_id','sp_id');
+    }
 }

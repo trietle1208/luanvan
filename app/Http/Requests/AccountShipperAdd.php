@@ -13,7 +13,7 @@ class AccountShipperAdd extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,18 @@ class AccountShipperAdd extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required',
+            'gh_email' => 'required|unique:shipper',
+            'password' => 'required',
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'name' => 'Vui lòng không để trống mục họ và tên.',
+            'gh_email.required' => 'Vui lòng không để trống mục email.',
+            'gh_email.unique' => 'Tài khoản email đã được sử dụng.',
+            'password' => 'Vui lòng không để trống mục mật khẩu.',
         ];
     }
 }

@@ -13,8 +13,12 @@ class CreateTableMangXaHoi extends Migration
      */
     public function up()
     {
-        Schema::table('mangxahoi', function (Blueprint $table) {
-            //
+        Schema::create('mangxahoi', function (Blueprint $table) {
+            $table->id('mxh_id');
+            $table->string('provider_kh_id');
+            $table->string('provider');
+            $table->integer('kh_id');
+            $table->timestamps();
         });
     }
 

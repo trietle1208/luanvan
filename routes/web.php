@@ -69,6 +69,18 @@ Route::middleware(['auth','verified'])->group(function () {
                     'as' => 'account.list',
                     'uses' => 'App\Http\Controllers\Admin\AccountController@index'
                 ]);
+                Route::get('/themtaikhoanshipper', [
+                    'as' => 'account.create_shipper',
+                    'uses' => 'App\Http\Controllers\Admin\AccountController@create_shipper'
+                ]);
+                Route::post('/luu_shipper', [
+                    'as' => 'account.store_shipper',
+                    'uses' => 'App\Http\Controllers\Admin\AccountController@store_shipper'
+                ]);
+                Route::get('/themtaikhoan', [
+                    'as' => 'account.list',
+                    'uses' => 'App\Http\Controllers\Admin\AccountController@index'
+                ]);
                 Route::get('/ajax', [
                     'as' => 'account.ajax',
                     'uses' => 'App\Http\Controllers\Admin\AccountController@changeStatus'
@@ -109,7 +121,123 @@ Route::middleware(['auth','verified'])->group(function () {
                     'uses' => 'App\Http\Controllers\Admin\CategoryController@checkName'
                 ]);
             });
+//category_posts
+            Route::prefix('danhmucbaiviet')->group(function (){
+                Route::get('/danhsach', [
+                    'as' => 'cate_posts.list',
+                    'uses' => 'App\Http\Controllers\Admin\CatePostsController@index'
+                ]);
+                Route::get('/them', [
+                    'as' => 'cate_posts.create',
+                    'uses' => 'App\Http\Controllers\Admin\CatePostsController@create'
+                ]);
+                Route::post('/luu', [
+                    'as' => 'cate_posts.store',
+                    'uses' => 'App\Http\Controllers\Admin\CatePostsController@store'
+                ]);
+                Route::get('/chinhsua/{id}', [
+                    'as' => 'cate_posts.edit',
+                    'uses' => 'App\Http\Controllers\Admin\CatePostsController@edit'
+                ]);
+                Route::post('/luuchinhsua/{id}', [
+                    'as' => 'cate_posts.update',
+                    'uses' => 'App\Http\Controllers\Admin\CatePostsController@update'
+                ]);
+                Route::get('/xoa/{id}', [
+                    'as' => 'cate_posts.delete',
+                    'uses' => 'App\Http\Controllers\Admin\CatePostsController@delete'
+                ]);
+            });
+//posts
+            Route::prefix('baiviet')->group(function (){
+                Route::get('/danhsach', [
+                    'as' => 'posts.list',
+                    'uses' => 'App\Http\Controllers\Admin\PostsController@index'
+                ]);
+                Route::get('/them', [
+                    'as' => 'posts.create',
+                    'uses' => 'App\Http\Controllers\Admin\PostsController@create'
+                ]);
+                Route::post('/luu', [
+                    'as' => 'posts.store',
+                    'uses' => 'App\Http\Controllers\Admin\PostsController@store'
+                ]);
+                Route::get('/chinhsua/{id}', [
+                    'as' => 'posts.edit',
+                    'uses' => 'App\Http\Controllers\Admin\PostsController@edit'
+                ]);
+                Route::post('/luuchinhsua/{id}', [
+                    'as' => 'posts.update',
+                    'uses' => 'App\Http\Controllers\Admin\PostsController@update'
+                ]);
+                Route::get('/xoa/{id}', [
+                    'as' => 'posts.delete',
+                    'uses' => 'App\Http\Controllers\Admin\PostsController@delete'
+                ]);
+            });
+//role
+            Route::prefix('vaitro')->group(function () {
+                Route::get('/danhsach', [
+                    'as' => 'role.list',
+                    'uses' => 'App\Http\Controllers\NCC\RoleController@index'
+                ]);
+                Route::get('/them', [
+                    'as' => 'role.create',
+                    'uses' => 'App\Http\Controllers\NCC\RoleController@create'
+                ]);
+                Route::post('/luu', [
+                    'as' => 'role.store',
+                    'uses' => 'App\Http\Controllers\NCC\RoleController@store'
+                ]);
+                Route::get('/chinhsua/{id}', [
+                    'as' => 'role.edit',
+                    'uses' => 'App\Http\Controllers\NCC\RoleController@edit'
+                ]);
+                Route::post('/luuchinhsua/{id}', [
+                    'as' => 'role.update',
+                    'uses' => 'App\Http\Controllers\NCC\RoleController@update',
+                ]);
+                Route::get('/xoa/{id}', [
+                    'as' => 'role.delete',
+                    'uses' => 'App\Http\Controllers\NCC\RoleController@delete'
+                ]);
+                Route::get('/ganquyen/{id}', [
+                    'as' => 'role.addPermission',
+                    'uses' => 'App\Http\Controllers\NCC\RoleController@addPermission'
+                ]);
 
+                Route::post('/ganquyen/{id}', [
+                    'as' => 'role.storePermission',
+                    'uses' => 'App\Http\Controllers\NCC\RoleController@storePermission'
+                ]);
+            });
+//permission
+            Route::prefix('phanquyen')->group(function () {
+                Route::get('/danhsach', [
+                    'as' => 'permission.list',
+                    'uses' => 'App\Http\Controllers\NCC\PermissionController@index'
+                ]);
+                Route::get('/them', [
+                    'as' => 'permission.create',
+                    'uses' => 'App\Http\Controllers\NCC\PermissionController@create'
+                ]);
+                Route::post('/luu', [
+                    'as' => 'permission.store',
+                    'uses' => 'App\Http\Controllers\NCC\PermissionController@store'
+                ]);
+                Route::get('/chinhsua/{id}', [
+                    'as' => 'permission.edit',
+                    'uses' => 'App\Http\Controllers\NCC\PermissionController@edit'
+                ]);
+                Route::post('/luuchinhsua/{id}', [
+                    'as' => 'permission.update',
+                    'uses' => 'App\Http\Controllers\NCC\PermissionController@update'
+                ]);
+                Route::get('/xoa/{id}', [
+                    'as' => 'permission.delete',
+                    'uses' => 'App\Http\Controllers\NCC\PermissionController@delete'
+                ]);
+            });
 //brand
             Route::prefix('thuonghieu')->group(function (){
                 Route::get('/danhsach', [
@@ -143,6 +271,17 @@ Route::middleware(['auth','verified'])->group(function () {
                 Route::get('/check', [
                     'as' => 'brand.check',
                     'uses' => 'App\Http\Controllers\Admin\BrandController@checkName'
+                ]);
+            });
+//cost
+            Route::prefix('phivanchuyen')->group(function (){
+                Route::get('/danhsach', [
+                    'as' => 'cost.list',
+                    'uses' => 'App\Http\Controllers\Admin\CostController@index'
+                ]);
+                Route::get('/chinhsua', [
+                    'as' => 'cost.edit',
+                    'uses' => 'App\Http\Controllers\Admin\CostController@edit'
                 ]);
             });
 //slide
@@ -380,6 +519,18 @@ Route::middleware(['auth','verified'])->group(function () {
                     'as' => 'receipt.list',
                     'uses' => 'App\Http\Controllers\NCC\ReceiptController@index'
                 ]);
+                Route::get('/select', [
+                    'as' => 'receipt.select',
+                    'uses' => 'App\Http\Controllers\NCC\ReceiptController@select'
+                ]);
+                Route::get('/add', [
+                    'as' => 'receipt.add',
+                    'uses' => 'App\Http\Controllers\NCC\ReceiptController@add'
+                ]);
+                Route::get('/deleteProduct', [
+                    'as' => 'receipt.deleteProduct',
+                    'uses' => 'App\Http\Controllers\NCC\ReceiptController@deleteProduct'
+                ]);
                 Route::get('/them', [
                     'as' => 'receipt.create',
                     'uses' => 'App\Http\Controllers\NCC\ReceiptController@create'
@@ -392,11 +543,19 @@ Route::middleware(['auth','verified'])->group(function () {
                     'as' => 'receipt.edit',
                     'uses' => 'App\Http\Controllers\NCC\ReceiptController@edit'
                 ]);
+                Route::get('/listProductReceipt', [
+                    'as' => 'receipt.listProductReceipt',
+                    'uses' => 'App\Http\Controllers\NCC\ReceiptController@listProductReceipt'
+                ]);
+                Route::get('/saveUpdateProductReceipt', [
+                    'as' => 'receipt.saveUpdateProductReceipt',
+                    'uses' => 'App\Http\Controllers\NCC\ReceiptController@saveUpdateProductReceipt'
+                ]);
                 Route::post('/luuchinhsua/{id}', [
                     'as' => 'receipt.update',
                     'uses' => 'App\Http\Controllers\NCC\ReceiptController@update'
                 ]);
-                Route::get('/xoa/{id}', [
+                Route::get('/xoa', [
                     'as' => 'receipt.delete',
                     'uses' => 'App\Http\Controllers\NCC\ReceiptController@delete'
                 ]);
@@ -478,6 +637,22 @@ Route::middleware(['auth','verified'])->group(function () {
                     'as' => 'order.changeStatus',
                     'uses' => 'App\Http\Controllers\NCC\OrderController@changeStatus'
                 ]);
+                Route::get('/chooseShipper', [
+                    'as' => 'order.chooseShipper',
+                    'uses' => 'App\Http\Controllers\NCC\OrderController@chooseShipper'
+                ]);
+                Route::get('/shipper', [
+                    'as' => 'order.listOrderShipper',
+                    'uses' => 'App\Http\Controllers\NCC\OrderController@listOrderShipper'
+                ]);
+                Route::get('/selectShipOrder', [
+                    'as' => 'order.selectShipOrder',
+                    'uses' => 'App\Http\Controllers\NCC\OrderController@selectShipOrder'
+                ]);
+                Route::get('/finishShipOrder', [
+                    'as' => 'order.finishShipOrder',
+                    'uses' => 'App\Http\Controllers\NCC\OrderController@finishShipOrder'
+                ]);
             });
 
             Route::prefix('vaitro')->group(function () {
@@ -552,6 +727,14 @@ Route::middleware(['auth','verified'])->group(function () {
                     'as' => 'account.create',
                     'uses' => 'App\Http\Controllers\NCC\AccountController@create_account'
                 ]);
+                Route::get('/themshipper', [
+                    'as' => 'account.create_shipper',
+                    'uses' => 'App\Http\Controllers\NCC\AccountController@create_shipper'
+                ]);
+                Route::get('/checkEmail', [
+                    'as' => 'account.checkEmail',
+                    'uses' => 'App\Http\Controllers\NCC\AccountController@checkEmail'
+                ]);
                 Route::post('/luu', [
                     'as' => 'account.store',
                     'uses' => 'App\Http\Controllers\NCC\AccountController@store_account'
@@ -582,6 +765,36 @@ Route::middleware(['auth','verified'])->group(function () {
 });
 
 Route::get('/trangchu', [App\Http\Controllers\Home\HomeController::class, 'index'])->name('trangchu');
+
+Route::post('/timkiem', [
+    'as' => 'search',
+    'uses' => 'App\Http\Controllers\Home\HomeController@search'
+]);
+
+Route::get('/locgia', [
+    'as' => 'fillterPrice',
+    'uses' => 'App\Http\Controllers\Home\HomeController@fillterPrice'
+]);
+
+Route::get('/locdanhgia', [
+    'as' => 'fillterRating',
+    'uses' => 'App\Http\Controllers\Home\HomeController@fillterRating'
+]);
+
+Route::get('/locsanpham', [
+    'as' => 'fillterSort',
+    'uses' => 'App\Http\Controllers\Home\HomeController@fillterSort'
+]);
+
+Route::get('/locthongso', [
+    'as' => 'fillterPara',
+    'uses' => 'App\Http\Controllers\Home\TypeController@fillterPara'
+]);
+
+Route::get('/loadProduct', [
+    'as' => 'loadProduct',
+    'uses' => 'App\Http\Controllers\Home\HomeController@loadProduct'
+]);
 
 Route::get('/thuonghieu/{slug}/{id}', [
     'as' => 'brand.product',
@@ -638,6 +851,16 @@ Route::get('/tai-khoan', [
     'uses' => 'App\Http\Controllers\Home\CustomerController@index'
 ]);
 
+Route::get('/tai-khoan/google/callback', [
+    'as' => 'customer.callback_google',
+    'uses' => 'App\Http\Controllers\Home\CustomerController@callback_google'
+]);
+
+Route::get('/tai-khoan/facebook/callback', [
+    'as' => 'customer.callback_facebook',
+    'uses' => 'App\Http\Controllers\Home\CustomerController@callback_facebook'
+]);
+
 Route::post('/dangki', [
     'as' => 'customer.register',
     'uses' => 'App\Http\Controllers\Home\CustomerController@register'
@@ -646,6 +869,16 @@ Route::post('/dangki', [
 Route::post('/dangnhap', [
     'as' => 'customer.login',
     'uses' => 'App\Http\Controllers\Home\CustomerController@login'
+]);
+
+Route::get('/dangnhapgoogle', [
+    'as' => 'customer.loginGoogle',
+    'uses' => 'App\Http\Controllers\Home\CustomerController@loginGoogle'
+]);
+
+Route::get('/dangnhapfacebook', [
+    'as' => 'customer.loginFacebook',
+    'uses' => 'App\Http\Controllers\Home\CustomerController@loginFacebook'
 ]);
 
 Route::get('/dangxuat', [
@@ -658,9 +891,73 @@ Route::get('/thongtincanhan', [
     'uses' => 'App\Http\Controllers\Home\CustomerController@profile'
 ]);
 
+Route::get('/capnhatthongtin', [
+    'as' => 'customer.updateInfo',
+    'uses' => 'App\Http\Controllers\Home\CustomerController@updateInfo'
+]);
+
+Route::post('/luucapnhat', [
+    'as' => 'customer.saveUpdateInfo',
+    'uses' => 'App\Http\Controllers\Home\CustomerController@saveUpdateInfo'
+]);
+
+Route::post('/binhluan', [
+    'as' => 'customer.addComment',
+    'uses' => 'App\Http\Controllers\Home\CustomerController@addComment'
+]);
+
+Route::post('/repbinhluan', [
+    'as' => 'customer.repComment',
+    'uses' => 'App\Http\Controllers\Home\CustomerController@repComment'
+]);
+
 Route::get('/thanhtoan', [
     'as' => 'checkout.index',
     'uses' => 'App\Http\Controllers\Home\CheckoutController@index'
+]);
+
+Route::get('/chitietdonhang', [
+    'as' => 'customer.detailOrder',
+    'uses' => 'App\Http\Controllers\Home\CustomerController@detailOrder'
+]);
+
+Route::get('/capnhatdonhang', [
+    'as' => 'customer.updateOrder',
+    'uses' => 'App\Http\Controllers\Home\CustomerController@updateOrder'
+]);
+
+Route::get('/huydonhang', [
+    'as' => 'customer.deleteOrder',
+    'uses' => 'App\Http\Controllers\Home\CustomerController@deleteOrder'
+]);
+
+Route::get('/theodoidonhang', [
+    'as' => 'customer.followOrder',
+    'uses' => 'App\Http\Controllers\Home\CustomerController@followOrder'
+]);
+
+Route::get('/nhanhang', [
+    'as' => 'customer.confirmFinishOrder',
+    'uses' => 'App\Http\Controllers\Home\CustomerController@confirmFinishOrder'
+]);
+Route::get('/themyeuthich', [
+    'as' => 'customer.addWishlist',
+    'uses' => 'App\Http\Controllers\Home\CustomerController@addWishlist'
+]);
+
+Route::get('/xemnhanh', [
+    'as' => 'customer.quickView',
+    'uses' => 'App\Http\Controllers\Home\CustomerController@quickView'
+]);
+
+Route::get('/xoayeuthich', [
+    'as' => 'customer.deleteWishlist',
+    'uses' => 'App\Http\Controllers\Home\CustomerController@deleteWishlist'
+]);
+
+Route::get('/yeuthich', [
+    'as' => 'customer.showWishlist',
+    'uses' => 'App\Http\Controllers\Home\CustomerController@showWishlist'
 ]);
 
 Route::get('/locthanhpho', [
@@ -681,4 +978,14 @@ Route::get('/tinhphi', [
 Route::post('/xacnhanthanhtoan', [
     'as' => 'checkout.payment',
     'uses' => 'App\Http\Controllers\Home\CheckoutController@payment'
+]);
+
+Route::get('/tintuc/{slug}', [
+    'as' => 'posts.index',
+    'uses' => 'App\Http\Controllers\Home\PostsController@index'
+]);
+
+Route::get('/baiviet', [
+    'as' => 'posts.showPosts',
+    'uses' => 'App\Http\Controllers\Home\PostsController@showPosts'
 ]);

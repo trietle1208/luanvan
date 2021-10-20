@@ -180,4 +180,24 @@ class DiscountController extends Controller
             ], 200);
         }
     }
+
+    public function changeStatus(Request $request){
+        if($request->type == 1){
+            Discount::find($request->id)->update([
+                'km_trangthai' => 0,
+            ]);
+
+            return response()->json([
+                'code' => 200,
+            ]);
+        }else if($request->type == 0){
+            Discount::find($request->id)->update([
+                'km_trangthai' => 1,
+            ]);
+
+            return response()->json([
+                'code' => 200,
+            ]);
+        }
+    }
 }

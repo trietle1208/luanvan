@@ -1,6 +1,6 @@
-$(document).on('change','.address',function () {
-    var id = $(this).val();
-    var url = $(this).data('url');
+$(document).on('change','.allAddress',function () {
+    var id = $('input[name=address]:checked').data('id')
+    var url = $('input[name=address]:checked').data('url')
     $.ajax({
         url : url,
         type : 'GET',
@@ -19,16 +19,20 @@ $(document).on('change','.address',function () {
 
 $(document).on('click','.confirmCheckout',function (e){
     e.preventDefault();
-    var name = $( "input[type=text][name=name]").val();
+    var name = $("input[type=text][name=name1]").val();
     var _token = $( "input[type=hidden][name=_token]").val();
-    var ship = $( "input[type=radio][name=ship]").val();
-    var address = $( "select[name=address]" ).val();
+    var ship = $( "input[type=radio][name=ship]:checked").val();
+    var address = $('input[name=address]:checked').data('id');
     var note = $('textarea#note').val();
     var total = $('.total1 span').html();
     var url = $('.name').data('url');
     if(name == '' || ship == '' ||
-        address == '' ||note == ''){
-        alert('Vui lòng điền đầy đủ thông tin cá nhân!');
+        address == ''){
+        Swal.fire(
+            'Cảnh báo',
+            'Vui lòng điền đầy đủ các thông tin cá nhân vào đơn đặt hàng!',
+            'danger'
+        )
     }
     else {
         $.ajax({

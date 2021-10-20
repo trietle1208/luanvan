@@ -27,4 +27,8 @@ class OrderDetail extends Model
     public function discount(){
         return $this->belongsTo(Discount::class,'km_id','km_id');
     }
+
+    public function order_ncc(){
+        return $this->belongsTo(OrderNCC::class,'dhncc_id','dhncc_id');
+    }
 }

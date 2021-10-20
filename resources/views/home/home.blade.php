@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-    <title>Home | E-Shopper</title>
+    <title>Thế Giới Linh Kiện</title>
 @endsection
 
 @section('css')
@@ -20,8 +20,7 @@
         <div class="container">
             <div class="row">
             @include('components.side-bar')
-
-                <div class="col-sm-9 padding-right">
+                <div class="col-sm-9 padding-right fill">
 
                     @include('home.components.feature-item')
 
@@ -33,7 +32,6 @@
             </div>
         </div>
     </section>
-
 
 @endsection
 

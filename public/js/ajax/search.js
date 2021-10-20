@@ -1,6 +1,6 @@
 const searchForm = document.querySelector("#search-form");
-const searchFormInput = searchForm.querySelector("input"); // <=> document.querySelector("#search-form input");
-const info = document.querySelector(".info");
+const searchFormInput = searchForm.querySelector("#search-form #input-search"); // <=> document.querySelector("#search-form input");
+// const info = document.querySelector(".info");
 
 // The speech recognition interface lives on the browser’s window object
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition; // if none exists -> undefined
@@ -12,8 +12,8 @@ if(SpeechRecognition) {
     recognition.continuous = true;
     // recognition.lang = "en-US";
 
-    searchForm.insertAdjacentHTML("beforeend", '<button type="button"><i class="fas fa-microphone"></i></button>');
-    searchFormInput.style.paddingRight = "50px";
+    searchForm.insertAdjacentHTML("beforeend", '<button type="button"><i class="fa fa-microphone"></i></button>');
+    // searchFormInput.style.paddingRight = "50px";
 
     const micBtn = searchForm.querySelector("button");
     const micIcon = micBtn.firstElementChild;
@@ -73,10 +73,10 @@ if(SpeechRecognition) {
         // }, 500);
     }
 
-    info.textContent = 'Voice Commands: "stop recording", "reset input", "go"';
+    // info.textContent = 'Voice Commands: "stop recording", "reset input", "go"';
 
 }
 else {
     console.log("Your Browser does not support speech Recognition");
-    info.textContent = "Your Browser does not support Speech Recognition";
+    // info.textContent = "Your Browser does not support Speech Recognition";
 }

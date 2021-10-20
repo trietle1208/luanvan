@@ -36,4 +36,12 @@ class AccountController extends Controller
             return response()->json($output);
         }
     }
+
+    public function create_shipper() {
+        return view('admin.manager.account.create_shipper');
+    }
+
+    public function store_shipper(Request $request) {
+
+    }
 }

@@ -20,11 +20,15 @@ class Customer extends Model
         'kh_sdt',
         'kh_ngaysinh',
         'kh_gioitinh',
+        'kh_hinhanh',
     ];
 
     public function address(){
         return $this->hasMany(Address::class,'kh_id','kh_id');
     }
 
+    public function product_wishlist(){
+        return $this->belongsToMany(Product::class,'yeuthich','kh_id','sp_id');
+    }
 
 }

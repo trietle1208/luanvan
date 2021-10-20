@@ -17,6 +17,7 @@
                     Session::put('message',null);
                 }
                 ?>
+                {!! Toastr::message() !!}
                 <form class="form-horizontal" action="{{ route('sup.account.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="row mb-3">
@@ -24,15 +25,24 @@
                         <div class="col-8 col-xl-9">
                             <input type="text" class="form-control" id="inputPassword3"
                                    name="name"
-                                   placeholder="Nhập vào tên chương trình khuyến mãi muốn tạo">
+                                   class="@error('name') is-invalid @enderror"
+                                   placeholder="Nhập vào tên tài khoản muốn tạo">
+                            @error('name')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
                     <div class="row mb-3">
                         <label class="col-4 col-xl-3 col-form-label">Nhập vào email:</label>
                         <div class="col-8 col-xl-9">
-                            <input type="email" class="form-control" id="inputPassword5"
-                                   name="email"
-                                   placeholder="Nhập vào hình ảnh của thương hiệu">
+                            <input type="email" class="form-control inputEmail" id="inputPassword5"
+                                   name="gh_email"
+                                   data-url="{{ route('sup.account.checkEmail') }}"
+                                   class="@error('gh_email') is-invalid @enderror"
+                                   placeholder="Nhập vào email">
+                            @error('gh_email')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -40,7 +50,11 @@
                         <div class="col-8 col-xl-9">
                             <input type="password" class="form-control" id="inputPassword5"
                                    name="password"
-                                   placeholder="Nhập vào mô tả của chương trình khuyến mãi">
+                                   class="@error('password') is-invalid @enderror"
+                                   placeholder="Nhập vào mật khẩu">
+                            @error('password')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
                     <div class="justify-content-end row">

@@ -36,4 +36,8 @@ class Receipt extends Model
     public function product() {
         return $this->belongsToMany(Product::class,'chitietphieunhap','pnh_id','sp_id');
     }
+
+    public function receipt_detail() {
+        return $this->hasMany(ReceiptDetail::class,'pnh_id','pnh_id');
+    }
 }

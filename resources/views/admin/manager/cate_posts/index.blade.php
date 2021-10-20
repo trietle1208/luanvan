@@ -19,39 +19,27 @@
                     }
                     ?>
                     <div class="table-responsive">
-                        <table class="table mb-0">
+                        <table class="table mb-0" id="category">
                             <thead class="table-light">
                             <tr>
                                 <th>ID</th>
                                 <th>Tên danh mục</th>
-                                <th>Thuộc danh mục</th>
                                 <th>Mô tả</th>
+                                <th>Slug</th>
                                 <th>Hành động</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($categories as $category)
                                 <tr>
-                                    <th scope="row">{{ $category['dm_id'] }}</th>
-                                    <td>{{ $category['dm_ten'] }}</td>
-                                        @if($category['dm_idcha'] == 0)
-                                        <td class="text-danger">
-                                            Danh mục cha
-                                        </td>
-                                        @else
-                                            @foreach($category_parent as $parent)
-                                                @if($parent['dm_id'] == $category['dm_idcha'])
-                                                <td class="text-primary">
-                                                    {{ $parent['dm_ten'] }}
-                                                </td>
-                                                @endif
-                                            @endforeach
-                                         @endif
-                                    <td>{{ $category['dm_mota'] }}</td>
+                                    <th scope="row">{{ $category['dmbv_id'] }}</th>
+                                    <td>{{ $category['dmbv_ten'] }}</td>
+                                    <td>{{ $category['dmbv_mota'] }}</td>
+                                    <td>{{ $category['dmbv_slug'] }}</td>
                                     <td>
-                                        <a href="{{ route('admin.cate.edit', ['id' => $category->dm_id]) }}" class="btn btn-info">Chỉnh sửa</a>
+                                        <a href="{{ route('admin.cate_posts.edit', ['id' => $category->dmbv_id]) }}" class="btn btn-info">Chỉnh sửa</a>
 {{--                                        <a onclick="return confirm('Bạn có chắc chắn muốn xóa danh mục này không?')" href="{{ route('admin.cate.delete', ['id' => $category->dm_id]) }}" class="btn btn-danger">Xóa</a>--}}
-                                        <a href="{{ route('admin.cate.delete', ['id' => $category->dm_id]) }}" class="btn btn-danger delete-cate" data-url="{{ route('admin.cate.delete', ['id' => $category->dm_id]) }}" >Xóa</a>
+                                        <a href="{{ route('admin.cate_posts.delete', ['id' => $category->dmbv_id]) }}" class="btn btn-danger delete-cate" data-url="{{ route('admin.cate_posts.delete', ['id' => $category->dmbv_id]) }}" >Xóa</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -63,7 +51,7 @@
                 </div>
 
             </div> <!-- end card -->
-            {{$categories->links()}}
+{{--            {{$categories->links()}}--}}
         </div> <!-- end col -->
 
     </div>

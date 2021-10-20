@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Brian2694\Toastr\Toastr;
 class HomeController extends Controller
 {
     /**

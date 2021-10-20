@@ -12,6 +12,7 @@ use App\Models\TypeProduct;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
 class ReceiptController extends Controller
 {
     private $receipt;
@@ -127,14 +128,12 @@ class ReceiptController extends Controller
 
     public function checkQuantity(Request $request)
     {
-
         if ($request->idsp && $request->soluong) {
             $product = $this->product->find($request->idsp);
             if ($product) {
                 $check = 0;
                 if ($product->sp_soluong >= $request->soluong) {
                     $check = 1;
-
                 }
                 return response()->json($check);
             }
@@ -143,7 +142,8 @@ class ReceiptController extends Controller
 
     public function store(Request $request)
     {
-//        Session::forget('product');
+//        dd(Session::get('product'));
+        //Session::forget('product');
         $data = [
             'pnh_ten' => $request->name,
             'pnh_tongcong' => $request->sum,
@@ -156,12 +156,14 @@ class ReceiptController extends Controller
         $chitiet = Session::get('product');
         if ($chitiet) {
             foreach ($chitiet as $item) {
+                $product = Product::find($item['id']);
                 $this->receiptdetail->create([
-                    'sp_id' => $item['idsp'],
+                    'sp_id' => $item['id'],
                     'pnh_id' => $phieunhap->pnh_id,
                     'soluong' => $item['quantity'],
                     'soluonggoc' => $item['quantity'],
                     'giagoc' => $item['price'],
+                    'giabanra' => $product->sp_giabanra,
                 ]);
             }
             Session::forget('product');
@@ -175,5 +177,118 @@ class ReceiptController extends Controller
             $receipt = $this->receipt->find($request->id);
             return view('admin.nhacungcap.receipt.chitiet',compact('receipt'))->render();
         }
+    }
+
+    public function select(Request $request){
+       $products = Product::where('ncc_id',$request->id)->get();
+       return response()->json([
+          'code' => 200,
+          'output' => view('admin.nhacungcap.receipt.select',compact('products'))->render(),
+       ],200);
+    }
+
+    public function add(Request $request){
+        if($request){
+            $product = Product::find($request->id);
+            $session = Session::get('product');
+            $sum = 0;
+                if (!isset($session[$request->id])) {
+                    $session[$request->id] = [
+                        'id' => $request->id,
+                        'quantity' => $request->qty,
+                        'price' => $request->price,
+                        'total' => $request->qty * $request->price,
+                    ];
+                }
+            Session::put('product', $session);
+            $session_product = Session::get('product');
+            foreach ($session_product as $item){
+                $sum += $item['total'];
+            }
+            $name = '<strong class="text-primary">'.$product->sp_ten.'</strong><br>';
+            return response()->json([
+                'code' => 200,
+                'sum' => number_format($sum),
+                'name' => $name,
+                'qty' => $request->qty,
+                'price' => number_format($request->price),
+            ]);
+        }
+    }
+
+    public function deleteProduct(Request $request){
+        if($request->id){
+            $sum =0;
+
+            $session = Session::get('product');
+            unset($session[$request->id]);
+            Session::put('product',$session);
+
+            $session_new = Session::get('product');
+            foreach ($session_new as $item){
+                $sum += $item['total'];
+            }
+
+            return response()->json([
+                'code' => 200,
+                'sum' => number_format($sum),
+            ],200);
+        }
+
+    }
+
+    public function edit($id){
+        $receipt = Receipt::find($id);
+        return view('admin.nhacungcap.receipt.edit',compact('receipt'));
+    }
+
+    public function update(Request $request,$id){
+        Receipt::find($id)->update([
+            'pnh_ten' => $request->name,
+        ]);
+
+        return redirect()->route('sup.receipt.list');
+    }
+    public function listProductReceipt(Request $request){
+        $receipt = Receipt::find($request->id);
+        return response()->json([
+           'code' => 200,
+           'output' => view('admin.nhacungcap.receipt.chitietchinhsua',compact('receipt'))->render(),
+        ]);
+    }
+
+    public function saveUpdateProductReceipt(Request $request){
+        $sum = 0;
+        $receipt_detail = ReceiptDetail::find($request->idReceiptDetail)->update([
+            'soluong' => $request->qty,
+            'soluonggoc' => $request->qty,
+            'giagoc' => $request->price,
+        ]);
+        $receipt = Receipt::find($request->idReceipt);
+        foreach ($receipt->receipt_detail as $detail) {
+            $sum += $detail->giagoc * $detail->soluong;
+        }
+        $receipt = Receipt::find($request->idReceipt)->update([
+           'pnh_tongcong' => number_format($sum),
+        ]);
+
+        return response()->json([
+           'code' => 200,
+           'sum' => number_format($sum),
+        ]);
+    }
+
+    public function delete(Request $request){
+        $receipt = Receipt::find($request->id);
+
+        foreach ($receipt->receipt_detail as $detail){
+            ReceiptDetail::find($detail->ctpn_id)->delete();
+        }
+
+        $receipt = Receipt::find($request->id)->delete();
+
+        return response()->json([
+            'code' => 200,
+        ]);
     }
 }

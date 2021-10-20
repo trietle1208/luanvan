@@ -13,7 +13,7 @@ class PostsAdd extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,20 @@ class PostsAdd extends FormRequest
     public function rules()
     {
         return [
-            //
+            'bv_ten' => 'required|max:255',
+            'parent' => 'required',
+            'desc' => 'required',
+            'contentpost' => 'required',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Vui lòng không để trống mục tên của tên bài viết.',
+            'desc.required' => 'Vui lòng không để trống mục tóm tắt của bài viết',
+            'contentpost.required' => 'Vui lòng không để trống mục nội dung của bài viết.',
+            'parent.required' => 'Vui lòng không để trống mục danh mục của bài viết.',
         ];
     }
 }

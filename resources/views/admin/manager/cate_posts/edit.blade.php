@@ -8,7 +8,7 @@
     <div class="col-lg-12 pt-5">
         <div class="card">
             <div class="card-body">
-                <h2 class="header-title text-center">CẬP NHẬT DANH MỤC SẢN PHẨM</h2>
+                <h2 class="header-title text-center">CẬP NHẬT DANH MỤC BÀI VIẾT</h2>
                 <?php
                 $message = Session::get('message');
                 if($message)
@@ -28,7 +28,7 @@
                         </div>
                     @endif
                 </div>
-                <form class="form-horizontal" action="{{ route('admin.cate.update', ['id' => $category->dm_id]) }}" method="post">
+                <form class="form-horizontal" action="{{ route('admin.cate_posts.update', ['id' => $category->dmbv_id]) }}" method="post">
                     @csrf
                     <div class="row mb-3">
                         <label class="col-4 col-xl-3 col-form-label">Nhập tên danh mục:</label>
@@ -36,17 +36,8 @@
                             <input type="text" class="form-control" id="inputPassword3"
                                    name="dm_ten"
                                    required
-                                   value="{{ $category['dm_ten'] }}"
+                                   value="{{ $category['dmbv_ten'] }}"
                                    placeholder="Nhập vào tên danh mục muốn tạo">
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label for="inputEmail3" class="col-4 col-xl-3 col-form-label">Chọn danh mục cha:</label>
-                        <div class="col-8 col-xl-9">
-                            <select class="form-select" name="parent">
-                                <option value="0">--- Chọn danh mục cha ---</option>
-                                {!! $htmlOption !!}
-                            </select>
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -55,7 +46,7 @@
                             <input type="text" class="form-control" id="inputPassword5"
                                    name="desc"
                                    required
-                                   value="{{ $category['dm_mota'] }}"
+                                   value="{{ $category['dmbv_mota'] }}"
                                    placeholder="Nhập vào mô tả của danh mục">
                         </div>
                     </div>

@@ -13,7 +13,10 @@ class ThemKhoaNgoaiNccIdVaoBangShipper extends Migration
      */
     public function up()
     {
-        //
+        Schema::table('shipper', function (Blueprint $table) {
+            $table->bigInteger('ncc_id')->unsigned()->nullable();
+            $table->foreign('ncc_id')->references('ncc_id')->on('nhacungcap');
+        });
     }
 
     /**

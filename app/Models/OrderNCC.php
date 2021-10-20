@@ -18,6 +18,9 @@ class OrderNCC extends Model
         'mgg_id',
         'tongtien',
         'trangthai',
+        'gh_id',
+        'thoigiangiaohang',
+        'thoigiannhanhang',
     ];
 
     public function orderAdmin(){
@@ -31,4 +34,13 @@ class OrderNCC extends Model
     public function voucher(){
         return $this->belongsTo(Voucher::class, 'mgg_id', 'mgg_id');
     }
+
+    public function ncc(){
+        return $this->belongsTo(Manufacture::class,'ncc_id','ncc_id');
+    }
+
+    public function shipper(){
+        return $this->belongsTo(User::class,'gh_id','id');
+    }
+
 }

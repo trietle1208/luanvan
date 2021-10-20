@@ -13,8 +13,12 @@ class TaoBangDanhMucBaiViet extends Migration
      */
     public function up()
     {
-        Schema::table('danhmucbaiviet', function (Blueprint $table) {
-            //
+        Schema::create('danhmucbaiviet', function (Blueprint $table) {
+            $table->id('dmbv_id');
+            $table->string('dmbv_ten',50);
+            $table->text('dmbv_mota');
+            $table->string('dm_slug',150)->nullable();
+            $table->timestamps();
         });
     }
 

@@ -21,7 +21,7 @@ class Address extends Model
     ];
 
     public function order() {
-        return $this->hasMany(Order::class,'dc_id','dc_id');
+        return $this->hasMany(Order::class,'dc_id','dc_id')->orderBy('dh_thoigiandathang','DESC');
     }
 
     public function customer() {

@@ -17,7 +17,8 @@ class ReceiptDetail extends Model
         'pnh_id',
         'soluong',
         'giagoc',
-        'soluonggoc'
+        'soluonggoc',
+        'giabanra',
     ];
     public function product() {
         return $this->belongsTo(Product::class,'sp_id','sp_id');

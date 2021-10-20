@@ -16,21 +16,20 @@
         <div class="col-lg-4 col-xl-4">
             <div class="card text-center">
                 <div class="card-body">
-                    <img src="" class="rounded-circle avatar-lg img-thumbnail"
+                    <img src="{{ $name->info->tt_hinhanh ?? asset('assets/images/avt_null.jpg') }}" class="rounded-circle avatar-lg img-thumbnail"
                          alt="profile-image">
 
-                    <h4 class="mb-0">Geneva McKnight</h4>
-                    <p class="text-muted">@webdesigner</p>
+                    <h4 class="mb-0">{{ $name->name }}</h4>
 
                     <button type="button" class="btn btn-success btn-xs waves-effect mb-2 waves-light">Follow</button>
                     <button type="button" class="btn btn-danger btn-xs waves-effect mb-2 waves-light">Message</button>
 
                     <div class="text-start mt-3">
-                        <p class="text-muted mb-2 font-13"><strong>Họ và tên:</strong> <span class="ms-2">Geneva D. McKnight</span></p>
+                        <p class="text-muted mb-2 font-13"><strong>Họ và tên:</strong> <span class="ms-2">{{ $name->name }}</span></p>
 
                         <p class="text-muted mb-2 font-13"><strong>Số điện thoại :</strong><span class="ms-2">(123) 123 1234</span></p>
 
-                        <p class="text-muted mb-2 font-13"><strong>Email :</strong> <span class="ms-2">user@email.domain</span></p>
+                        <p class="text-muted mb-2 font-13"><strong>Email :</strong> <span class="ms-2">{{ $name->email }}</span></p>
 
                         <p class="text-muted mb-1 font-13"><strong>Địa chỉ :</strong> <span class="ms-2">USA</span></p>
                     </div>
@@ -59,8 +58,8 @@
 
                         <!-- end timeline content-->
 
-                        <div class="" id="">
-                            <form action="{{ route('sup.account.store_info') }}" method="post">
+                        <div>
+                            <form action="{{ route('sup.account.store_info') }}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <h5 class="mb-4 text-uppercase"><i class="mdi mdi-account-circle me-1"></i> Thông tin cá nhân</h5>
                                 <div class="row">
@@ -140,6 +139,16 @@
                                             @foreach($roles as $role)
                                             <strong>- {{ $role }}</strong><br>
                                             @endforeach
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="useremail" class="form-label">Hình đại diện</label><br>
+                                            <input type="file" class="form-control"
+                                                   required
+                                                   name="image"
+                                                   value="{{ $name->info->tt_hinhanh ?? '' }}"
+                                                   placeholder="Nhập vào họ và tên">
                                         </div>
                                     </div>
 

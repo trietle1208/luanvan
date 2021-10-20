@@ -64,6 +64,27 @@
                                             <input type="password" required name="password" placeholder="Mật khẩu" />
 
                                             <button type="submit" class="btn btn-default">Đăng nhập</button>
+                                            <style type="text/css">
+                                                ul.list-login {
+                                                    margin-top: 10px;
+                                                    padding: 0;
+                                                }
+
+                                                ul.list-login li{
+                                                    display: inline;
+                                                    margin: 5px;
+                                                }
+                                            </style>
+                                            <ul class="list-login">
+                                                <li>
+                                                    <a href="{{ route('customer.loginGoogle') }}"><img alt="Đăng nhập bằng Google" src="{{ asset('assets/images/gmail.png') }}" style="width: 40px ; height: 40px"></a>
+                                                </li>
+                                                <li>
+                                                    <a href="{{ route('customer.loginFacebook') }}"><img alt="Đăng nhập bằng Facebook" src="{{ asset('assets/images/fb.png') }}"style="width: 40px ; height: 40px"></a>
+                                                </li>
+                                            </ul>
+
+
                                         </form>
                                     </div><!--/login form-->
                                 </div>

@@ -14,7 +14,7 @@ class AddColumnNccIdAtTableRoles extends Migration
     public function up()
     {
         Schema::table('roles', function (Blueprint $table) {
-            //
+            $table->foreignId('ncc_id')->constrained('nhacungcap')->references('ncc_id');
         });
     }
 
@@ -26,7 +26,7 @@ class AddColumnNccIdAtTableRoles extends Migration
     public function down()
     {
         Schema::table('roles', function (Blueprint $table) {
-            //
+            $table->dropForeign(['ncc_id']);
         });
     }
 }

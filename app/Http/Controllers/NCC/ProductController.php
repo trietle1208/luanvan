@@ -159,7 +159,7 @@ class ProductController extends Controller
                 if ($request->idProduct == null)
                 {
                     $output .= '<input class="thongso" type="checkbox" data-key="'.$key.'" >'.$para->ts_tenthongso.'</input></br></br>
-                    <input type="text" class="chitiet" name="chitietthongso[]" data-key="'.$key.'" readonly>
+                    <input type="text" class="form-control-sm chitiet" name="chitietthongso[]" data-key="'.$key.'" readonly>
                     <input type="hidden" name="thongso[]" value="'.$para->ts_id.'"></br></br>';
                 }
                 else {
@@ -175,7 +175,7 @@ class ProductController extends Controller
                         $readonly = 'readonly';
                     }
                     $output .= '<input class="thongso" type="checkbox" '.$check.' data-key="'.$key.'" >'.$para->ts_tenthongso.'</input></br></br>
-                    <input type="text" class="chitiet" name="chitietthongso[]" value="'.$chitietthongso.'" data-key="'.$key.'" '.$readonly.'>
+                    <input type="text" class="form-control-sm chitiet" name="chitietthongso[]" value="'.$chitietthongso.'" data-key="'.$key.'" '.$readonly.'>
                     <input type="hidden" name="thongso[]" value="'.$para->ts_id.'"></br></br>';
                 }
 

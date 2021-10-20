@@ -43,14 +43,85 @@
                                     @endif
                                     <td>{{ number_format($order['tongtien']) }} VNĐ</td>
                                     <td>{{ $order['created_at'] }}</td>
+                                    <style>
+                                        .chooseShipper {
+                                            background-color: #6CB4FD;
+                                            color: white;
+                                        }
+                                    </style>
                                     @if($order['trangthai'] == 0)
-                                        <td class="text-center"><button data-id="{{ $order->dhncc_id }}" data-key="{{ $order->orderAdmin->dh_id }}" class="btn btn-sm btn-danger changeStatusOrder"><i class="fe-thumbs-down text-center icon_{{ $order->dhncc_id }}"></i></button></td>
-                                    @else
+                                        <td class="text-center">
+                                            <button data-id="{{ $order->dhncc_id }}"
+                                                    data-key="{{ $order->orderAdmin->dh_id }}"
+                                                    data-idNCC="{{ $order->ncc_id }}"
+                                                    class="btn btn-sm btn-danger changeStatusOrder">
+                                                    <i class="fe-thumbs-down text-center icon_{{ $order->dhncc_id }}"></i>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <a href="" data-id="{{ $order->dhncc_id }}" class="btn btn-primary order-detail">Chi tiết</a>
+                                            <div class="dropdown shipper" style="display: none">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    Chọn Shipper
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                    @foreach($shipper as $ship)
+                                                        @if($ship->hasRole('Quản Lý Giao Hàng'))
+                                                            <li>
+                                                                <a class="dropdown-item {{ $order->gh_id == $ship->id ? 'chooseShipper' : 'selecteShipper' }}"
+                                                                   data-id="{{ $ship->id }}"
+                                                                   data-key="{{ $order->dhncc_id }}"
+                                                                   data-url="{{ route('sup.order.chooseShipper') }}">{{ $ship->name }}
+                                                                </a>
+                                                            </li>
+                                                        @endif
+                                                    @endforeach
+
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    @elseif($order['trangthai'] == 1)
                                         <td class="text-center"><button class="btn btn-sm btn-success "><i class="fe-thumbs-up text-center"></i></button></td>
+                                        <td>
+                                            <a href="" data-id="{{ $order->dhncc_id }}" class="btn btn-primary order-detail">Chi tiết</a>
+                                            <div class="dropdown shipper" style="display: inline-block">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    Chọn Shipper
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                    @foreach($shipper as $ship)
+                                                        @if($ship->hasRole('Quản Lý Giao Hàng'))
+                                                        <li>
+                                                            <a class="dropdown-item {{ $order->gh_id == $ship->id ? 'chooseShipper' : 'selecteShipper' }}"
+                                                               data-id="{{ $ship->id }}"
+                                                               data-key="{{ $order->dhncc_id }}"
+                                                               data-url="{{ route('sup.order.chooseShipper') }}">{{ $ship->name }}
+                                                            </a>
+                                                        </li>
+                                                        @endif
+                                                    @endforeach
+
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    @elseif($order['trangthai'] == 3)
+                                        <td class="text-center"><strong class="text-primary">Đang giao hàng</strong></td>
+                                        <td>
+                                            <a href="" data-id="{{ $order->dhncc_id }}" class="btn btn-primary order-detail">Chi tiết</a>
+                                        </td>
+                                    @elseif($order['trangthai'] == 4)
+                                        <td class="text-center"><strong class="text-success">Hoàn thành</strong></td>
+                                        <td>
+                                            <a href="" data-id="{{ $order->dhncc_id }}" class="btn btn-primary order-detail">Chi tiết</a>
+                                        </td>
+                                    @elseif($order['trangthai'] == 5)
+                                        <td class="text-center"><strong class="text-success">Đã hoàn thành</strong></td>
+                                        <td>
+                                            <a href="" data-id="{{ $order->dhncc_id }}" class="btn btn-primary order-detail">Chi tiết</a>
+                                        </td>
+                                    @else
+                                        <td class="text-center"><strong class="text-danger">Đã hủy</strong></td>
                                     @endif
-                                    <td>
-                                        <a href="" data-id="{{ $order->dhncc_id }}" class="btn btn-primary order-detail">Chi tiết</a>
-                                    </td>
                                 </tr>
                             @endforeach
                             </tbody>
@@ -60,7 +131,7 @@
                     </div> <!-- end table-responsive-->
                 </div>
             </div> <!-- end card -->
-                    {{ $orders->links() }}
+{{--                    {{ $orders->links() }}--}}
         </div> <!-- end col -->
 
     </div>

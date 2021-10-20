@@ -18,4 +18,7 @@ class DetailPara extends Model
         'chitietthongso',
     ];
 
+    public function product(){
+        return $this->belongsTo(Product::class,'sp_id','sp_id');
+    }
 }

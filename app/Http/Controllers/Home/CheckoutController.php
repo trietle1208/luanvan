@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Home;
 use App\Http\Controllers\Controller;
 use App\Models\Address;
 use App\Models\Brand;
+use App\Models\CatePosts;
 use App\Models\City;
 use App\Models\DanhMuc;
 use App\Models\Order;
@@ -15,7 +16,7 @@ use App\Models\Shipping;
 use App\Models\Ward;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Session;
+use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
 
 class CheckoutController extends Controller
@@ -36,20 +37,20 @@ class CheckoutController extends Controller
                         }
                 }
             }
+            $cateposts = CatePosts::all();
             $total = $subtotal - $discount;
             $shipping = Shipping::orderBy('ht_id','DESC')->get();
             $city = City::orderBy('tp_id','ASC')->get();
             $address = Address::where('kh_id',Session::get('customer_id'))->orderBy('dc_id','DESC')->get();
-            return view('home.product.cart.checkout',compact('total','shipping','city','address','carts','subtotal','total','discount'));
+            return view('home.product.cart.checkout',compact('total','shipping','city','address','carts','subtotal','total','discount','cateposts'));
         }else{
+            $cateposts = CatePosts::all();
             $shipping = Shipping::orderBy('ht_id','DESC')->get();
             $city = City::orderBy('tp_id','ASC')->get();
             $address = Address::where('kh_id',Session::get('customer_id'))->orderBy('dc_id','DESC')->get();
-            return view('home.product.cart.checkout',compact('shipping','city','address'));
+            return view('home.product.cart.checkout',compact('shipping','city','address','cateposts'));
         }
-
     }
-
     public function selectAdd(Request $request) {
         $output = '';
         if($request->attr == 'city') {
@@ -117,9 +118,15 @@ class CheckoutController extends Controller
             $address = Address::where('kh_id',$user)->orderBy('dc_id','DESC')->get();
             foreach ($address as $add){
                 if($add->dc_id == $data) {
-                    $output .= '<option selected value="'.$add->dc_id.'">'.$add->dc_sonha.'</option>';
+                    $output .= '<div class="chooseAddress">
+                                    <input type="radio" name="address" checked>
+                                    <span class="labelAddress">'.$add->dc_sonha.'</span>
+                                </div>';
                 }else{
-                    $output .= '<option value="'.$add->dc_id.'">'.$add->dc_sonha.'</option>';
+                    $output .= '<div class="chooseAddress">
+                                    <input type="radio" name="address">
+                                    <span class="labelAddress">'.$add->dc_sonha.'</span>
+                                </div>';
                 }
             }
             $fee = Address::find($data)->ward->province->city->phivanchuyen;
@@ -185,6 +192,8 @@ class CheckoutController extends Controller
                 'dh_thoigiandathang' => $dt,
                 'ht_id' => $request->ship,
                 'dc_id' => $request->address,
+                'created_at' => $dt,
+                'updated_at' => $dt,
             ]);
 
             //lay tong tien va id_mgg
@@ -213,6 +222,8 @@ class CheckoutController extends Controller
                     'ncc_id' => $key,
                     'mgg_id' => $voucher_id[$key],
                     'tongtien' => $total_product_ncc[$key],
+                    'created_at' => $dt,
+                    'updated_at' => $dt,
                     'trangthai' => 0,
                 ]);
                 }else{

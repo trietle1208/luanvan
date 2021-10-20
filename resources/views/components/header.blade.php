@@ -36,13 +36,25 @@
                 </div>
                 <div class="col-sm-8">
                     <div class="shop-menu pull-right">
+                        <style>
+                            .nav navbar-nav li{
+                                cursor : pointer;
+                            }
+                        </style>
                         <ul class="nav navbar-nav">
+                            @if(Session::get('customer_id') || Session::get('admin_id'))
                             <li><a href="{{ route('customer.profile') }}"><i class="fa fa-user"></i> Thông tin cá nhân</a></li>
-                            <li><a href="#"><i class="fa fa-star"></i> Yêu thích</a></li>
+                            <li><a style="cursor: pointer" class="showWishlist" data-id="{{ Session::get('customer_id') }}"><i class="fa fa-star"></i> Yêu thích</a></li>
+                            @endif
+{{--                            @if(Session::get('customer_id'))--}}
+{{--                            @else--}}
+{{--                                <li><a href="{{ route('customer.index') }}"><i class="fa fa-star"></i> Yêu thích</a></li>--}}
+{{--                            @endif--}}
+
                             <li><a href="{{ route('checkout.index') }}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
                             <li><a href="{{ route('product.showCart') }}"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a></li>
                             <li>
-                                @if(Session::get('customer_id'))
+                                @if(Session::get('customer_id') || Session::get('admin_id'))
                                     <a href="{{ route('customer.logout') }}"><i class="fa fa-lock"></i> Đăng xuất</a>
                                 @else
                                     <a href="{{ route('customer.index') }}"><i class="fa fa-lock"></i> Đăng nhập</a>
@@ -69,7 +81,7 @@
                     </div>
                     <div class="mainmenu pull-left">
                         <ul class="nav navbar-nav collapse navbar-collapse">
-                            <li><a href="{{ route('trangchu') }}" class="active">Home</a></li>
+                            <li><a href="{{ route('trangchu') }}" class="active">Trang chủ</a></li>
                             <li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
                                 <ul role="menu" class="sub-menu">
                                     <li><a href="shop.html">Products</a></li>
@@ -79,10 +91,11 @@
                                     <li><a href="login.html">Login</a></li>
                                 </ul>
                             </li>
-                            <li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
+                            <li class="dropdown"><a href="#">Tin Tức<i class="fa fa-angle-down"></i></a>
                                 <ul role="menu" class="sub-menu">
-                                    <li><a href="blog.html">Blog List</a></li>
-                                    <li><a href="blog-single.html">Blog Single</a></li>
+                                    @foreach($cateposts as $item)
+                                    <li><a href="{{ route('posts.index',['slug' => $item->dmbv_slug]) }}">{{ $item->dmbv_ten }}</a></li>
+                                    @endforeach
                                 </ul>
                             </li>
                             <li><a href="404.html">404</a></li>
@@ -91,9 +104,14 @@
                     </div>
                 </div>
                 <div class="col-sm-3">
-                    <div class="search_box pull-right">
-                        <input type="text" placeholder="Search"/>
-                    </div>
+                    <form action="{{ route('search') }}" method="post" id="search-form">
+                        @csrf
+                        <input id="input-search" type="text" name="name" placeholder="Search"/>
+{{--                        <div class="search_box pull-right">--}}
+{{--                            <input id="input-search" type="text" name="name" placeholder="Search"/>--}}
+{{--                        </div>--}}
+                    </form>
+
                 </div>
             </div>
         </div>

@@ -28,51 +28,36 @@ Phiếu nhập hàng
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <label class="col-4 col-xl-3 col-form-label">Chọn các sản phẩm cho phiếu:</label>
+                    <label class="col-4 col-xl-3 col-form-label">Chọn sản phẩm vào phiếu nhập :</label>
                     <div class="col-8 col-xl-9">
-                        <input type="text" class="form-control select-name" name="" placeholder="Tìm kiếm theo tên sản phẩm"><br>
-                        <select class="form-select select-cate"  name="type">
-                            <option value="">--- Tìm theo danh mục ---</option>
-                            @foreach($categories as $category)
-                                <option class="select-cate" value="{{ $category->dm_id }}" data-id="{{$category->dm_id }}">{{ $category->dm_ten }}</option>
-                            @endforeach
-                        </select><br>
-                        <select class="form-select select-brand" name="type">
-                            <option value="">--- Tìm theo thương hiệu ---</option>
-                            @foreach($brands as $brand)
-                                <option class="select-brand" value="{{ $brand->th_id }}" data-id="{{$brand->th_id }}">{{ $brand->th_ten }}</option>
-                            @endforeach
-                        </select><br>
-
-                    </div>
-
-                </div>
-                <div class="row mb-3">
-                    <label class="col-4 col-xl-3 col-form-label">Sản phẩm được lọc:</label>
-                    <div class="col-8 col-xl-9 result-product" style="max-height: 300px; overflow: auto">
-
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label class="col-4 col-xl-3 col-form-label">Các sản phẩm được chọn:</label>
-                    <div class="col-8 col-xl-9 select-product">
-                        <?php
-                            $product = Session::get('product');
-                        ?>
-                        @if(isset($product))
-                            @foreach($product as $item)
-                                <span>{{ $item['idsp'] }}</span>
-                            @endforeach
-                        @endif
+                        <button class="btn btn-success selectReceipt" data-id="{{ auth()->user()->ncc_id }}" data-url="{{ route('sup.receipt.select') }}">Danh sách sản phẩm</button>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <label class="col-4 col-xl-3 col-form-label">Tổng tiền của phiếu:</label>
                     <div class="col-8 col-xl-9">
+                        @if(Session::get('product'))
+                            @php
+                                $sum = 0;
+                            @endphp
+                            @foreach(Session::get('product') as $item)
+                                @php
+                                    $sum += $item['total'];
+                                @endphp
+                            @endforeach
+                            <input type="text" class="form-control sum" id="inputPassword3"
+                                   name="sum"
+                                   value="{{ number_format($sum) }}"
+                                   placeholder="Tổng số tiền của tất cả sản phẩm được chọn"
+                                   readonly>
+                        @else
                         <input type="text" class="form-control sum" id="inputPassword3"
                                name="sum"
                                placeholder="Tổng số tiền của tất cả sản phẩm được chọn"
-                        readonly>
+                               readonly>
+                        @endif
+
+
                     </div>
                 </div>
                 <div class="justify-content-end row">
@@ -85,4 +70,7 @@ Phiếu nhập hàng
         </div>  <!-- end card-body -->
     </div>  <!-- end card -->
 </div>  <!-- end col -->
+<div class="modal fade" id="danhsachsanpham">
+
+</div>
 @endsection
