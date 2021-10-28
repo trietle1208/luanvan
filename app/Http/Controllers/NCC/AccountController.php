@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Spatie\Permission\Models\Role;
-use Brian2694\Toastr\Toastr;
+use Brian2694\Toastr\Facades\Toastr;
 
 class AccountController extends Controller
 {

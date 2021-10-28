@@ -284,7 +284,7 @@
                                 <a href="{{ route('sup.order.statistical') }}">Thống kê đơn hàng</a>
                             </li>
                             <li>
-                                <a href="icons-two-tone.html">Thống kê doanh thu</a>
+                                <a href="{{ route('sup.sales.statistical') }}">Thống kê doanh thu</a>
                             </li>
                             <li>
                                 <a href="icons-two-tone.html">Thống kê sản phẩm</a>

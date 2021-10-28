@@ -27,7 +27,6 @@ class CheckoutController extends Controller
         $discount = 0;
         $total = 0;
         $carts = Session::get('cart');
-        dd($carts);
         if($carts){
             foreach ($carts as $key => $cart) {
                 foreach ($cart as $key => $product) {

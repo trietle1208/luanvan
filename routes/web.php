@@ -796,15 +796,19 @@ Route::middleware(['auth','verified'])->group(function () {
                 ]);
                 Route::get('/phieunhaphang', [
                     'as' => 'receipt.statistical',
-                    'uses' => 'App\Http\Controllers\NCC\StatisticalController@receipt'
+                    'uses' => 'App\Http\Controllers\NCC\ReceiptStatisticalController@index'
                 ]);
                 Route::get('/phieunhaphangtheothang', [
                     'as' => 'receipt.fillReceiptByMonth',
-                    'uses' => 'App\Http\Controllers\NCC\StatisticalController@fillReceiptByMonth'
+                    'uses' => 'App\Http\Controllers\NCC\ReceiptStatisticalController@fillReceiptByMonth'
                 ]);
                 Route::get('/phieunhaphangtheoquy', [
                     'as' => 'receipt.fillReceiptBy3Month',
-                    'uses' => 'App\Http\Controllers\NCC\StatisticalController@fillReceiptBy3Month'
+                    'uses' => 'App\Http\Controllers\NCC\ReceiptStatisticalController@fillReceiptBy3Month'
+                ]);
+                Route::get('/doanhthu', [
+                    'as' => 'sales.statistical',
+                    'uses' => 'App\Http\Controllers\NCC\SalesStatisticalController@index'
                 ]);
             });
         });
