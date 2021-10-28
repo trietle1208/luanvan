@@ -40,12 +40,13 @@ class HomeController extends Controller
     }
 
     public function search(Request $request){
+        $cateposts = CatePosts::all();
         $key_word = $request->name;
         $sliders = Slide::all();
         $categories = DanhMuc::all();
         $brands = Brand::all();
         $products = Product::where('sp_ten','like','%'.$key_word.'%')->get();
-        return view('home.components.search',compact('sliders','categories','brands','products'));
+        return view('home.components.search',compact('sliders','categories','brands','products','cateposts'));
     }
 
     public function loadProduct(Request $request){
@@ -147,7 +148,7 @@ class HomeController extends Controller
         }else{
             return response()->json([
                 'code' => 400,
-                'none' => '<strong class="text-center">Không tìm thấy sản phẩm theo yêu cầu!</strong>',
+                'none' => '<strong style="text-align : center">Không tìm thấy sản phẩm theo yêu cầu!</strong>',
             ]);
         }
     }

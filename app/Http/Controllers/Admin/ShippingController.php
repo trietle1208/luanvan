@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ShippingAdd;
 use App\Models\Shipping;
 use App\Traits\StorageImageTrait;
+use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Session;
 class ShippingController extends Controller
@@ -37,7 +38,7 @@ class ShippingController extends Controller
 
         $this->shipping->create($dataCreate);
 
-        Session::put('message','Thêm hình thức thành công !!!');
+        Toastr::success('Thêm hình thức thành công!','Thành công');
         return redirect()->route('admin.ship.create');
     }
 

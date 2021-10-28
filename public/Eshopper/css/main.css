@@ -1023,7 +1023,7 @@ h2.title {
   -moz-border-left-colors: none;
   -moz-border-right-colors: none;
   -moz-border-top-colors: none;
-  background-color: #FE980F;
+  background-color: #47a447;
   border:0px;
   color: #FFFFFF;
   cursor: default;
@@ -1371,7 +1371,7 @@ h2.title {
 }
 
 #reviews button {
-  background: #FE980F;
+  background: #47a447;
   border: 0 none;
   border-radius: 0;
   color: #FFFFFF;

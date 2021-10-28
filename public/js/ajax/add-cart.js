@@ -16,6 +16,21 @@ $(document).on('click','.add-cart', function () {
                     'Xin chúc mừng',
                     'success',
                 )
+            }else if(data.code == 400) {
+                if(data.count == 0){
+                    Swal.fire(
+                        'Cảnh báo',
+                        'Đã vượt quá số lượng trong kho, hiện tại bạn không thể tiếp tục thêm sản phẩm này vào giỏ hàng!',
+                        'error',
+                    )
+                }else {
+                    Swal.fire(
+                        'Cảnh báo',
+                        'Đã vượt quá số lượng trong kho, hiện bạn chỉ có thể thêm được ' + data.count + ' sản phẩm nữa vào giỏ hàng!',
+                        'error',
+                    )
+                }
+                
             }
         },
     })
@@ -48,8 +63,14 @@ $(document).on('click','.add-to-cartAjax', function (e) {
                     closeOnConfirm: false,
                 },
                 function (){
-                   window.location.href = "{{URL::to('/giohang')}}";
+                   window.location.href = "/giohang";
                 });
+            }else if(data.code == 400){
+                Swal.fire(
+                    'Cảnh báo',
+                    'Đã vượt quá số lượng trong kho, hiện tại bạn không thể tiếp tục thêm sản phẩm này vào giỏ hàng!',
+                    'error',
+                )
             }
         },
     })

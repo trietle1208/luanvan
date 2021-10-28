@@ -6,12 +6,6 @@
         </div>
         <div class="modal-body">
             <h3 class="text-center">ĐƠN HÀNG {{ $order->orderAdmin->dh_madonhang }}</h3>
-            <div class="col-6" style="padding-left: 30px; font-size: 15px">
-                <label>Người đặt hàng : {{ $order->orderAdmin->address->customer->kh_hovaten }}</label><br><br>
-                <label>Email : {{ $order->orderAdmin->address->customer->kh_email }}</label><br><br>
-                <label>Địa chỉ : {{ $order->orderAdmin->address->dc_sonha }}</label><br><br>
-                <label>Số điện thoại : {{ $order->orderAdmin->address->customer->kh_sdt }}</label><br>
-            </div>
             <table class="table">
                 <thead>
                 <tr>
@@ -50,6 +44,23 @@
                 @endforeach
                 </tbody>
             </table>
+            <div class="row">
+                <div class="col-6">
+                <ul>
+                    <li><strong>Người đặt hàng :</strong> {{ $order->orderAdmin->address->customer->kh_hovaten }}</li>
+                    <li><strong>Email :</strong> {{ $order->orderAdmin->address->customer->kh_email }}</li>
+                    <li><strong>Địa chỉ :</strong> {{ $order->orderAdmin->address->dc_sonha }}</li>
+                    <li><strong>Số điện thoại :</strong> {{ $order->orderAdmin->address->customer->kh_sdt }}</li>
+                </ul>
+            </div>
+            <div class="col-6">
+                <ul>
+                    <li><strong>Người giao hàng :</strong> {{ $order->shipper->name ?? 'Chưa cập nhật'}}</li>
+                    <li><strong>Thời gian giao hàng :</strong> {{ $order->thoigiangiaohang ?? 'Chưa cập nhật' }} </li>
+                    <li><strong>Thời gian nhận hàng :</strong> {{ $order->thoigiannhanhang ?? 'Chưa cập nhật' }}</li>
+                </ul>
+            </div>
+            </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

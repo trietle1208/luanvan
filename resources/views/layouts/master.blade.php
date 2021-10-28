@@ -22,8 +22,8 @@
     @include('components.header')
     @yield('content')
     @include('components.footer')
+    @include('components.modal-login')
     <!-- Messenger Plugin chat Code -->
-
     <div id="fb-root"></div>
 
     <!-- Your Plugin chat code -->
@@ -41,7 +41,7 @@
                 version          : 'v12.0'
             });
         };
-
+        
         (function(d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
             if (d.getElementById(id)) return;

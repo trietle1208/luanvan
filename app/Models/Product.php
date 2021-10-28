@@ -73,6 +73,6 @@ class Product extends Model
     }
 
     public function comment(){
-        return $this->hasMany(Comment::class,'sp_id','sp_id');
+        return $this->hasMany(Comment::class,'sp_id','sp_id')->where('trangthai',1);
     }
 }

@@ -52,14 +52,6 @@
                                         <h2>Đăng nhập với tài khoản của bạn</h2>
                                         <form action="{{ route('customer.login') }}" method="POST">
                                             @csrf
-                                            <?php
-                                            $message = Session::get('message');
-                                            if($message)
-                                            {
-                                                echo '<span class="text-primary">'.$message.'</span>';
-                                                Session::put('message',null);
-                                            }
-                                            ?>
                                             <input type="email" name="name" required placeholder="Tên tài khoản email" />
                                             <input type="password" required name="password" placeholder="Mật khẩu" />
 

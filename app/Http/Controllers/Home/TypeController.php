@@ -35,6 +35,7 @@ class TypeController extends Controller
 
     public function fillterPara(Request $request){
         $id_customer = Session::get('customer_id');
+        $id_type = (int)$request->id_type;
         if($request->arr_value){
             $detail_paras = DetailPara::whereIn('chitietthongso',$request->arr_value)->with('product', function ($query){
                 $query->where('sp_trangthai',1);
@@ -44,12 +45,12 @@ class TypeController extends Controller
                 $wishlist = Wishlist::where('kh_id', $id_customer)->get();
                 return response()->json([
                     'code' => 200,
-                    'output' => view('home.product.type.fill',compact('detail_paras','customer','wishlist'))->render(),
+                    'output' => view('home.product.type.fill',compact('detail_paras','customer','wishlist','id_type'))->render(),
                 ]);
             }else{
                 return response()->json([
                     'code' => 200,
-                    'output' => view('home.product.type.fill',compact('detail_paras'))->render(),
+                    'output' => view('home.product.type.fill',compact('detail_paras','id_type'))->render(),
                 ]);
             }
         }else{

@@ -10,14 +10,6 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="header-title text-center">DANH SÁCH PHIẾU NHẬP HÀNG</h4>
-                    <?php
-                    $message = Session::get('message');
-                    if($message)
-                    {
-                        echo '<span class="text-primary">'.$message.'</span>';
-                        Session::put('message',null);
-                    }
-                    ?>
                     <div class="table-responsive">
                         <table class="table align-middle">
                             <thead class="table align-middle">
@@ -36,7 +28,7 @@
                                     <th scope="row">{{ $receipt['pnh_id'] }}</th>
                                     <td>{{ $receipt['pnh_ten'] }}</td>
 
-                                    <td>{{ $receipt['pnh_tongcong'] }} VND</td>
+                                    <td>{{ number_format($receipt['pnh_tongcong']) }} VND</td>
                                     @if($receipt['pnh_trangthai'] == 0)
                                     <td class="text-danger">Chưa duyệt</td>
                                     <td class="text-danger">Chưa duyệt</td>

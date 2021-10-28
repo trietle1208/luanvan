@@ -17,7 +17,7 @@
         Bạn vui lòng kiểm tra lại các sản phẩm và vào đường link bên dưới để xác nhận nhận hàng dùm bên mình nhé!
         Chúng tôi mong sẽ được phục vụ bạn nhiều lần nữa. Chúc bạn có một ngày tuyệt vời!
     </p>
-    <a href="{{ route('customer.profile') }}" target="_blank">Xác nhận nhận hàng</a>
+    <a href="{{ route('trangchu') }}" target="_blank">Xác nhận nhận hàng</a>
     <p>
         Trân trọng,
     </p>

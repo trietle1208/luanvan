@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\SlideAdd;
 use App\Models\Slide;
 use App\Traits\StorageImageTrait;
+use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Session;
 
@@ -37,7 +38,7 @@ class SlideController extends Controller
 
         $this->slide->create($dataCreate);
 
-        Session::put('message','Thêm Slide thành công !!!');
+        Toastr::success('Thêm Slide thành công!','Thành công');
         return redirect()->route('admin.slide.create');
     }
 
@@ -58,7 +59,7 @@ class SlideController extends Controller
         }
 
         $this->slide->find($id)->update($dataUpdate);
-        Session::put('message','Cập nhật Slide thành công !!!');
+        Toastr::success('Cập nhật Slide thành công!','Thành công');
         return redirect()->route('admin.slide.list');
     }
     public function checkName(Request $request) {

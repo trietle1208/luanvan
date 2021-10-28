@@ -9,14 +9,7 @@
         <div class="card">
             <div class="card-body">
                 <h2 class="header-title text-center">CẬP NHẬT VAI TRÒ</h2>
-                <?php
-                $message = Session::get('message');
-                if($message)
-                {
-                    echo '<span class="text-primary">'.$message.'</span>';
-                    Session::put('message',null);
-                }
-                ?>
+                
                 <form class="form-horizontal" action="{{ route('sup.role.update',['id' => $role->id]) }}" method="post">
                     @csrf
                     <div class="row mb-3">

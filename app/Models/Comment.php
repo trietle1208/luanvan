@@ -20,6 +20,7 @@ class Comment extends Model
         'sp_id',
         'kh_id',
         'us_id',
+        'trangthai',
     ];
 
     public function customer() {
@@ -28,5 +29,9 @@ class Comment extends Model
 
     public function admin(){
         return $this->belongsTo(User::class,'us_id','id');
+    }
+
+    public function product(){
+        return $this->belongsTo(Product::class,'sp_id','sp_id');
     }
 }

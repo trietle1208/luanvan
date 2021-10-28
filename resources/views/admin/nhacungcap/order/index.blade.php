@@ -10,14 +10,6 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="header-title text-center">DANH SÁCH ĐƠN HÀNG</h4>
-                    <?php
-                    $message = Session::get('message');
-                    if($message)
-                    {
-                        echo '<span class="text-primary">'.$message.'</span>';
-                        Session::put('message',null);
-                    }
-                    ?>
                     <div class="table-responsive">
                         <table class="table mb-0">
                             <thead class="table-light">
@@ -59,6 +51,7 @@
                                             </button>
                                         </td>
                                         <td>
+                                            <!-- <a href="" data-id="{{ $order->dhncc_id }}" class="btn btn-primary order-detail">Chi tiết</a> -->
                                             <a href="" data-id="{{ $order->dhncc_id }}" class="btn btn-primary order-detail">Chi tiết</a>
                                             <div class="dropdown shipper" style="display: none">
                                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -110,7 +103,7 @@
                                             <a href="" data-id="{{ $order->dhncc_id }}" class="btn btn-primary order-detail">Chi tiết</a>
                                         </td>
                                     @elseif($order['trangthai'] == 4)
-                                        <td class="text-center"><strong class="text-success">Hoàn thành</strong></td>
+                                        <td class="text-center"><strong class="text-secondary">Đã giao</strong></td>
                                         <td>
                                             <a href="" data-id="{{ $order->dhncc_id }}" class="btn btn-primary order-detail">Chi tiết</a>
                                         </td>
@@ -131,11 +124,14 @@
                     </div> <!-- end table-responsive-->
                 </div>
             </div> <!-- end card -->
-{{--                    {{ $orders->links() }}--}}
         </div> <!-- end col -->
 
     </div>
     <div class="modal fade" id="chitietdonhang" tabindex="-1">
+
+    </div>
+
+    <div class="modal fade" id="chitietdonhangUblod" tabindex="-1">
 
     </div>
 @endsection

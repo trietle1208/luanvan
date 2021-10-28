@@ -8,7 +8,8 @@ use App\Models\Product;
 use App\Traits\StorageImageTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Session;
+use Illuminate\Support\Facades\Session;
+
 
 class DiscountController extends Controller
 {

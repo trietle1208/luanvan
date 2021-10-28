@@ -7,6 +7,7 @@ use App\Http\Requests\ParaAdd;
 use Illuminate\Http\Request;
 use App\Models\Parameter;
 use App\Models\TypeProduct;
+use Brian2694\Toastr\Facades\Toastr;
 use Session;
 
 class ParameterController extends Controller
@@ -35,7 +36,7 @@ class ParameterController extends Controller
             'loaisp_id' => $request->parent,
         ]);
 
-        Session::put('message','Thêm thông số thành công !!!');
+        Toastr::success('Thêm thông số thành công!','Thành công');
         return redirect()->route('admin.para.create');
     }
 
@@ -61,7 +62,7 @@ class ParameterController extends Controller
             'loaisp_id' => $request->parent,
         ]);
 
-        Session::put('message','Cập nhật thông số thành công !!!');
+        Toastr::success('Cập nhật thông số thành công!','Thành công');
         return redirect()->route('admin.para.list');
     }
 

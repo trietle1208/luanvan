@@ -10,14 +10,7 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="header-title text-center">DANH SÁCH TÀI KHOẢN</h4>
-                    <?php
-                    $message = Session::get('message');
-                    if($message)
-                    {
-                        echo '<span class="text-primary">'.$message.'</span>';
-                        Session::put('message',null);
-                    }
-                    ?>
+                    
                     <div class="table-responsive">
                         <table class="table mb-0">
                             <thead class="table-light">
@@ -36,7 +29,7 @@
                                     <td>{{ $user['email'] }}</td>
                                     @if($user['trangthai'] == 0)
                                     <td>
-                                        <button class="btn btn-info change-status" id="status_{{ $user['id'] }}" data-id= "{{ $user['id'] }}">Duyệt</button>
+                                        <button class="btn btn-info change-status" id="status_{{ $user['id'] }}" data-id= "{{ $user['id'] }}" data-url="{{ route('admin.account.ajax') }}">Duyệt</button>
                                     </td>
                                     @else
                                         <td>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TypeAdd;
 use App\Models\DanhMuc;
 use App\Models\TypeProduct;
+use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Session;
 
@@ -35,7 +36,7 @@ class TypeProductController extends Controller
             'loaisp_slug' => str_slug($request->loaisp_ten),
         ]);
 
-        Session::put('message','Thêm loại thành công !!!');
+        Toastr::success('Thêm loại thành công!','Thành công');
         return redirect()->route('admin.type.create');
     }
 
@@ -52,7 +53,7 @@ class TypeProductController extends Controller
             'dm_id' => $request->parent,
             'dm_slug' => str_slug($request->name),
         ]);
-        Session::put('message','Cập nhật loại thành công !!!');
+        Toastr::success('Cập nhật loại thành công!','Thành công');
         return redirect()->route('admin.type.list');
     }
     public function checkName(Request $request) {

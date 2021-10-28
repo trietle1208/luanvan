@@ -46,18 +46,15 @@
                             <li><a href="{{ route('customer.profile') }}"><i class="fa fa-user"></i> Thông tin cá nhân</a></li>
                             <li><a style="cursor: pointer" class="showWishlist" data-id="{{ Session::get('customer_id') }}"><i class="fa fa-star"></i> Yêu thích</a></li>
                             @endif
-{{--                            @if(Session::get('customer_id'))--}}
-{{--                            @else--}}
-{{--                                <li><a href="{{ route('customer.index') }}"><i class="fa fa-star"></i> Yêu thích</a></li>--}}
-{{--                            @endif--}}
-
                             <li><a href="{{ route('checkout.index') }}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
                             <li><a href="{{ route('product.showCart') }}"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a></li>
                             <li>
                                 @if(Session::get('customer_id') || Session::get('admin_id'))
                                     <a href="{{ route('customer.logout') }}"><i class="fa fa-lock"></i> Đăng xuất</a>
                                 @else
-                                    <a href="{{ route('customer.index') }}"><i class="fa fa-lock"></i> Đăng nhập</a>
+                                    <!-- <a href="{{ route('customer.index') }}"><i class="fa fa-lock"></i> Đăng nhập</a> -->
+
+                                    <a href="" class="modalLogin"><i class="fa fa-lock"></i> Đăng nhập</a>
                                 @endif
                             </li>
                         </ul>
@@ -104,12 +101,10 @@
                     </div>
                 </div>
                 <div class="col-sm-3">
-                    <form action="{{ route('search') }}" method="post" id="search-form">
+                    <form action="{{ route('search') }}" method="get" id="search-form">
                         @csrf
                         <input id="input-search" type="text" name="name" placeholder="Search"/>
-{{--                        <div class="search_box pull-right">--}}
-{{--                            <input id="input-search" type="text" name="name" placeholder="Search"/>--}}
-{{--                        </div>--}}
+
                     </form>
 
                 </div>

@@ -7,6 +7,7 @@ use App\Http\Requests\CategoryAdd;
 use Illuminate\Http\Request;
 use App\Models\DanhMuc;
 use App\Component\Recusive;
+use Brian2694\Toastr\Facades\Toastr;
 use Session;
 
 class CategoryController extends Controller
@@ -34,7 +35,7 @@ class CategoryController extends Controller
            'dm_slug' => str_slug($request->dm_ten),
         ]);
 
-        Session::put('message','Thêm danh mục thành công !!!');
+        Toastr::success('Thêm danh mục thành công!','Thành công');
         return redirect()->route('admin.cate.create');
     }
     public function getCategory($parentId) {
@@ -58,7 +59,7 @@ class CategoryController extends Controller
             'dm_mota' => $request->desc,
             'dm_slug' => str_slug($request->dm_ten),
         ]);
-
+        Toastr::success('Cập nhật danh mục thành công!','Thành công');
         return redirect()->route('admin.cate.list');
     }
     public function delete($id) {

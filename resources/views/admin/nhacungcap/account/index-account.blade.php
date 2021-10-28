@@ -10,14 +10,6 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="header-title text-center">DANH SÁCH TÀI KHOẢN</h4>
-                    <?php
-                    $message = Session::get('message');
-                    if($message)
-                    {
-                        echo '<span class="text-primary">'.$message.'</span>';
-                        Session::put('message',null);
-                    }
-                    ?>
                     <div class="table-responsive">
                         <table class="table mb-0">
                             <thead class="table-light">
@@ -43,8 +35,11 @@
                                     <td class="text-danger">Tạm khóa</td>
                                     @endif
                                     <td>
-                                        <a href="" class="btn btn-primary ">Chi tiết</a>
-                                        <a href="" class="btn btn-info ">Chỉnh sửa</a>
+                                        <a href="" class="btn btn-primary detailAccount" 
+                                            data-id="{{ $account['id'] }}" 
+                                            data-url="{{ route('sup.account.detailAccount') }}">
+                                            Chi tiết
+                                        </a>
                                         <a href="{{ route('sup.account.addRole',['id' =>$account['id'] ]) }}" class="btn btn-success add-role-account">Gán vai trò</a>
                                         <a href="" class="btn btn-danger ">Khóa tài khoản</a>
                                     </td>
@@ -61,6 +56,10 @@
 
     </div>
     <div class="modal fade" id="ganvaitro" tabindex="-1">
+
+    </div>
+
+    <div class="modal fade" id="chitiettaikhoan" tabindex="-1">
 
     </div>
 @endsection

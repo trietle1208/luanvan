@@ -56,7 +56,7 @@
                                     @foreach($type->parameter as $para)
                                         <h5><strong style="color: #1b4b72">{{ $para->ts_tenthongso }}</strong></h5>
                                         @foreach($para->detail_para->unique('chitietthongso') as $detail)
-                                            <div class="para_detail" data-url="{{ route('fillterPara') }}" >
+                                            <div class="para_detail" data-url="{{ route('fillterPara') }}" data-idType = "{{ $id }}">
                                                 <input type="checkbox" hidden class="value_para" value="{{ $detail->chitietthongso }}">
                                                 <span>{{ $detail->chitietthongso }}</span>
                                             </div>

@@ -32,87 +32,83 @@
                             </div><!--/breadcrums-->
                             @if(Session::get('customer_id'))
                                 <div class="register-req">
-                                    <p>Vui lòng điền đầy đủ thông tin cá nhân!!!</p>
+                                    <span>Vui lòng điền đầy đủ thông tin cá nhân!!!</span>
                                 </div><!--/register-req-->
-                                <div class="shopper-informations">
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="row">
-                                                <div class="shopper-info">
-                                                    <p>Thông Tin Cá Nhân</p>
-                                                    <form action="{{ route('checkout.payment') }}" method="POST">
-                                                        @csrf
-                                                        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-                                                        <label>Họ và tên : </label>
-                                                        <input class="form-control name fullname" name="name1" data-url="{{ route('checkout.payment') }}" type="text" placeholder="Nhập vào họ và tên">
-                                                        <label>Chọn địa chỉ giao hàng : </label>
-{{--                                                        <select class="form-control address" style="margin-top: 5px" data-url="{{ route('checkout.addShip') }}" name="address">--}}
-{{--                                                            <option>--- Chọn địa chỉ ---</option>--}}
-{{--                                                            @foreach($address as $key => $add)--}}
-{{--                                                                <option value="{{ $add->dc_id }}"  {{ $key == 0 ? 'selected' : '' }}>{{ $add->dc_sonha }}</option>--}}
-{{--                                                            @endforeach--}}
-{{--                                                        </select>--}}
-                                                        <style>
-                                                            .chooseAddress {
-                                                                padding: 10px 0px 10px 10px;
-                                                                margin-bottom: 10px;
-                                                                border: solid 1px;
-                                                                border-radius: 50px;
-                                                            }
-                                                            .labelAddress {
-                                                                padding-left: 20px;
-                                                            }
+                                <form action="{{ route('checkout.payment') }}" method="POST">
+                                    @csrf
+                                    <div class="shopper-informations">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="row">
+                                                    <div class="shopper-info">
+                                                        <p>Thông Tin Cá Nhân</p>
+                                                        
+                                                            <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                                                            <label>Họ và tên : </label>
+                                                            <input class="form-control name fullname" name="name1" data-url="{{ route('checkout.payment') }}" type="text" placeholder="Nhập vào họ và tên">
+                                                            <label>Chọn địa chỉ giao hàng : </label>
+                                                            <style>
+                                                                .chooseAddress {
+                                                                    padding: 10px 0px 10px 10px;
+                                                                    margin-bottom: 10px;
+                                                                    border: solid 1px;
+                                                                    border-color: #ccc;
+                                                                    border-radius: 50px;
+                                                                }
 
+                                                                .chooseAddress span {
+                                                                    font-weight: 600;
+                                                                }
+                    
+                                                                .labelAddress {
+                                                                    padding-left: 20px;
+                                                                }
+                                                            </style>
+                                                            <div class="allAddress">
+                                                                @foreach($address as $key => $add)
+                                                                    <div class="chooseAddress">
+                                                                        <input type="radio" data-id="{{ $add->dc_id }}" data-url="{{ route('checkout.addShip') }}" name="address" {{ $key == 0 ? 'checked' : '' }}>
+                                                                        <span class="labelAddress">{{ $add->dc_sonha }}</span>
+                                                                    </div>
+                                                                @endforeach
+                                                            </div>
 
-                                                            .chooseAddress:checked {
-                                                                background-color: #5bc0de;
-                                                            }
-                                                        </style>
-                                                        <div class="allAddress">
-                                                            @foreach($address as $key => $add)
-                                                                <div class="chooseAddress">
-                                                                    <input type="radio" data-id="{{ $add->dc_id }}" data-url="{{ route('checkout.addShip') }}" name="address" {{ $key == 0 ? 'checked' : '' }}>
-                                                                    <span class="labelAddress">{{ $add->dc_sonha }}</span>
-                                                                </div>
+                                                            <br>
+                                                            <button class="btn btn-info" data-toggle="modal" data-target="#exampleModalLong">
+                                                                Thêm địa chỉ giao hàng
+                                                            </button>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <div class="row">
+                                                    <div class="shopper-info">
+                                                        <p>Hình Thức Thanh Toán</p>
+                                                        <div class="row">
+                                                            @foreach($shipping as $ship)
+                                                            <div class="col-sm-5">
+                                                                <input class="shipping shipping_{{ $ship->ht_id }}" type="radio" value="{{ $ship->ht_id }}" name="ship">
+                                                                <strong>{{ $ship->ht_ten }}</strong><br><br>
+                                                                <img src="{{ $ship->ht_hinhanh }}" class="img-fluid" style="height: 200px; width: 200px; text-align: center"><br>
+
+                                                            </div>
                                                             @endforeach
                                                         </div>
-
-                                                        <br>
-                                                        <button class="btn btn-info" data-toggle="modal" data-target="#exampleModalLong">
-                                                            Thêm địa chỉ giao hàng
-                                                        </button>
-                                                </div>
-                                            </div>
-                                            <br>
-                                            <div class="row">
-                                                <div class="shopper-info">
-                                                    <p>Hình Thức Thanh Toán</p>
-                                                    <div class="row">
-                                                        @foreach($shipping as $ship)
-                                                        <div class="col-sm-5">
-                                                            <input class="shipping shipping_{{ $ship->ht_id }}" type="radio" value="{{ $ship->ht_id }}" name="ship">
-                                                            <strong>{{ $ship->ht_ten }}</strong><br><br>
-                                                            <img src="{{ $ship->ht_hinhanh }}" class="img-fluid" style="height: 200px; width: 200px; text-align: center"><br>
+                                                        <div id="paypal-button" class="paypal col-sm-7" style="float: right">
 
                                                         </div>
-                                                        @endforeach
-                                                    </div>
-                                                    <div id="paypal-button" class="paypal col-sm-7" style="float: right">
-
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="order-message">
-                                                <p>Ghi chú đơn hàng</p>
-                                                <br>
-                                                <textarea class="form-control" name="note" id="note"  placeholder="Thêm ghi chú cho đơn hàng" rows="16"></textarea>
+                                            <div class="col-sm-6">
+                                                <div class="order-message">
+                                                    <p>Ghi chú đơn hàng</p>
+                                                    <br>
+                                                    <textarea class="form-control" name="note" id="note"  placeholder="Thêm ghi chú cho đơn hàng" rows="16"></textarea>
 
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
                                 </form>
                             @else
                             <div class="register-req">
@@ -205,7 +201,7 @@
                                                     </tr>
                                                     <tr class="shipping-cost">
                                                         <td>Phí vận chuyển:</td>
-                                                        <td class="fee">0 VNĐ</td>
+                                                        <td class="fee">{{ number_format($fee_ship) }} VNĐ</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Tổng tiền:</td>

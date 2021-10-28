@@ -22,10 +22,12 @@ use Carbon\Carbon;
 class CheckoutController extends Controller
 {
     public function index() {
+
         $subtotal = 0;
         $discount = 0;
         $total = 0;
         $carts = Session::get('cart');
+        dd($carts);
         if($carts){
             foreach ($carts as $key => $cart) {
                 foreach ($cart as $key => $product) {
@@ -37,12 +39,13 @@ class CheckoutController extends Controller
                         }
                 }
             }
-            $cateposts = CatePosts::all();
-            $total = $subtotal - $discount;
+            $cateposts = CatePosts::all();   
             $shipping = Shipping::orderBy('ht_id','DESC')->get();
             $city = City::orderBy('tp_id','ASC')->get();
             $address = Address::where('kh_id',Session::get('customer_id'))->orderBy('dc_id','DESC')->get();
-            return view('home.product.cart.checkout',compact('total','shipping','city','address','carts','subtotal','total','discount','cateposts'));
+            $fee_ship = $address[0]->ward->province->city->phivanchuyen;
+            $total = $subtotal - $discount + $fee_ship;
+            return view('home.product.cart.checkout',compact('total','shipping','city','address','carts','subtotal','total','discount','cateposts','fee_ship'));
         }else{
             $cateposts = CatePosts::all();
             $shipping = Shipping::orderBy('ht_id','DESC')->get();
@@ -198,19 +201,15 @@ class CheckoutController extends Controller
 
             //lay tong tien va id_mgg
             foreach ($carts as $key => $cart){
-//                $total = 0;
-//                $cart[0]['id'];
-//                foreach ($cart as $key1 => $product) {
-//                    if ($key1 == 0) continue;
-//                    $total += $product['total'];
-//                }
                 $total_product_ncc[$key] = 0;
                 $voucher_id[$key] = '';
+                $voucher_price[$key] = 0;
                 foreach ($cart as $key2 => $item) {
                     if($key2 != 0) {
                         $total_product_ncc[$key] += $item['total'];
                     }else if($key2 == 0 && count($item) > 0){
                         $voucher_id[$key] = (int)$item['id'];
+                        $voucher_price[$key] = (int)$item['voucherPrice'];
                     }
                 }
             }
@@ -221,7 +220,7 @@ class CheckoutController extends Controller
                     'dh_id' => $dataCreateOrder,
                     'ncc_id' => $key,
                     'mgg_id' => $voucher_id[$key],
-                    'tongtien' => $total_product_ncc[$key],
+                    'tongtien' => $total_product_ncc[$key] - $voucher_price[$key],
                     'created_at' => $dt,
                     'updated_at' => $dt,
                     'trangthai' => 0,
@@ -250,7 +249,7 @@ class CheckoutController extends Controller
                             $dataCreateOrderDetail = OrderDetail::create([
                                 'dhncc_id' => $dataCreateOrderNCC,
                                 'sp_id' => $key2,
-                                'gia' => $item['price'],
+                                'gia' => $item['price_discount'],
                                 'soluong' => $item['qty'],
                             ]);
                         }

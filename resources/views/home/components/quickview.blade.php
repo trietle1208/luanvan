@@ -100,11 +100,10 @@
                 </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-{{--            <button type="button" class="btn btn-primary">Save changes</button>--}}
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
             <button
                 data-id="{{ $product->sp_id }}" data-key="{{ $product->ncc->ncc_id }}" data-qty="1" data-url="{{ route('product.addCart') }}"
-                class="btn btn-success add-to-cart add-to-cartAjax"><i class="fa fa-shopping-cart">
+                class="btn btn-success add-to-cartAjax"><i class="fa fa-shopping-cart">
                 </i>Thêm giỏ hàng
             </button>
         </div>

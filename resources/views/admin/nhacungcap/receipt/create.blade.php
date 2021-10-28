@@ -9,14 +9,6 @@ Phiếu nhập hàng
     <div class="card">
         <div class="card-body">
             <h2 class="header-title text-center">THÊM PHIẾU NHẬP HÀNG</h2>
-            <?php
-            $message = Session::get('message');
-            if($message)
-            {
-                echo '<span class="text-primary">'.$message.'</span>';
-                Session::put('message',null);
-            }
-            ?>
             <form class="form-horizontal" action="{{ route('sup.receipt.store') }}" method="post">
                 @csrf
                 <div class="row mb-3">
@@ -47,7 +39,7 @@ Phiếu nhập hàng
                             @endforeach
                             <input type="text" class="form-control sum" id="inputPassword3"
                                    name="sum"
-                                   value="{{ number_format($sum) }}"
+                                   value="{{ $sum }}"
                                    placeholder="Tổng số tiền của tất cả sản phẩm được chọn"
                                    readonly>
                         @else

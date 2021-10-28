@@ -15,6 +15,7 @@ use App\Models\OrderNCC;
 use App\Models\Product;
 use App\Models\Province;
 use App\Models\ReceiptDetail;
+use App\Models\Slide;
 use App\Models\Social;
 use App\Models\User;
 use App\Models\Ward;
@@ -32,14 +33,35 @@ class CustomerController extends Controller
 {
     use StorageImageTrait;
     public function index() {
-        $categories = DanhMuc::all();
-        $cateposts = CatePosts::all();
-        $brands = Brand::all();
-//        return view('home.customer.index', compact('categories','brands'));
-        return view('home.customer.login1.login', compact('categories','brands','cateposts'));
+        
+        return redirect()->route('trangchu');
     }
 
     public function register(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'kh_email' => 'required|exists:khachhang',
+            'pass' => 'required',
+            'phone' => 'required|numeric',
+            'sex' => 'required',
+            'date' => 'required|before: 18 years ago',
+        ], [
+            'name.required' => 'Vui lòng không để trống mục họ và tên.',
+            'kh_email.required' => 'Vui lòng không để trống mục tài khoản Email.',
+            'kh_email.exists' => 'Tên tài khoản đã được sử dụng.',
+            'pass.required' => 'Vui lòng không để trống mục mật khẩu.',
+            'phone.required' => 'Vui lòng không để trống mục số điện thoại.',
+            'phone.numeric' => 'Mục số điện thoại phải là kiểu số.',
+            'sex.required' => 'Mục giới tính không được để trống.',
+            'date.required' => 'Vui lòng không để trống mục ngày sinh.',
+            'date.before' => 'Bạn chưa đủ 18 tuổi để đăng kí tài khoản.',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'code' => 400,
+                'errors' => $validator->errors()
+            ]);
+        }
         $data = [
             'kh_hovaten' => $request->name,
             'kh_email' => $request->email,
@@ -54,7 +76,10 @@ class CustomerController extends Controller
         Session::put('customer_id',$customer);
         Session::put('customer_name',$request->name);
 
-        return redirect()->route('customer.index');
+        // return redirect()->route('customer.index');
+        return response()->json([
+            'code' => 200,
+        ]);
     }
 
     public function login(Request $request) {
@@ -63,16 +88,25 @@ class CustomerController extends Controller
         if($customer) {
             Session::put('customer_id',$customer->kh_id);
             Session::put('customer_name',$customer->kh_hovaten);
-            return redirect()->route('checkout.index');
+            // return redirect()->route('checkout.index');
+            return response()->json([
+                'code' => 200,
+            ],200);
         }
         else if($admin) {
             Session::put('admin_id',$admin->id);
             Session::put('admin_name',$admin->name);
-            return redirect()->route('trangchu');
+            // return redirect()->route('trangchu');
+            return response()->json([
+                'code' => 200,
+            ],200);
         }
         else{
             Session::put('message','Sai tên tài khoản hoặc mật khẩu');
-            return redirect()->route('customer.index');
+            // return redirect()->route('customer.index');
+            return response()->json([
+                'code' => 400,
+            ]);
         }
     }
 
@@ -360,13 +394,11 @@ class CustomerController extends Controller
             'sp_id' => $request->idsp,
             'kh_id' => $request->id,
             'us_id' => null,
-//            'created_at' => $dt,
-//            'updated_at' => $dt,
+            'trangthai' => 0,
         ]);
-//        $comment = Comment::find($data);
         return response()->json([
            'code' => 200,
-           'output' => view('home.customer.comment',compact('comment','dt','now'))->render(),
+        //    'output' => view('home.customer.comment',compact('comment','dt','now'))->render(),
         ],200);
     }
 
@@ -382,10 +414,8 @@ class CustomerController extends Controller
                 'sp_id' => $request->idsp,
                 'kh_id' => null,
                 'us_id' => $request->id,
-//                'created_at' => $dt,
-//                'updated_at' => $dt,
-            ]);
-//            $comment = Comment::find($data);
+                'trangthai' => 1,
+            ]);           
             return response()->json([
                 'code' => 200,
                 'output' => view('home.customer.repcomment',compact('comment','dt','now'))->render(),
@@ -401,13 +431,11 @@ class CustomerController extends Controller
                 'sp_id' => $request->idsp,
                 'kh_id' => $request->kh,
                 'us_id' => null,
-//                'created_at' => $dt,
-//                'updated_at' => $dt,
+                'trangthai' => 0,               
             ]);
-//            $comment = Comment::find($data);
             return response()->json([
                 'code' => 200,
-                'output' => view('home.customer.repcomment',compact('comment','dt','now'))->render(),
+                // 'output' => view('home.customer.repcomment',compact('comment','dt','now'))->render(),
             ],200);
         }
 
@@ -436,6 +464,7 @@ class CustomerController extends Controller
     public function confirmFinishOrder(Request $request){
         $order_up = OrderNCC::find($request->id)->update([
             'trangthai' => 5,
+            'thoigiannhanhang' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         $order_ncc = OrderNCC::find($request->id);
         $count = 0;

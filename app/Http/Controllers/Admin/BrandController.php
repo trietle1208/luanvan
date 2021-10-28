@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\BrandAdd;
 use App\Models\Brand;
 use App\Traits\StorageImageTrait;
+use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -40,7 +41,7 @@ class BrandController extends Controller
 
         $this->brand->create($dataCreate);
 
-        Session::put('message','Thêm thương hiệu thành công !!!');
+        Toastr::success('Thêm thương hiệu thành công!','Thành công');
         return redirect()->route('admin.brand.create');
     }
 
@@ -62,7 +63,7 @@ class BrandController extends Controller
         }
 
         $this->brand->find($id)->update($dataUpdate);
-        Session::put('message','Cập nhật thương hiệu thành công !!!');
+        Toastr::success('Cập thương hiệu danh mục thành công!','Thành công');
         return redirect()->route('admin.brand.list');
     }
 

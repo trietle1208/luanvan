@@ -8,6 +8,7 @@ use App\Http\Requests\ProductAdd;
 use App\Models\CatePosts;
 use App\Models\Posts;
 use App\Traits\StorageImageTrait;
+use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Session;
 class PostsController extends Controller
@@ -36,7 +37,7 @@ class PostsController extends Controller
             'bv_slug' => str_slug($request->bv_ten),
         ]);
 
-        Session::put('message','Thêm bài viết thành công !!!');
+        Toastr::success('Thêm bài viết thành công!','Thành công');
         return redirect()->route('admin.posts.create');
     }
 
@@ -58,7 +59,7 @@ class PostsController extends Controller
             'bv_slug' => str_slug($request->bv_ten),
         ]);
 
-        Session::put('message','Cập nhật bài viết thành công !!!');
+        Toastr::success('Cập nhật bài viết thành công!','Thành công');
         return redirect()->route('admin.posts.list');
     }
 }

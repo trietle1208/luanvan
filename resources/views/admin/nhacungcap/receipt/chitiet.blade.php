@@ -6,7 +6,7 @@
         </div>
         <div class="modal-body">
             <h3 class="text-center">{{$receipt->pnh_ten}}</h3>
-            <table class="table">
+            <!-- <table class="table">
                 <thead>
                 <tr>
                     <th scope="col">Người lập phiếu</th>
@@ -20,8 +20,28 @@
                 </tr>
 
                 </tbody>
-            </table>
-
+            </table> -->
+            <div class="row" style="padding-top: 15px">
+                <div class="col-3">
+                  <img src="{{ $receipt->ncc->ncc_hinhanh ?? '' }}" class="img-fuild" style="width: 150px ; height: 150px">  
+                </div>
+                <div class="col-5">
+                    <ul>
+                        <li><strong>Người lập phiếu : </strong>{{ $receipt->userNhap->name }}</li>
+                        <li><strong>Thuộc nhà cung cấp : </strong>{{ $receipt->ncc->ncc_ten }} </li>
+                        <li><strong>Ngày lập phiếu : </strong>{{ $receipt->created_at }} </li>
+                        <li><strong>Tổng cộng : </strong>{{ $receipt->pnh_tongcong }} VNĐ</li>
+                    </ul>
+                    
+                </div>
+                <div class="col-4">
+                    <ul>
+                        <li><strong>Người duyệt : </strong>{{ $receipt->userDuyet->name ?? 'Chưa cập nhật' }}</li>
+                        <li><strong>Ngày duyệt : </strong>{{ $receipt->pnh_ngayduyet ?? 'Chưa cập nhật' }} </li>
+                    </ul>
+                    
+                </div>
+            </div>
             <table class="table">
                 <thead>
                 <tr>

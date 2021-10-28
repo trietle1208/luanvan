@@ -24,7 +24,6 @@
 
         <!-- icons -->
         <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
-{{--        <link href="//cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">--}}
 
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/dt-1.11.3/datatables.min.css"/>
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css"/>
@@ -71,21 +70,23 @@
 
         <!-- Vendor js -->
         <script src="{{ asset('assets/js/vendor.min.js') }}"></script>
-
+        
         <!-- Plugins js-->
         <script src="{{ asset('assets/libs/flatpickr/flatpickr.min.js') }}"></script>
-        <script src="{{ asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
-
+        <!-- <script src="{{ asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script> -->
+        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+        <!-- <script src="https://apexcharts.com/samples/assets/irregular-data-series.js"></script>
+        <script src="https://apexcharts.com/samples/assets/ohlc.js"></script> -->
         <script src="{{ asset('assets/libs/selectize/js/standalone/selectize.min.js') }}"></script>
+        <!-- <script src="{{ asset('assets/js/pages/apexcharts.init.js') }}"></script> -->
 
         <!-- Dashboar 1 init js-->
         <script src="{{ asset('assets/js/pages/dashboard-1.init.js') }}"></script>
-
+        <script src="{{ asset('js/ajax/comment.js') }}"></script>
+        <!-- Chart -->
         <!-- App js-->
         <script src="{{ asset('assets/js/app.min.js') }}"></script>
         <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
-{{--        <script src="//cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>--}}
-{{--        <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>--}}
         <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.11.3/datatables.min.js"></script>
         <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
         <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
@@ -98,6 +99,9 @@
             CKEDITOR.replace('content_posts');
         </script>
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="{{ asset('js/chart/order.js') }}"></script>
+        <script src="{{ asset('js/chart/receipt.js') }}"></script>
+        <script src="{{ asset('js/admin/account/account.js') }}"></script>
         <script>
             $(document).ready( function () {
                 $('#category').DataTable();
@@ -109,13 +113,13 @@
                 $('.change-status').click(function (){
                     var id = $(this).data('id');
                     var that = $(this);
+                    var url = $(this).data('url');
                     var status = $('#status_' + id).val();
                     $.ajax({
-                        url : '{{ route('admin.account.ajax') }}',
+                        url : url,
                         method : 'GET',
                         data :{
                             'id':id,
-                            // '_token':$('input[name="_token"]').val()
                         },
                         success:function (data){
                             if(data == 'Đã duyệt'){
@@ -899,8 +903,10 @@
             },
             success:function (data)
             {
-                $('#chitietdonhang').html(data);
-                $('#chitietdonhang').modal('show');
+                // $('#chitietdonhang').html(data);
+                // $('#chitietdonhang').modal('show');
+                $('#chitietdonhangUblod').html(data);
+                $('#chitietdonhangUblod').modal('show');
             }
         })
     })
@@ -1048,9 +1054,6 @@
                     },
                     success : function (data) {
                         if(data.code == 200){
-                            {{--that.removeClass().addClass('btn btn-danger deleteProductReceipt')--}}
-                            {{--    .attr('data-url','{{ route('sup.receipt.deleteProduct') }}')--}}
-                            {{--    .attr('value',1).text('Bỏ chọn');--}}
                             that.parent().find('.deleteProductReceipt').css('display','block');
                             that.css('display','none');
                             $('.qty_' + id).attr('readonly',true);
@@ -1346,19 +1349,35 @@
                 },
                 success : function (data) {
                     if(data.code == 200){
-                        that.removeClass().addClass('btn btn-default').text('Chờ xác nhận');
+                        that.removeClass().addClass('btn btn-secondary').text('Chờ xác nhận');
                         toastr.success(data.message,data.title);
                     }
                 }
             })
         });
     </script>
-
+{{--     SELECT SHIPPER ORER --}}
     <script>
-        $(document).on('click','.checkMail',function (){
-            alert(1);
+        $(document).on('click','.detailAccount',function(e){
+            e.preventDefault();
+            var id = $(this).data('id');
+            var url = $(this).data('url');
+
+            $.ajax({
+                type : "GET",
+                url : url,
+                data : 
+                {
+                    'id' : id
+                },
+                success : function (data){
+                    if(data.code == 200) {
+                        $('#chitiettaikhoan').html(data.output);
+                        $('#chitiettaikhoan').modal('show');
+                    }
+                }
+            })
         })
     </script>
-{{--     SELECT SHIPPER ORER --}}
     </body>
 </html>

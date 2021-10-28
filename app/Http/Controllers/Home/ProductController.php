@@ -29,7 +29,7 @@ class ProductController extends Controller
         $receiptdetail = ReceiptDetail::where('sp_id',$product->sp_id)->orderBy('created_at','DESC')->first();
         $paradetail = DetailPara::where('sp_id',$product->sp_id)->get();
         $quantityProduct = $receiptdetail->soluong;
-        $comments = Comment::where('sp_id',$product->sp_id)->where('bl_idcha','=',null)->get();
+        $comments = Comment::where('sp_id',$product->sp_id)->where('bl_idcha','=',null)->where('trangthai',1)->get();
         if(!empty($comments)){
             Carbon::setLocale('vi');
             $now = Carbon::now('Asia/Ho_Chi_Minh');
@@ -107,7 +107,7 @@ class ProductController extends Controller
         }
     }
     public function addCart(Request $request) {
-
+        $qty_kho = ReceiptDetail::where('sp_id',$request->id)->orderBy('created_at','DESC')->first();
         $product = Product::findOrFail($request->id);
         $price_discount = $product->sp_giabanra;
         $id_discount = 0;
@@ -117,12 +117,20 @@ class ProductController extends Controller
         }
         $session_cart = Session::get('cart');
         if(isset($session_cart[$request->ncc_id][$request->id])) {
-            if($request->qty == 1) {
-                $session_cart[$request->ncc_id][$request->id]['qty'] = $session_cart[$request->ncc_id][$request->id]['qty'] + 1;
-            }else {
-                $session_cart[$request->ncc_id][$request->id]['qty'] = $session_cart[$request->ncc_id][$request->id]['qty'] + $request->qty;
+            if($session_cart[$request->ncc_id][$request->id]['qty'] + $request->qty > $qty_kho->soluong){
+                return response()->json([
+                    'code' => 400,
+                    'message' => 'success',
+                    'count' => $qty_kho->soluong - $session_cart[$request->ncc_id][$request->id]['qty'],
+                ]);
+            }else{
+                if($request->qty == 1) {
+                    $session_cart[$request->ncc_id][$request->id]['qty'] = $session_cart[$request->ncc_id][$request->id]['qty'] + 1;
+                }else {
+                    $session_cart[$request->ncc_id][$request->id]['qty'] = $session_cart[$request->ncc_id][$request->id]['qty'] + $request->qty;
+                }
+                $session_cart[$request->ncc_id][$request->id]['total'] = $session_cart[$request->ncc_id][$request->id]['total'] + ($request->qty * $session_cart[$request->ncc_id][$request->id]['price']);
             }
-            $session_cart[$request->ncc_id][$request->id]['total'] = $session_cart[$request->ncc_id][$request->id]['total'] + ($request->qty * $session_cart[$request->ncc_id][$request->id]['price']);
         }else {
             $session_cart[$request->ncc_id][$request->id] = [
                 'name' => $product->sp_ten,

@@ -1,5 +1,5 @@
 @foreach($detail_paras->unique('sp_id') as $detail_para)
-    @if($detail_para['product'] != null)
+    @if($detail_para['product'] != null && $detail_para['product']['loaisp_id'] == $id_type)
     <a href="{{ route('product.detail', ['ncc' => $detail_para['product']->ncc_id ,'slug' => $detail_para['product']->sp_slug]) }}">
         <div class="col-sm-4">
             <div class="product-image-wrapper">

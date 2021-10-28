@@ -15,7 +15,7 @@
     <section>
         <div class="container">
             <div class="row">
-                @include('components.side-bar')
+                @include('components.side-bar-basic')
 
                 <div class="col-sm-9 padding-right">
 

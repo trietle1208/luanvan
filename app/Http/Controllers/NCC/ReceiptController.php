@@ -120,7 +120,7 @@ class ReceiptController extends Controller
                 $sum += $item['total'];
             }
             return response()->json([
-                'sum' => number_format($sum),
+                'sum' => $sum,
                 'product' => $product_get,
             ]);
         }
@@ -208,7 +208,7 @@ class ReceiptController extends Controller
             $name = '<strong class="text-primary">'.$product->sp_ten.'</strong><br>';
             return response()->json([
                 'code' => 200,
-                'sum' => number_format($sum),
+                'sum' => $sum,
                 'name' => $name,
                 'qty' => $request->qty,
                 'price' => number_format($request->price),
@@ -231,7 +231,7 @@ class ReceiptController extends Controller
 
             return response()->json([
                 'code' => 200,
-                'sum' => number_format($sum),
+                'sum' => $sum,
             ],200);
         }
 
@@ -269,12 +269,12 @@ class ReceiptController extends Controller
             $sum += $detail->giagoc * $detail->soluong;
         }
         $receipt = Receipt::find($request->idReceipt)->update([
-           'pnh_tongcong' => number_format($sum),
+           'pnh_tongcong' => $sum,
         ]);
 
         return response()->json([
            'code' => 200,
-           'sum' => number_format($sum),
+           'sum' => $sum,
         ]);
     }
 

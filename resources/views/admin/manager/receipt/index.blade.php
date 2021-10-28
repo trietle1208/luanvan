@@ -10,14 +10,6 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="header-title text-center">DANH SÁCH PHIẾU NHẬP</h4>
-                    <?php
-                    $message = Session::get('message');
-                    if($message)
-                    {
-                        echo '<span class="text-primary">'.$message.'</span>';
-                        Session::put('message',null);
-                    }
-                    ?>
                     <div class="table-responsive">
                         <table class="table mb-0">
                             <thead class="table-light">
@@ -42,10 +34,14 @@
                                     <td>{{ $receipt->ncc->ncc_ten }}</td>
                                     @if($receipt['pnh_trangthai'] == 0)
                                         <td>
+                                            <button class="btn btn-primary detail" data-id= "{{ $receipt->pnh_id }}">Chi tiết</button>
+
                                             <button class="btn btn-info changeReceipt" data-id= "{{ $receipt->pnh_id }}">Duyệt</button>
                                         </td>
                                     @else
                                         <td>
+                                            <button class="btn btn-primary detail" data-id= "{{ $receipt->pnh_id }}">Chi tiết</button>
+
                                             <a href="" class="btn btn-success disabled">Đã duyệt</a>
                                         </td>
                                     @endif
@@ -63,5 +59,7 @@
         </div> <!-- end col -->
 
     </div>
+    <div class="modal fade" id="chitietphieu" tabindex="-1">
 
+    </div>
 @endsection

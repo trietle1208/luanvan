@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CatePostsAdd;
 use App\Models\CatePosts;
+use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Session;
 class CatePostsController extends Controller
@@ -25,7 +26,7 @@ class CatePostsController extends Controller
             'dmbv_slug' => str_slug($request->dm_ten),
         ]);
 
-        Session::put('message','Thêm danh mục bài viết thành công !!!');
+        Toastr::success('Thêm danh mục bài viết thành công!','Thành công');
         return redirect()->route('admin.cate_posts.create');
     }
 
@@ -41,7 +42,7 @@ class CatePostsController extends Controller
             'dmbv_mota' => $request->desc,
             'dmbv_slug' => str_slug($request->dm_ten),
         ]);
-
+        Toastr::success('Cập nhật danh mục bài viết thành công!','Thành công');
         return redirect()->route('admin.cate_posts.list');
     }
 }

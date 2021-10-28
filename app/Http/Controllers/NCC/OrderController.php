@@ -34,9 +34,27 @@ class OrderController extends Controller
 
     public function detail(Request $request){
         if($request->id){
+            $subtotal = 0;
+            $fee_ship = 0;
+            $voucher_price = 0;
             $details = OrderDetail::where('dhncc_id',$request->id)->get();
             $order = OrderNCC::findOrFail($request->id);
-            return view('admin.nhacungcap.order.detail',compact('details','order'))->render();
+            foreach ($details as $detail){
+                $subtotal += ($detail->gia * $detail->soluong);
+            }
+            if($order->mgg_id != null){
+                if($order->voucher->mgg_hinhthuc == 0)
+                {
+                    $voucher_price = $order->voucher->mgg_sotiengiam;
+                }
+                else
+                {
+                    $voucher_price = ($subtotal*$order->voucher->mgg_sotiengiam)/100;
+                }
+            }
+
+            $total = $order->tongtien;
+            return view('admin.nhacungcap.order.detail_order',compact('details','order','total','subtotal','voucher_price','fee_ship'))->render();
         }
     }
 
@@ -138,11 +156,10 @@ class OrderController extends Controller
             $message->to($to_email,$to_name)->subject('Xác nhận nhận hàng!');
             $message->from('lmtriet1208@gmail.com',$ncc_name['ncc_ten'])->subject('Xác nhận nhận hàng!');
         });
-
         return response()->json([
            'code' => 200,
            'message' => 'Xác nhận hoàn thành đơn hàng',
-            'title' => 'Thành công'
+           'title' => 'Thành công'
         ]);
     }
 }

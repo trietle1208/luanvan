@@ -200,14 +200,6 @@ $(document).on('click','.updateInfo',function (e){
 $(document).on('submit','#save-info',function (e){
     e.preventDefault();
     var form = new FormData(this);
-    // var id = $('.name').data('id');
-    // var name = $('.name').val();
-    // var phone = $( "input[type=text][name=phone]").val();
-    // var sex = $( "input[type=radio][name=sex]:checked").val();
-    // var date = $( "input[type=date][name=date]").val();
-    // var image = $( "input[type=file][name=image]").val();
-    // var _token = $('.token').val();
-    // var url = $('.name').data('url');
     $.ajax({
         url : $(this).attr('action'),
         type : 'POST',
@@ -275,4 +267,89 @@ $(document).on('click','.confirmFinishOder',function(e){
             }
         }
     });
+})
+
+$(document).on('click','.modalLogin',function (e){
+    e.preventDefault();
+    $('#modalLogin').modal('show');
+})
+
+$(document).on('click','.toRegister',function (e){
+    e.preventDefault();
+    var that = $(this);
+    $('#loginForm').css('display','none');
+    $('#regiterForm').css('display','block');
+})
+$(document).on('click','.toLogin',function (e){
+    e.preventDefault();
+    $('#loginForm').css('display','block');
+    $('#regiterForm').css('display','none');
+})
+
+$(document).on('submit','#btnLogin',function (e){
+    e.preventDefault();
+    var form = new FormData(this);
+    if(form.get('name') == '' || form.get('password') == ''){
+        Swal.fire(
+            'Cảnh báo',
+            'Vui lòng nhập đầy đủ thông tin đăng nhập',
+            'error',
+        )
+    }else{
+        $.ajax({
+            url : $(this).attr('action'),
+            type : 'POST',
+            data : form,
+            cache : false,
+            contentType : false,
+            processData : false,
+            success : function (data){
+                if(data.code == 200){
+                   location.href = "/trangchu";
+                }else if(data.code == 400){
+                    Swal.fire(
+                        'Cảnh báo',
+                        'Sai tên đăng nhập hoặc mật khẩu',
+                        'error',
+                    )
+                }
+            }
+        })
+    }
+    
+})
+
+$(document).on('submit','#btnRegister',function (e){
+    e.preventDefault();
+    var form = new FormData(this);
+    if(form.get('name') == '' || form.get('pass') == '' || form.get('email') == '' ||form.get('sex') == '' ||form.get('phone') == '' ||form.get('date') == ''){
+        Swal.fire(
+            'Cảnh báo',
+            'Vui lòng nhập đầy đủ thông tin đăng kí',
+            'error',
+        )
+    }else{
+        $.ajax({
+            url : $(this).attr('action'),
+            type : 'POST',
+            data : form,
+            cache : false,
+            contentType : false,
+            processData : false,
+            success : function (data){
+                if(data.code == 200){
+                   location.href = "/trangchu";
+                }else if(data.code == 400){
+                    $(".errors").html('');
+                    $.each(data.errors, function (key, value) {
+                    //    $('.'+key).text(value);
+                    //    $('.error').addClass('alert alert-danger');
+                       
+                       $(".errors").append('<div class="alert alert-error"><strong>'+ value +'</strong></div>');
+                    });
+                }
+            }
+        })
+    }
+    
 })

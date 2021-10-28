@@ -61,7 +61,7 @@
                                                     <button data-id="{{ $order->dh_id }}" data-url="{{ route('customer.deleteOrder') }}" class="btn btn-sm btn-danger deleteOrder">Hủy đơn hàng</button>
                                                     @endif
                                                 @endif
-                                                @if($order->dh_trangthai == 2)
+                                                @if($order->dh_trangthai == 1 || $order->dh_trangthai == 2 || $order->dh_trangthai == 3)
                                                     <style>
                                                         .follow a{
                                                             text-decoration: none;

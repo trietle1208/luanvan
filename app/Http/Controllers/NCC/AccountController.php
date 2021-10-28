@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Spatie\Permission\Models\Role;
-use Toastr;
+use Brian2694\Toastr\Toastr;
 
 class AccountController extends Controller
 {
@@ -116,4 +116,11 @@ class AccountController extends Controller
         return back();
     }
 
+    public function detailAccount(Request $request){
+        $account = User::find($request->id);
+        return response()->json([
+            'code' => 200,
+            'output' => view('admin.nhacungcap.account.detail',compact('account'))->render(),
+        ]);
+    }
 }

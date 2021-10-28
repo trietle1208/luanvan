@@ -45,19 +45,23 @@ Route::get('/email/verify', function () {
 
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
-
     return redirect('/home');
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
 Route::post('/email/verification-notification', function (Request $request) {
     $request->user()->sendEmailVerificationNotification();
-
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 Route::get('/taonhacungcap', function () {
     return view('admin.nhacungcap.create');
 });
+
+Route::get('/thongbao', [
+    'as' => 'notification.content',
+    'uses' => 'App\Http\Controllers\NCC\AccountController@notify'
+]);
+
 Route::post('/taonhacungcap', [App\Http\Controllers\Admin\AccountNCC::class, 'store'])->name('taonhacungcap');
 Route::middleware(['auth','verified'])->group(function () {
     Route::prefix('admin')
@@ -461,6 +465,18 @@ Route::middleware(['auth','verified'])->group(function () {
                     'as' => 'product.hasdelete',
                     'uses' => 'App\Http\Controllers\NCC\ProductController@hasDelete'
                 ]);
+                Route::get('/danhsachbinhluan', [
+                    'as' => 'product.listComment',
+                    'uses' => 'App\Http\Controllers\NCC\ProductController@listComment'
+                ]);
+                Route::get('/duyetbinhluan', [
+                    'as' => 'product.confirmComment',
+                    'uses' => 'App\Http\Controllers\NCC\ProductController@confirmComment'
+                ]);
+                Route::get('/xoabinhluan', [
+                    'as' => 'product.deleteComment',
+                    'uses' => 'App\Http\Controllers\NCC\ProductController@deleteComment'
+                ]);
                 Route::get('/ajax', [
                     'as' => 'product.ajax',
                     'uses' => 'App\Http\Controllers\NCC\ProductController@getPara'
@@ -751,14 +767,44 @@ Route::middleware(['auth','verified'])->group(function () {
                     'as' => 'account.delete',
                     'uses' => 'App\Http\Controllers\NCC\AccountController@delete'
                 ]);
+                Route::get('/chitiet', [
+                    'as' => 'account.detailAccount',
+                    'uses' => 'App\Http\Controllers\NCC\AccountController@detailAccount'
+                ]);
                 Route::get('/ganvaitro/{id}', [
                     'as' => 'account.addRole',
                     'uses' => 'App\Http\Controllers\NCC\AccountController@addRole'
                 ]);
-
                 Route::post('/ganvaitro/{id}', [
                     'as' => 'account.storeRole',
                     'uses' => 'App\Http\Controllers\NCC\AccountController@storeRole'
+                ]);
+            });
+
+            Route::prefix('thongke')->group(function () {
+                Route::get('/donhang', [
+                    'as' => 'order.statistical',
+                    'uses' => 'App\Http\Controllers\NCC\StatisticalController@order'
+                ]);
+                Route::get('/donhangtheothang', [
+                    'as' => 'order.fillByMonth',
+                    'uses' => 'App\Http\Controllers\NCC\StatisticalController@fillByMonth'
+                ]);
+                Route::get('/donhangtheoquy', [
+                    'as' => 'order.fillBy3Month',
+                    'uses' => 'App\Http\Controllers\NCC\StatisticalController@fillBy3Month'
+                ]);
+                Route::get('/phieunhaphang', [
+                    'as' => 'receipt.statistical',
+                    'uses' => 'App\Http\Controllers\NCC\StatisticalController@receipt'
+                ]);
+                Route::get('/phieunhaphangtheothang', [
+                    'as' => 'receipt.fillReceiptByMonth',
+                    'uses' => 'App\Http\Controllers\NCC\StatisticalController@fillReceiptByMonth'
+                ]);
+                Route::get('/phieunhaphangtheoquy', [
+                    'as' => 'receipt.fillReceiptBy3Month',
+                    'uses' => 'App\Http\Controllers\NCC\StatisticalController@fillReceiptBy3Month'
                 ]);
             });
         });
@@ -766,7 +812,7 @@ Route::middleware(['auth','verified'])->group(function () {
 
 Route::get('/trangchu', [App\Http\Controllers\Home\HomeController::class, 'index'])->name('trangchu');
 
-Route::post('/timkiem', [
+Route::get('/timkiem', [
     'as' => 'search',
     'uses' => 'App\Http\Controllers\Home\HomeController@search'
 ]);

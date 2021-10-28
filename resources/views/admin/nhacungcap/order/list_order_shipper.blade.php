@@ -10,14 +10,7 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="header-title text-center">DANH SÁCH ĐƠN HÀNG</h4>
-                    <?php
-                    $message = Session::get('message');
-                    if($message)
-                    {
-                        echo '<span class="text-primary">'.$message.'</span>';
-                        Session::put('message',null);
-                    }
-                    ?>
+                    
                     <div class="table-responsive">
                         <table class="table mb-0">
                             <thead class="table-light">
@@ -55,13 +48,14 @@
                                                     data-key="{{ $order->dhncc_id }}"
                                                     data-url="{{ route('sup.order.finishShipOrder') }}">Xác nhận đã giao</button>
                                         @elseif($order['trangthai'] == 4)
-                                            <button class="btn btn-secondary">
+                                            <button class="btn btn-secondary disabled">
                                                 Chờ xác nhận
                                             </button>
                                         @else
-                                            <button class="btn btn-default">
-                                                Hoàn thành đơn hàng
+                                            <button class="btn btn-success disabled">
+                                            Hoàn thành đơn hàng
                                             </button>
+                                            <!-- <strong class="text-success">Hoàn thành đơn hàng</strong> -->
                                         @endif
                                     </td>
                                 </tr>
@@ -78,6 +72,10 @@
 
     </div>
     <div class="modal fade" id="chitietdonhang" tabindex="-1">
+
+    </div>
+
+    <div class="modal fade" id="chitietdonhangUblod" tabindex="-1">
 
     </div>
 @endsection

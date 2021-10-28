@@ -93,6 +93,7 @@ $(document).on('click','.para_detail',function (){
     $(this).find('.value_para').prop('checked',true);
     var that = $(this);
     var url = $(this).data('url');
+    var id_type = $('.type').data('type');
     var value = $('.para_detail span').html();
     var arr_value = new Array();
     var span = $('.value_para');
@@ -106,6 +107,7 @@ $(document).on('click','.para_detail',function (){
         url : url,
         data : {
             'arr_value' : arr_value,
+            'id_type' : id_type,
         },
         success : function (data) {
             if(data.code == 200){
