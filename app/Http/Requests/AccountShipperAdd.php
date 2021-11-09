@@ -32,10 +32,10 @@ class AccountShipperAdd extends FormRequest
     public function messages()
     {
         return [
-            'name' => 'Vui lòng không để trống mục họ và tên.',
+            'name.required' => 'Vui lòng không để trống mục họ và tên.',
             'gh_email.required' => 'Vui lòng không để trống mục email.',
             'gh_email.unique' => 'Tài khoản email đã được sử dụng.',
-            'password' => 'Vui lòng không để trống mục mật khẩu.',
+            'password.required' => 'Vui lòng không để trống mục mật khẩu.',
         ];
     }
 }

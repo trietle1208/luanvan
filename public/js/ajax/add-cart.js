@@ -137,55 +137,54 @@ function updateQtyCart(id,qty,ncc_id,url,that) {
     });
 }
 
-$(document).on('click','.voucher',function () {
-    var select = $('.select-voucher');
-    var arrId = new Array();
-    var arrIdNCC = new Array();
+$(document).on('click', '.showVoucher', function(e) {
+    var key = $(this).data('key');
     var url = $(this).data('url');
-    for (let i = 0; i < select.length; i++) {
-        // console.log($(select[i]).val())
-        arrId.push($(select[i]).val());
-        arrIdNCC.push($(select[i]).data('id'));
-    }
-    var idNCC = $(this).data('key');
-    var that = $(this);
-    if(that.val() == 1){
-        $.ajax({
-            type : 'GET',
-            url : './addVoucher',
-            data :
-                {
-                    'idNCC' : idNCC,
-                    'arrId' : arrId,
-                    'arrIdNCC' : arrIdNCC,
-                },
-            success : function (data) {
-                if(data.code == 200) {
-                    $('.voucher1 span').html(data.total_discount + ' VND');
-                    $('.total span').html(data.total + ' VND');
-                    that.removeClass('btn-success').addClass('btn-danger').val(0).text('Xóa mã');
-                    Swal.fire(
-                        'Thành công',
-                        data.message,
-                        'success'
-                    )
-                }
+
+    $.ajax({
+        type : 'GET',
+        url : url,
+        data : {
+            'key' : key,
+        },
+        success: function(data) {
+            if(data.code == 200) {
+                $('#danhsachvoucher').html(data.output);
+                $('#danhsachvoucher').modal('show');
             }
-        })
+        }
+    })
+})
+
+$(document).on('click','.addVoucher',function(e) {
+    var key = $(this).data('key');
+    var url = $(this).data('url');
+    var id = $("input[name='voucher']:checked").val();
+    var that = $(this);
+    if(id == null){
+        Swal.fire(
+            'Cảnh báo',
+            'Vui lòng chọn một mã giảm giá mà bạn mong muốn',
+            'error'
+          )
     }else{
         $.ajax({
             type : 'GET',
-            url : "./deletedVoucher",
-            data :
-                {
-                    'idNCC' : idNCC,
-                },
+            url : url,
+            data : {
+               'id' : id,
+               'key' : key, 
+            },
             success : function (data) {
                 if(data.code == 200) {
                     $('.voucher1 span').html(data.total_discount + ' VND');
                     $('.total span').html(data.total + ' VND');
-                    that.parent().find('.select-voucher').html(data.html);
-                    that.removeClass('btn-danger').addClass('btn-success').val(1).text('Áp dụng mã');
+                    $('.delete_' + key).css('display', 'block');
+                    $('.add_' + key).css('display', 'none');
+                    $('#danhsachvoucher').modal('hide');
+                    $('.name_' + key).html('<span>Tên mã : ' + data.name + '</span>');
+                    $('.code_' + key).html('<span>CODE : ' + data.code_voucher + '</span>');
+                    $('.desc_' + key).html('<span>Mỗ tả : ' + data.desc + '</span>');
                     Swal.fire(
                         'Thành công',
                         data.message,
@@ -195,6 +194,88 @@ $(document).on('click','.voucher',function () {
             }
         })
     }
+})
 
+$(document).on('click','.deleteVoucher',function(e) {
+    var key = $(this).data('key');
+    var url = $(this).data('url');
+    var that = $(this);
+    $.ajax({
+        type : 'GET',
+        url : url,
+        data : {
+            'key' : key,
+        },
+        success: function (data) {
+            if(data.code == 200) {
+                $('.voucher1 span').html(data.total_discount + ' VND');
+                $('.total span').html(data.total + ' VND');
+                that.parents('.choose-voucher').find('.delete').css('display', 'none');
+                that.parents('.choose-voucher').find('.add').css('display', 'block');
+                Swal.fire(
+                    'Thành công',
+                    data.message,
+                    'success'
+                )
+            }
+        }
+    })
+})
+
+$(document).on('click','.cart_quantity_delete',function (e) {
+    e.preventDefault();
+    var urlRequest = $(this).data('url');
+    var idNCC = $(this).data('key');
+    var that = $(this);
+
+    Swal.fire({
+        title: 'Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Có, tôi đồng ý!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+
+            $.ajax({
+                type : 'GET',
+                url : urlRequest,
+                data : {
+                    'idNCC' : idNCC,
+                },
+                success : function (data) {
+                    if(data.code == 200) {
+                        that.parent().parent().remove();
+                        $('.subtotal span').html(data.subtotal + ' VND');
+                        $('.total span').html(data.total + ' VND');
+                        if(data.check == 0){
+                            $('#choose-voucher_' + idNCC).css('display', 'none');
+                            $('#name_' + idNCC).css('display', 'none');
+                        }
+                        Swal.fire(
+                            'Đã xóa',
+                            'Sản phẩm bạn chọn đã được xóa',
+                            'success'
+                        )
+                    }else if(data.code == 400)
+                    {
+                        location.href = data.url;
+                    }
+                    else if(data.code == 500){
+                        Swal.fire(
+                            'Cảnh báo',
+                            'Bạn vui lòng xóa mã giảm giá đang chọn trước khi xóa sản phẩm khỏi giỏ hàng',
+                            'error'
+                        ) 
+                    }
+                    
+                },
+                error : function () {
+
+                }
+            })
+        }
+    })
 })
 

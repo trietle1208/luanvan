@@ -9,14 +9,6 @@
         <div class="card">
             <div class="card-body">
                 <h2 class="header-title text-center">CẬP NHẬT KHUYẾN MÃI CHO SẢN PHẨM</h2>
-                <?php
-                $message = Session::get('message');
-                if($message)
-                {
-                    echo '<span class="text-primary">'.$message.'</span>';
-                    Session::put('message',null);
-                }
-                ?>
                 <form class="form-horizontal" action="{{ route('sup.discount.update',['id' => $discounts->km_id]) }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="row mb-3">
@@ -26,6 +18,9 @@
                                    name="name"
                                    value="{{ $discounts->km_ten }}"
                                    placeholder="Nhập vào tên chương trình khuyến mãi muốn tạo">
+                        @error('name')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -44,6 +39,9 @@
                                    name="desc"
                                    value="{{ $discounts->km_mota }}"
                                    placeholder="Nhập vào mô tả của chương trình khuyến mãi">
+                        @error('desc')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -52,6 +50,9 @@
                             <select class="form-select" name="type">
                                 <option value="">--- Chọn hình thức ---</option>
                                 {!! $htmlType !!}
+                        @error('type')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                             </select>
                         </div>
                     </div>
@@ -62,6 +63,9 @@
                                    name="price"
                                    value="{{ $discounts->km_giamgia }}"
                                    placeholder="Nhập vào số tiền(hoặc %) của chương trình khuyến mãi">
+                        @error('price')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -71,6 +75,9 @@
                                 <option value="">--- Chọn trạng thái ---</option>
                                 {!! $htmlStatus !!}
                             </select>
+                        @error('status')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                         </div>
                     </div>
                     <div class="justify-content-end row">

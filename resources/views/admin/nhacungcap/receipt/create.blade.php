@@ -17,6 +17,9 @@ Phiếu nhập hàng
                         <input type="text" class="form-control" id="inputPassword3"
                                name="name"
                                placeholder="Nhập vào tên phiếu muốn tạo">
+                        @error('name')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -48,8 +51,9 @@ Phiếu nhập hàng
                                placeholder="Tổng số tiền của tất cả sản phẩm được chọn"
                                readonly>
                         @endif
-
-
+                        @error('sum')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
                 <div class="justify-content-end row">
@@ -63,6 +67,6 @@ Phiếu nhập hàng
     </div>  <!-- end card -->
 </div>  <!-- end col -->
 <div class="modal fade" id="danhsachsanpham">
-
+    
 </div>
 @endsection

@@ -15,6 +15,11 @@ use Spatie\Permission\Models\Role;
 use Carbon\Carbon;
 class OrderController extends Controller
 {
+    public function __construct(){
+        $this->middleware(['permission:Edit Order'])->only(['index']);
+        $this->middleware(['permission:Edit Order'])->only(['edit']);
+        $this->middleware(['permission:Edit Order'])->only(['delete']);
+    }
     public function index() {
         $orders = OrderNCC::where('ncc_id',Auth::user()->ncc->ncc_id)->orderBy('created_at','DESC')->get();
         $orders_0 = OrderNCC::where('ncc_id',Auth::user()->ncc->ncc_id)->where('trangthai',0)->orderBy('created_at','DESC')->get();
@@ -89,7 +94,9 @@ class OrderController extends Controller
             ]);
         }
     }
-
+    public function listShipper(Request $request){
+        
+    }
     public function chooseShipper(Request $request) {
         OrderNCC::find($request->key)->update([
            'gh_id' => $request->id,

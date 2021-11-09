@@ -39,7 +39,12 @@ Bình luận sản phẩm
                                 @else
                                 <td><strong class="text-primary">Bình luận phản hồi</strong></td>
                                 @endif
-                                <td>{{ $comment->bl_noidung }}</td>
+                                <td>
+                                    <p>{{ $comment->bl_noidung }}</p>
+                                    @if($comment->bl_hinhanh != null)
+                                        <img src="{{ $comment->bl_hinhanh}}" style="width: 200px; height: 100px" class="img-fuild">
+                                    @endif
+                                </td>
                                 <td>{{ $comment->customer->kh_hovaten ?? $comment->admin->name }}</td>
                                 <td>{{ $comment->created_at }}</td>
                                 <td class="statusComment">

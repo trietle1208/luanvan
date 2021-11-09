@@ -30,14 +30,13 @@
                             </tr>
                             </thead>
                             <tbody>
-
                                 @foreach($add as $ad)
                                     @foreach($ad->order as $order)
                                         <tr class="order">
                                             <th scope="row">{{ $order->dh_id }}</th>
                                             <td>{{ $order->dh_madonhang }}</td>
                                             <td>{{ number_format($order->dh_tongtien)}} VNĐ</td>
-                                            <td>{{ $order->dh_ghichu }}</td>
+                                            <td>{{ $order->dh_ghichu ?? 'Không có ghi chú' }}</td>
                                             @if($order->dh_trangthai == 0)
                                             <td><span class="text-danger statusOrder">Chưa duyệt</span></td>
                                             @elseif($order->dh_trangthai == 1)
@@ -45,6 +44,8 @@
                                             @elseif($order->dh_trangthai == 2)
                                             <td><span class="text-primary statusOrder">Đang giao hàng</span></td>
                                             @elseif($order->dh_trangthai == 3)
+                                            <td><span class="text-secondary statusOrder_{{ $order->dh_id }}">Chờ xác nhận</span></td>
+                                            @elseif($order->dh_trangthai == 5)
                                             <td><span class="text-success statusOrder">Đã nhận hàng</span></td>
                                             @else
                                             <td><span class="text-danger statusOrder">Đã hủy</span></td>
@@ -56,43 +57,15 @@
                                                     }
                                                 </style>
                                                 @if($order->dh_trangthai != 4)
-                                                <button data-id="{{ $order->dh_id }}" class="btn btn-sm btn-default detailOrder">Chi tiết</button>
+                                                <button data-id="{{ $order->dh_id }}" class="btn btn btn-default detailOrder">Chi tiết</button>
                                                     @if($order->dh_trangthai == 0)
-                                                    <button data-id="{{ $order->dh_id }}" data-url="{{ route('customer.deleteOrder') }}" class="btn btn-sm btn-danger deleteOrder">Hủy đơn hàng</button>
+                                                    <button data-id="{{ $order->dh_id }}" data-url="{{ route('customer.deleteOrder') }}" class="btn btn btn-danger deleteOrder">Hủy đơn hàng</button>
                                                     @endif
-                                                @endif
-                                                @if($order->dh_trangthai == 1 || $order->dh_trangthai == 2 || $order->dh_trangthai == 3)
-                                                    <style>
-                                                        .follow a{
-                                                            text-decoration: none;
-                                                            color : #2ea8e5;
-                                                        }
-
-                                                        .follow a:hover{
-                                                            background-color: #2ea8e5;
-                                                            color: white;
-                                                        }
-                                                    </style>
-                                                    <div class="btn-group">
-                                                        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                            Theo dõi đơn hàng
-                                                        </button>
-                                                        <div class="dropdown-menu follow">
-                                                            @foreach($order->orderNCC as $item)
-                                                            <a class="dropdown-item followOrder"
-                                                                data-id="{{ $item->dhncc_id }}"
-                                                                data-url="{{ route('customer.followOrder') }}">
-                                                                Đơn hàng {{ $item->ncc->ncc_ten }}
-                                                            </a><br>
-                                                            @endforeach
-                                                        </div>
-                                                    </div>
                                                 @endif
                                             </td>
                                         </tr>
                                     @endforeach
                                 @endforeach
-
                             </tbody>
                         </table>
                     </div>

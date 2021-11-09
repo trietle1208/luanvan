@@ -8,7 +8,7 @@
                             </a>
                         </li>
                        
-                        <li class="dropdown notification-list topbar-dropdown">
+                        <!-- <li class="dropdown notification-list topbar-dropdown">
                             <a class="nav-link dropdown-toggle waves-effect waves-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                                 <i class="fe-bell noti-icon"></i>
                                 @if(isset($count))
@@ -19,19 +19,14 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-end dropdown-lg">
 
-                                <!-- item-->
                                 <div class="dropdown-item noti-title">
                                     <h5 class="m-0">
                             <span class="float-end">
-{{--                                <a href="" class="text-dark">--}}
-{{--                                    <small>Clear All</small>--}}
-{{--                                </a>--}}
                             </span>Thông báo
                                     </h5>
                                 </div>
                                 @if(isset($comments_0))
                                 <div class="noti-scroll" data-simplebar>
-                                    <!-- item-->
                                     @foreach($comments_0 as $item)
                                         <div class="notify-comment_{{ $item->bl_id }}">
                                             <a href="javascript:void(0);" class="dropdown-item notify-item active">
@@ -56,7 +51,6 @@
 
                                 @if(isset($orders_0))
                                 <div class="noti-scroll" data-simplebar>
-                                    <!-- item-->
                                     @foreach($orders_0 as $item)
                                         <div class="notify-order_{{ $item->dhncc_id }}">
                                             <a href="javascript:void(0);" class="dropdown-item notify-item active">
@@ -76,15 +70,12 @@
                                     @endforeach
                                 </div>
                                 @endif
-                                <!-- All-->
-                                <!-- <a href="javascript:void(0);" class="dropdown-item text-center text-primary notify-item notify-all">
-                                    View all
-                                    <i class="fe-arrow-right"></i>
-                                </a> -->
+                               
 
                             </div>
+                        </li> -->
+                        <li class="dropdown notification-list topbar-dropdown" id="notification-list">
                         </li>
-                        
                         <li class="dropdown notification-list topbar-dropdown">
                             <a class="nav-link dropdown-toggle nav-user me-0 waves-effect waves-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                                 <img src="{{ asset('assets/images/users/user-1.jpg') }}" alt="user-image" class="rounded-circle">

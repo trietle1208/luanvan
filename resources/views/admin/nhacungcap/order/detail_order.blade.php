@@ -33,28 +33,27 @@
                                                     <span class="active-dot dot"></span>
                                                     @endif
                                                     <h5 class="mt-0 mb-1">Đặt hàng</h5>
-                                                    <p class="text-muted">April 21 2019 </p>
+                                                    <p class="text-muted">{{ $order->created_at->format('d-m-Y') }} </p>
                                                 </li>
                                                 <li class="{{ $order->trangthai == 1 || $order->trangthai == 3 || $order->trangthai == 4 || $order->trangthai == 5 ? 'completed' : '' }}">
                                                     @if ($order->trangthai == 1)
                                                     <span class="active-dot dot"></span>
                                                     @endif
                                                     <h5 class="mt-0 mb-1">Xác nhận đơn hàng</h5>
-                                                    <p class="text-muted">April 22 2019</p>
                                                 </li>
                                                 <li class="{{ $order->trangthai == 4 || $order->trangthai == 5 ? 'completed' : '' }}">
                                                     @if ($order->trangthai == 3)
                                                     <span class="active-dot dot"></span>
                                                     @endif
                                                     <h5 class="mt-0 mb-1">Giao hàng</h5>
-                                                    <p class="text-muted">April 22 2019 </p>
+                                                    <p class="text-muted">{{ $order->thoigiangiaohang ?? 'Chưa cập nhật' }} </p>
                                                 </li>
                                                 <li class="{{ $order->trangthai == 5 ? 'completed' : '' }}">
                                                     @if ($order->trangthai == 5)
                                                     <span class="active-dot dot"></span>
                                                     @endif
                                                     <h5 class="mt-0 mb-1"> Hoàn thành đơn</h5>
-                                                    <p class="text-muted">April 22 2019</p>
+                                                    <p class="text-muted">{{ $order->thoigiannhanhang ?? 'Chưa cập nhật' }}</p>
                                                 </li>
                                             </ul>
 
@@ -129,13 +128,13 @@
                             <div class="col-lg-4">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h4 class="header-title mb-3">Thông tin người nhận</h4>
+                                        <h4 class="header-title mb-2">Thông tin người nhận</h4>
 
                                         <h5 class="font-family-primary fw-semibold">{{ $order->orderAdmin->address->customer->kh_hovaten }}</h5>
                                         
-                                        <p class="mb-2"><span class="fw-semibold me-2">Địa chỉ:</span> {{ $order->orderAdmin->address->customer->kh_email }}</p>
-                                        <p class="mb-0"><span class="fw-semibold me-2">Email:</span> {{ $order->orderAdmin->address->dc_sonha }}</p>
-                                        <p class="mb-2"><span class="fw-semibold me-2">Số điện thoại:</span> {{ $order->orderAdmin->address->customer->kh_sdt }}</p>
+                                        <p class="mb-2"><span class="fw-semibold me-2">Địa chỉ:</span>{{ $order->orderAdmin->address->customer->kh_email }}</p>
+                                        <p class="mb-2"><span class="fw-semibold me-2">Email:</span>{{ $order->orderAdmin->address->dc_sonha }}</p>
+                                        <p class="mb-2"><span class="fw-semibold me-2">Số điện thoại:</span>{{ $order->orderAdmin->address->customer->kh_sdt }}</p>
             
                                     </div>
                                 </div>
@@ -144,13 +143,13 @@
                             <div class="col-lg-4">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h4 class="header-title mb-3">Thông tin người giao</h4>
+                                        <h4 class="header-title mb-2">Thông tin người giao</h4>
 
                                         <h5 class="font-family-primary fw-semibold">{{ $order->shipper->name ?? 'Chưa cập nhật'}}</h5>
                                         
-                                        <p class="mb-2"><span class="fw-semibold me-2">Địa chỉ:</span></p>
-                                        <p class="mb-0"><span class="fw-semibold me-2">Email:</span> (+01) 12345 67890</p>
-                                        <p class="mb-2"><span class="fw-semibold me-2">Số điện thoại:</span> (123) 456-7890</p>
+                                        <p class="mb-2"><span class="fw-semibold me-2">Địa chỉ:</span>{{ $order->shipper->info->tt_diachi ?? 'Chưa cập nhật'}}</p>
+                                        <p class="mb-2"><span class="fw-semibold me-2">Email:</span>{{ $order->shipper->email ?? 'Chưa cập nhật'}}</p>
+                                        <p class="mb-2"><span class="fw-semibold me-2">Số điện thoại:</span>{{ $order->shipper->info->tt_sdt ?? 'Chưa cập nhật'}}</p>
             
                                     </div>
                                 </div>
@@ -159,15 +158,13 @@
                             <div class="col-lg-4">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h4 class="header-title mb-3">Phương thức thanh toán</h4>
+                                        <h4 class="header-title mb-2">Phương thức thanh toán</h4>
             
                                         <div class="text-center">
                                             <i class="mdi mdi-truck-fast h2 text-muted"></i>
-                                            <h5><b>UPS Delivery</b></h5>
-                                            <p class="mb-1"><span class="fw-semibold">Order ID :</span> xxxx235</p>
-                                            <p class="mb-0"><span class="fw-semibold">Payment Mode :</span> COD</p>
-                                            <p class="mb-0"><span class="fw-semibold">Ngày giao hàng :</span> {{ $order->thoigiangiaohang ?? 'Chưa cập nhật' }}</p>
-                                            <p class="mb-0"><span class="fw-semibold">Ngày nhận hàng :</span> {{ $order->thoigiannhanhang ?? 'Chưa cập nhật' }}</p>
+                                            <h5><b>{{ $order->orderAdmin->typepayment->ht_ten }}</b></h5>
+                                            <p class="mb-2"><span class="fw-semibold">Ngày giao hàng :</span> {{ $order->thoigiangiaohang ?? 'Chưa cập nhật' }}</p>
+                                            <p class="mb-2"><span class="fw-semibold">Ngày nhận hàng :</span> {{ $order->thoigiannhanhang ?? 'Chưa cập nhật' }}</p>
                                         </div>
                                     </div>
                                 </div>

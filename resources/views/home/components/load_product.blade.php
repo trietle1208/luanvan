@@ -1,6 +1,7 @@
 @foreach($products as $product)
     @php
         $last_id = $product->sp_id;
+        $quantity =  $product->receipt()->first();
     @endphp
     <a href="{{ route('product.detail', ['ncc' => $product->ncc_id ,'slug' => $product->sp_slug]) }}">
         <div class="col-sm-4">
@@ -46,10 +47,22 @@
                                     </li>
                                 @endfor
                             </ul>
-                            <button data-id="{{ $product->sp_id }}" data-key="{{ $product->ncc->ncc_id }}" data-qty="1" data-url="{{ route('product.addCart') }}"
+                            <!-- <button data-id="{{ $product->sp_id }}" data-key="{{ $product->ncc->ncc_id }}" data-qty="1" data-url="{{ route('product.addCart') }}"
                                     class="btn btn-default add-to-cart add-to-cartAjax">
                                 <i class="fa fa-shopping-cart"></i>Thêm giỏ hàng
+                            </button> -->
+                            @if($quantity->pivot->soluong > 0)
+                            <button
+                                data-id="{{ $product->sp_id }}" data-key="{{ $product->ncc->ncc_id }}" data-qty="1" data-url="{{ route('product.addCart') }}"
+                                class="btn btn-default add-to-cart add-to-cartAjax"><i class="fa fa-shopping-cart">
+                                </i>Thêm giỏ hàng
                             </button>
+                            @else
+                            <button
+                                class="btn btn-danger add-to-cart disable" style="background-color : red; color : white"><i class="fa fa-shopping-cart">
+                                </i>Hết hàng
+                            </button>
+                            @endif
                         @else
                             <img src="{{ $product->sp_hinhanh }}" style="height: 300px; width: 300px" alt="" />
                             <h2>{{ number_format($product->sp_giabanra) }} VND</h2>
@@ -84,11 +97,18 @@
                                     </li>
                                 @endfor
                             </ul>
+                            @if($quantity->pivot->soluong > 0)
                             <button
                                 data-id="{{ $product->sp_id }}" data-key="{{ $product->ncc->ncc_id }}" data-qty="1" data-url="{{ route('product.addCart') }}"
                                 class="btn btn-default add-to-cart add-to-cartAjax"><i class="fa fa-shopping-cart">
                                 </i>Thêm giỏ hàng
                             </button>
+                            @else
+                            <button
+                                class="btn btn-danger add-to-cart disable" style="background-color : red ; color : white"><i class="fa fa-shopping-cart">
+                                </i>Hết hàng
+                            </button>
+                            @endif
                         @endif
                     </div>
                 </div>
@@ -108,8 +128,3 @@
         </div>
     </a>
 @endforeach
-{{--<div id="load_more">--}}
-{{--    <button type="button" id="load_more_button" class="btn btn-default form-control"  data-id="{{ $last_id }}">--}}
-{{--        Hiển thị thêm sản phẩm--}}
-{{--    </button>--}}
-{{--</div>--}}

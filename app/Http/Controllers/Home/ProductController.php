@@ -10,16 +10,19 @@ use App\Models\DanhMuc;
 use App\Models\DetailPara;
 use App\Models\Product;
 use App\Models\ReceiptDetail;
+use App\Models\View;
 use App\Models\Voucher;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Cart;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class ProductController extends Controller
 {
     private $sum_price = 0, $arr = [];
-    public function detail($ncc,$slug) {
+
+    public function detail(Request $request, $ncc,$slug) {
         $quantityProduct = 0;
         $cateposts = CatePosts::all();
         $categories = DanhMuc::all();
@@ -30,12 +33,22 @@ class ProductController extends Controller
         $paradetail = DetailPara::where('sp_id',$product->sp_id)->get();
         $quantityProduct = $receiptdetail->soluong;
         $comments = Comment::where('sp_id',$product->sp_id)->where('bl_idcha','=',null)->where('trangthai',1)->get();
+        $session = $request->getSession()->getId();
+        $check = View::where('sp_id',$product->sp_id)->where('session',$session)->first();
+        if($check == null){
+            $view = View::create([
+                'sp_id' => $product->sp_id,
+                'view' => 1,
+                'session' => $session,
+            ]);
+        }
+        $view = View::where('sp_id',$product->sp_id)->count();
         if(!empty($comments)){
             Carbon::setLocale('vi');
             $now = Carbon::now('Asia/Ho_Chi_Minh');
-            return view('home.product.detail',compact('categories','brands','product','quantityProduct','productRecomments','comments','now','cateposts'));
+            return view('home.product.detail',compact('categories','brands','product','quantityProduct','productRecomments','comments','now','cateposts','view'));
         }else{
-            return view('home.product.detail',compact('categories','brands','product','quantityProduct','productRecomments','cateposts'));
+            return view('home.product.detail',compact('categories','brands','product','quantityProduct','productRecomments','cateposts','view'));
 
         }
     }
@@ -56,10 +69,13 @@ class ProductController extends Controller
     }
 
     public function showCart() {
+        // Session::forget('cart');
+        
         $arr_voucher = [];
         $arr_voucher_sort1 = [];
         $totalDiscount = 0;
         $carts = Session::get('cart');
+        // dd($carts);
         $cateposts = CatePosts::all();
         if(isset($carts)) {
             foreach ($carts as $key => $cart) {
@@ -98,7 +114,6 @@ class ProductController extends Controller
                         return $a['mgg_sotiengiam'] < $b['mgg_sotiengiam'] ? 1 : -1;
                     });
                     $arr_voucher_sort1[$key1] = $arr_voucher_sort;
-
                 }
                 return view('home.product.cart.index', compact('arr_voucher_sort1', 'totalDiscount', 'totalCart','cateposts'));
             }else{
@@ -129,7 +144,7 @@ class ProductController extends Controller
                 }else {
                     $session_cart[$request->ncc_id][$request->id]['qty'] = $session_cart[$request->ncc_id][$request->id]['qty'] + $request->qty;
                 }
-                $session_cart[$request->ncc_id][$request->id]['total'] = $session_cart[$request->ncc_id][$request->id]['total'] + ($request->qty * $session_cart[$request->ncc_id][$request->id]['price']);
+                $session_cart[$request->ncc_id][$request->id]['total'] = $session_cart[$request->ncc_id][$request->id]['total'] + ($request->qty * $session_cart[$request->ncc_id][$request->id]['price_discount']);
             }
         }else {
             $session_cart[$request->ncc_id][$request->id] = [
@@ -180,90 +195,141 @@ class ProductController extends Controller
             'total1' => $total,
         ],200);
     }
+
     public function deleteCart($rowId, Request $request) {
 
         $carts = Session::get('cart');
-        unset($carts[$request->idNCC][$rowId]);
-        $output = '';
-        if (count($carts[$request->idNCC]) > 1){
-            if(count($carts[$request->idNCC][0]) > 0){
-                $subtotal = 0;
-                foreach ($carts[$request->idNCC] as $key => $product) {
-                    if ($key == 0) continue;
-                    $subtotal += $product['total'];
-                }
-                if($subtotal < $carts[$request->idNCC][0]['voucherCondition']){
-                    $carts[$request->idNCC][0] = [];
-                    $voucher_has_deleted = Voucher::where('ncc_id',$request->idNCC)->where('mgg_dieukien','<=',$subtotal)->get();
-                    $output = view('home.product.cart.select',compact('voucher_has_deleted'))->render();
-                }
-            }
-        }else{
-            unset($carts[$request->idNCC]);
-        }
-        Session::put('cart', $carts);
-
-        $carts = Session::get('cart');
-        if (count($carts) <= 0) {
-            Session::flush();
+        if(($carts[$request->idNCC][0]) != null){
             return response()->json([
-                'code' => 400,
-                'url' => route('trangchu'),
-            ],200);
+                'code' => 500,
+            ]);
         }else{
-            $total = 0;
-            foreach (Session::get('cart') as $cart){
-                $subtotal = 0;
-                $discount = 0;
-                foreach ($cart as $key => $item){
-                    if($key != 0) {
-                        $subtotal += $item['total'];
-                        $total += $subtotal;
-                    }else if($key == 0 && count($item) > 0) {
-                        $discount += $item['voucherPrice'];
-                    }
-                }
+            unset($carts[$request->idNCC][$rowId]);
+            $output = '';
+            // if (count($carts[$request->idNCC]) > 1){
+            //     if(count($carts[$request->idNCC][0]) > 0){
+            //         $subtotal = 0;
+            //         foreach ($carts[$request->idNCC] as $key => $product) {
+            //             if ($key == 0) continue;
+            //             $subtotal += $product['total'];
+            //         }
+            //         if($subtotal < $carts[$request->idNCC][0]['voucherCondition']){
+            //             $carts[$request->idNCC][0] = [];
+            //             $voucher_has_deleted = Voucher::where('ncc_id',$request->idNCC)->where('mgg_dieukien','<=',$subtotal)->get();
+            //             $output = view('home.product.cart.select',compact('voucher_has_deleted'))->render();
+            //         }
+            //     }
+            // }
+            // else{
+            //     unset($carts[$request->idNCC]);
+            // }
+            if(count($carts[$request->idNCC]) <= 1){
+                unset($carts[$request->idNCC]);
             }
-            $total = $total - $discount;
-            return response()->json([
-                'code' => 200,
-                'total' => number_format($total),
-                'subtotal' => number_format($subtotal),
-                'discount' => number_format($discount),
-                'output' => $output,
-            ],200);
-        }
-    }
-
-    public function addVoucher(Request $request) {
-        foreach ($request->arrId as $key => $discount_id) {
+            Session::put('cart', $carts);
+            
             $carts = Session::get('cart');
-            if($discount_id == 0) {
-                $carts[$request->arrIdNCC[$key]][0] = [];
-                Session::put('cart',$carts);
+            // dd($carts);
+            if (count($carts) <= 0) {
+                Session::flush();
+                return response()->json([
+                    'code' => 400,
+                    'url' => route('trangchu'),
+                ]);
             }
             else
             {
-                $totalPrice_NCC = 0;
-                foreach ($carts[$request->arrIdNCC[$key]] as $key1 => $product) {
-                    if($key1 == 0) continue;
-                    $totalPrice_NCC +=  $product['total'];
-                }
-                $voucher = Voucher::findOrFail($discount_id);
-                if($voucher->mgg_soluong > 0) {
-                    $total_discount = $voucher->mgg_sotiengiam;
-                    if($voucher->mgg_hinhthuc == 1){
-                        $total_discount = ($totalPrice_NCC*$voucher->mgg_sotiengiam)/100;
+                $total = 0;
+                $check = 0;
+                $discount = 0;
+                foreach (Session::get('cart') as $key1 => $cart){
+                    $subtotal = 0;
+                    if($key1 == $request->idNCC){
+                        $check = 1;
                     }
-                    $carts[$request->arrIdNCC[$key]][0] = [
-                        'id' => $discount_id,
-                        'type' => $voucher->mgg_hinhthuc,
-                        'voucherPrice' => $total_discount,
-                        'voucherCondition' => $voucher->mgg_dieukien,
-                    ];
-                    Session::put('cart',$carts);
+                    foreach ($cart as $key => $item){
+                        if($key != 0) {
+                            $subtotal += $item['total'];
+                        }else if($key == 0 && count($item) > 0) {
+                            $discount += $item['voucherPrice'];
+                        }
+                    }
+                    $total += $subtotal;
+                }
+                $total = $total - $discount;
+                $subtotal = $total + $discount;
+                return response()->json([
+                    'code' => 200,
+                    'total' => number_format($total),
+                    'subtotal' => number_format($subtotal),
+                    'discount' => number_format($discount),
+                    'check' => $check,
+                    'output' => $output,
+                ],200);
+            }
+        }
+        
+    }
+
+    public function showVoucher(Request $request){
+        $carts = Session::get('cart');
+        $subtotal = 0;
+        $arr_voucher = [];
+        $arr_voucher_sort = [];
+        $ncc_id = $request->key;
+        
+        foreach ($carts[$request->key] as $key => $item){
+            if($key != 0){
+                $subtotal += $item['total'];
+            }
+        }
+
+        $vouchers = Voucher::where('ncc_id',$request->key)->get();
+        foreach($vouchers as $voucher){
+            if($voucher){
+                if ($subtotal >= $voucher->mgg_dieukien) {
+                    $arr_voucher[] = $voucher->toArray();
                 }
             }
+        }
+
+        foreach ($arr_voucher as $key => $row) {
+            $arr_voucher_before[] = $row;
+            usort($arr_voucher_before, function ($a, $b) {
+                return $a['mgg_sotiengiam'] < $b['mgg_sotiengiam'] ? 1 : -1;
+            });
+        }
+        $arr_voucher_sort[] = $arr_voucher_before;
+        return response()->json([
+            'code' => 200,
+            'output' => view('home.product.cart.show-voucher',compact('arr_voucher_sort','ncc_id'))->render(),
+        ]);
+    }
+
+    public function addVoucher(Request $request){
+        $subtotal = 0;
+        $carts = Session::get('cart');
+        foreach($carts[$request->key] as $key => $item){
+            if($key != 0){
+                $subtotal += $item['total'];
+            }
+        }
+        $voucher = Voucher::findOrFail($request->id);
+        if($voucher->mgg_soluong > 0) {
+            $total_discount = $voucher->mgg_sotiengiam;
+            if($voucher->mgg_hinhthuc == 1){
+                $total_discount = ($subtotal*$voucher->mgg_sotiengiam)/100;
+            }
+            $carts[$request->key][0] = [
+                'id' => $request->id,
+                'name' => $voucher->mgg_ten,
+                'code' => $voucher->mgg_macode,
+                'desc' => $voucher->mgg_mota,
+                'type' => $voucher->mgg_hinhthuc,
+                'voucherPrice' => $total_discount,
+                'voucherCondition' => $voucher->mgg_dieukien,
+            ];
+            Session::put('cart',$carts);
         }
         $totalDiscount = 0;
         $carts = Session::get('cart');
@@ -275,12 +341,7 @@ class ProductController extends Controller
             }
         }
         $totalCart = 0;
-//        foreach ($request->arrIdNCC as $idNCC) {
-//            foreach ($carts[$idNCC] as $key => $product) {
-//                if($key == 0) continue;
-//                $totalCart += $product['total'];
-//            }
-//        }
+
         foreach ($carts as $cart) {
             foreach ($cart as $key => $product) {
                 if($key == 0) continue;
@@ -291,16 +352,16 @@ class ProductController extends Controller
         return response()->json([
             'code' => 200,
             'message' => 'Bạn đã thêm mã giảm giá thành công',
+            'name' => $voucher->mgg_ten,
+            'code_voucher' => $voucher->mgg_macode,
+            'desc' => $voucher->mgg_mota,
             'total_discount' => number_format($totalDiscount),
             'total' => number_format($totalCart),
-        ],200);
-
+        ]);
     }
-
     public function deletedVoucher(Request $request) {
-        $output = '';
         $carts = Session::get('cart');
-        $carts[$request->idNCC][0] = [];
+        $carts[$request->key][0] = [];
         Session::put('cart',$carts);
         $totalDiscount = 0;
         $totalPrice = 0;
@@ -323,20 +384,12 @@ class ProductController extends Controller
             }
         }
         $totalCart = $totalCart - $totalDiscount;
-
-        $vouchers = Voucher::where('ncc_id', $request->idNCC)->orderBy('mgg_sotiengiam','desc')->get();
-        $voucher_has_deleted = [];
-        foreach ($vouchers as $voucher) {
-            if($voucher['mgg_dieukien'] <= $totalPrice) {
-                $voucher_has_deleted[] = $voucher;
-            }
-        }
+        
         return response()->json([
             'code' => 200,
             'message' => 'Bạn đã hủy mã giảm giá thành công',
             'total_discount' => number_format($totalDiscount),
             'total' => number_format($totalCart),
-            'html' => view('home.product.cart.select', compact('voucher_has_deleted'))->render(),
         ],200);
     }
 }

@@ -47,32 +47,13 @@
                                                             <label>Họ và tên : </label>
                                                             <input class="form-control name fullname" name="name1" data-url="{{ route('checkout.payment') }}" type="text" placeholder="Nhập vào họ và tên">
                                                             <label>Chọn địa chỉ giao hàng : </label>
-                                                            <style>
-                                                                .chooseAddress {
-                                                                    padding: 10px 0px 10px 10px;
-                                                                    margin-bottom: 10px;
-                                                                    border: solid 1px;
-                                                                    border-color: #ccc;
-                                                                    border-radius: 50px;
-                                                                }
-
-                                                                .chooseAddress span {
-                                                                    font-weight: 600;
-                                                                }
-                    
-                                                                .labelAddress {
-                                                                    padding-left: 20px;
-                                                                }
-                                                            </style>
-                                                            <div class="allAddress">
+                                                            <select class="form-control allAddress" data-url="{{ route('checkout.addShip') }}">
                                                                 @foreach($address as $key => $add)
-                                                                    <div class="chooseAddress">
-                                                                        <input type="radio" data-id="{{ $add->dc_id }}" data-url="{{ route('checkout.addShip') }}" name="address" {{ $key == 0 ? 'checked' : '' }}>
-                                                                        <span class="labelAddress">{{ $add->dc_sonha }}</span>
-                                                                    </div>
+                                                                    <option value="{{ $add->dc_id }}">
+                                                                        {{ $add->dc_sonha }}
+                                                                    </option>
                                                                 @endforeach
-                                                            </div>
-
+                                                            </select>
                                                             <br>
                                                             <button class="btn btn-info" data-toggle="modal" data-target="#exampleModalLong">
                                                                 Thêm địa chỉ giao hàng
@@ -80,6 +61,7 @@
                                                     </div>
                                                 </div>
                                                 <br>
+                                                @if(Session::get('cart'))
                                                 <div class="row">
                                                     <div class="shopper-info">
                                                         <p>Hình Thức Thanh Toán</p>
@@ -98,6 +80,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                @endif
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="order-message">
@@ -113,7 +96,7 @@
                             @else
                             <div class="register-req">
                                 <p>Vui lòng đăng nhập vào hệ thống để được thanh toán, nếu chưa có tài khoản hãy đăng kí !!!</p>
-                                <a href="{{ route('customer.index') }}">Đăng kí tại đây</a>
+                                <a class="modalLogin" style="cursor: pointer;">Đăng kí tại đây</a>
                             </div><!--/register-req-->
                             @endif
                             @if(Session::get('cart'))
@@ -216,7 +199,7 @@
                                                         </td>
 
                                                         <td>
-                                                            <button type="submit" class="btn btn-success confirmCheckout">Thanh toán</button>
+                                                            <button type="submit" id="payment" class="btn btn-success confirmCheckout">Thanh toán</button>
                                                         </td>
                                                         @endif
                                                     </form>
@@ -283,7 +266,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-info add-address">Lưu địa chỉ</button>
+                    <button type="submit" class="btn btn-info add-address" data-url="{{ route('checkout.saveAdd') }}">Lưu địa chỉ</button>
                 </div>
             </div>
         </div>

@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Carbon\Carbon;
+use Brian2694\Toastr\Facades\Toastr;
+use App\Http\Requests\AccountShipperAdd;
 use Session;
 
 session_start();
@@ -41,7 +44,16 @@ class AccountController extends Controller
         return view('admin.manager.account.create_shipper');
     }
 
-    public function store_shipper(Request $request) {
-
+    public function store_shipper(AccountShipperAdd $request) {
+        $account = User::create([
+            'name' => $request->name,
+            'email' => $request->gh_email,
+            'password' => bcrypt($request->password),
+            'email_verified_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'trangthai' => 1,
+            'loaitaikhoan' => 2,
+        ]);
+        Toastr::success('Thêm tài khoản mới thành công!', 'Thành công');
+        return back();
     }
 }

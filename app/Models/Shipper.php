@@ -21,4 +21,9 @@ class Shipper extends Model
         'gh_gioitinh',
         'ncc_id',
     ];
+
+    public function info()
+    {
+        return $this->belongsTo(Info::class,'us_id','gh_id');
+    }
 }

@@ -40,7 +40,7 @@ class CustomerController extends Controller
     public function register(Request $request) {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'kh_email' => 'required|exists:khachhang',
+            'kh_email' => 'required|unique:khachhang',
             'pass' => 'required',
             'phone' => 'required|numeric',
             'sex' => 'required',
@@ -48,7 +48,7 @@ class CustomerController extends Controller
         ], [
             'name.required' => 'Vui lòng không để trống mục họ và tên.',
             'kh_email.required' => 'Vui lòng không để trống mục tài khoản Email.',
-            'kh_email.exists' => 'Tên tài khoản đã được sử dụng.',
+            'kh_email.unique' => 'Tên tài khoản Email đã được sử dụng.',
             'pass.required' => 'Vui lòng không để trống mục mật khẩu.',
             'phone.required' => 'Vui lòng không để trống mục số điện thoại.',
             'phone.numeric' => 'Mục số điện thoại phải là kiểu số.',
@@ -64,7 +64,7 @@ class CustomerController extends Controller
         }
         $data = [
             'kh_hovaten' => $request->name,
-            'kh_email' => $request->email,
+            'kh_email' => $request->kh_email,
             'kh_matkhau' => md5($request->pass),
             'kh_sdt' => $request->phone,
             'kh_ngaysinh' => $request->date,
@@ -119,23 +119,20 @@ class CustomerController extends Controller
     {
         return Socialite::driver('facebook')->redirect();
     }
-    public function callback_google()
-    {
+    public function callback_google(){
         $kh = Socialite::driver('google')->stateless()->user();
         $authKH = $this->findOrCreateKH($kh,'google');
         return redirect()->route('checkout.index');
     }
 
-    public function callback_facebook()
-    {
+    public function callback_facebook(){
         $kh = Socialite::driver('facebook')->stateless()->user();
         $this->findOrCreateKH($kh,'facebook');
 
         return redirect()->route('checkout.index');
     }
 
-    public function findOrCreateKH($kh,$provider)
-    {
+    public function findOrCreateKH($kh,$provider){
         $authKH = Social::where('provider_kh_id',$kh->id)->first();
         if($authKH) {
             $account = Customer::where('kh_id',$authKH->kh_id)->first();
@@ -163,9 +160,7 @@ class CustomerController extends Controller
                 'updated_at' => $dt,
             ]);
         }
-//        Social::find($login)->update([
-//            'kh_id' => $orang,
-//        ]);
+
         $login->login_gg()->associate($orang);
         $login->save();
         $account = Customer::where('kh_id',$login->kh_id)->first();
@@ -194,7 +189,34 @@ class CustomerController extends Controller
 
     public function detailOrder(Request $request){
         $order = Order::find($request->id);
-        return view('home.customer.order-detail',compact('order'))->render();
+        $subtotal = 0;
+        $subtotal_ncc = 0;
+        $voucher = 0;
+        $fee = $order->address->ward->province->city->phivanchuyen;
+        foreach ($order->orderNCC as $orderNCC) {
+            foreach ($orderNCC->orderDetail as $detail){
+                $subtotal += $detail->gia*$detail->soluong;
+            }
+        }
+
+        foreach ($order->orderNCC as $orderNCC) {
+            $subtotal_ncc = 0;
+            foreach ($orderNCC->orderDetail as $detail){
+                $subtotal_ncc += $detail->gia*$detail->soluong;
+            }
+
+            if($orderNCC->mgg_id != null){
+                if($orderNCC->voucher->mgg_hinhthuc == 0)
+                {
+                    $voucher += $orderNCC->voucher->mgg_sotiengiam;
+                }
+                else
+                {
+                    $voucher += ($subtotal_ncc*$orderNCC->voucher->mgg_sotiengiam)/100;
+                }
+            }
+        }
+        return view('home.customer.order-detail',compact('order','subtotal','fee','voucher'))->render();
     }
 
     public function updateOrder(Request $request){
@@ -362,16 +384,29 @@ class CustomerController extends Controller
             ]);
         }
         $image = $this->storageTraitUploadCustomer($request,'image','customer');
-        $output_image = '<img src="'.$image['file_path'].'" style="width: 200px; height: 200px" class="img-fluid">';
-        if(Session::get('customer_id')){
-            $id = Session::get('customer_id');
-            Customer::find($id)->update([
-                'kh_hovaten' => $request->name,
-                'kh_sdt' => $request->phone,
-                'kh_ngaysinh' => $request->date,
-                'kh_gioitinh' => $request->sex,
-                'kh_hinhanh' => $image['file_path'],
-            ]);
+        if($image){
+            $output_image = '<img src="'.$image['file_path'].'" style="width: 200px; height: 200px" class="img-fluid">';
+            if(Session::get('customer_id')){
+                $id = Session::get('customer_id');
+                Customer::find($id)->update([
+                    'kh_hovaten' => $request->name,
+                    'kh_sdt' => $request->phone,
+                    'kh_ngaysinh' => $request->date,
+                    'kh_gioitinh' => $request->sex,
+                    'kh_hinhanh' => $image['file_path'],
+                ]);
+            }
+        }else{
+            $output_image = '';
+            if(Session::get('customer_id')){
+                $id = Session::get('customer_id');
+                Customer::find($id)->update([
+                    'kh_hovaten' => $request->name,
+                    'kh_sdt' => $request->phone,
+                    'kh_ngaysinh' => $request->date,
+                    'kh_gioitinh' => $request->sex,
+                ]);
+            }
         }
         return response()->json([
             'code' => 200,
@@ -387,15 +422,19 @@ class CustomerController extends Controller
         Carbon::setLocale('vi');
         $now = Carbon::now('Asia/Ho_Chi_Minh');
         $dt = Carbon::now('Asia/Ho_Chi_Minh');
-        $comment = Comment::create([
-            'bl_noidung' => $request->text,
-            'bl_sosao' => $request->rating,
-            'bl_idcha' => null,
-            'sp_id' => $request->idsp,
-            'kh_id' => $request->id,
-            'us_id' => null,
-            'trangthai' => 0,
-        ]);
+        $image = $this->storageTraitUploadCustomer($request,'image','comment');
+        if($image){
+            $comment = Comment::create([
+                'bl_noidung' => $request->text,
+                'bl_sosao' => $request->rating,
+                'bl_idcha' => null,
+                'bl_hinhanh' => $image['file_path'],
+                'sp_id' => $request->idsp,
+                'kh_id' => $request->id,
+                'us_id' => null,
+                'trangthai' => 0,
+            ]);
+        }
         return response()->json([
            'code' => 200,
         //    'output' => view('home.customer.comment',compact('comment','dt','now'))->render(),
@@ -462,24 +501,14 @@ class CustomerController extends Controller
     }
 
     public function confirmFinishOrder(Request $request){
-        $order_up = OrderNCC::find($request->id)->update([
-            'trangthai' => 5,
-            'thoigiannhanhang' => Carbon::now()->format('Y-m-d H:i:s'),
+        $order_update = Order::find($request->id)->update([
+            'dh_trangthai' => 5,
         ]);
-        $order_ncc = OrderNCC::find($request->id);
-        $count = 0;
-        $check = 0;
-        $order = Order::find($order_ncc->dh_id);
-        foreach ($order->orderNCC as $item){
-            $count++;
-            if($item->trangthai == 5){
-                $check++;
-            }
-        }
-        if($count == $check) {
-            $order->update([
-                'dh_trangthai' => 3,
-                'dh_thoigiannhanhang' => Carbon::now()->format('Y-m-d H:i:s'),
+
+        $order = Order::find($request->id);
+        foreach ($order->orderNCC as $orderNCC) {
+            $orderNCC->update([
+                'trangthai' => 5,
             ]);
         }
 

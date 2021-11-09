@@ -1325,13 +1325,13 @@ h2.title {
 }
 
 #reviews ul li a i{
-	color:#FE980F;
+	
 	padding-right:8px;
 }
 
 #reviews ul li a:hover{
 	background:#fff;
-	color:#FE980F;
+	
 }
 
 #reviews p{
@@ -1371,7 +1371,7 @@ h2.title {
 }
 
 #reviews button {
-  background: #47a447;
+  background: #9096A6;
   border: 0 none;
   border-radius: 0;
   color: #FFFFFF;

@@ -15,7 +15,7 @@
                     <input class="form-control phone" name="phone" type="text" value="{{ $user->kh_sdt }}">
                     <div class="error phone"></div>
                     <label>Giới tính : </label><br>
-                    @if($user->kh_giotinh == 0)
+                    @if($user->kh_gioitinh == 0)
                         <label>Nam</label>
                         <input class="sex" type="radio" name="sex" value="0" checked>
                         <label>Nữ</label>

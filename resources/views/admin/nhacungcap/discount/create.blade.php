@@ -9,14 +9,6 @@ Khuyến mãi
     <div class="card">
         <div class="card-body">
             <h2 class="header-title text-center">THÊM KHUYẾN MÃI CHO SẢN PHẨM</h2>
-            <?php
-            $message = Session::get('message');
-            if($message)
-            {
-                echo '<span class="text-primary">'.$message.'</span>';
-                Session::put('message',null);
-            }
-            ?>
             <form class="form-horizontal" action="{{ route('sup.discount.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="row mb-3">
@@ -24,7 +16,12 @@ Khuyến mãi
                     <div class="col-8 col-xl-9">
                         <input type="text" class="form-control" id="inputPassword3"
                                name="name"
+                               value="{{ old('name') }}"
+                               class="@error('name') is-invalid @enderror"
                                placeholder="Nhập vào tên chương trình khuyến mãi muốn tạo">
+                        @error('name')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -41,6 +38,9 @@ Khuyến mãi
                         <input type="text" class="form-control" id="inputPassword5"
                                    name="desc"
                                placeholder="Nhập vào mô tả của chương trình khuyến mãi">
+                        @error('desc')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -51,6 +51,9 @@ Khuyến mãi
                             <option value="0">Giảm theo giá tiền</option>
                             <option value="1">Giảm theo %</option>
                         </select>
+                        @error('type')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -59,6 +62,9 @@ Khuyến mãi
                         <input type="text" class="form-control" id="inputPassword5"
                                name="price"
                                placeholder="Nhập vào số tiền(hoặc %) của chương trình khuyến mãi">
+                        @error('price')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -69,6 +75,9 @@ Khuyến mãi
                             <option value="0">Tắt</option>
                             <option value="1">Hiển thị</option>
                         </select>
+                        @error('status')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
                 <div class="justify-content-end row">

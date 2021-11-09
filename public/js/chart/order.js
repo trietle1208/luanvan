@@ -53,6 +53,8 @@ success_parse = JSON.parse(success);
 var delete1 = $('#chartOrderByMonth').attr('data-delete');
 delete1_parse = JSON.parse(delete1);
 
+var check = $('#chartOrderByMonth').attr('data-check');
+check_parse = JSON.parse(check);
   var options = {
         chart: {
             height: 350,
@@ -62,7 +64,7 @@ delete1_parse = JSON.parse(delete1);
         dataLabels: {
             enabled: false
         },
-        colors: ["#FF1654", "#247BA0"],
+        colors: ["#FF1654", "#247BA0", "#47D66D"],
         series: [
         {
             type: "column",
@@ -71,12 +73,17 @@ delete1_parse = JSON.parse(delete1);
         },
         {
             type: "column",
+            name: "Đã duyệt",
+            data: check_parse
+        },
+        {
+            type: "column",
             name: "Đã hoàn thành",
             data: success_parse
         }
         ],
         stroke: {
-            width: [4, 4]
+            width: [4, 4, 4]
         },
         plotOptions: {
             bar: {
@@ -114,17 +121,17 @@ delete1_parse = JSON.parse(delete1);
             },
             axisBorder: {
                 show: true,
-                color: "#247BA0"
+                color: "#47D66D"
             },
             labels: {
                 style: {
-                    colors: "#247BA0"
+                    colors: "#47D66D"
                 }
             },
             title: {
                 text: "Đã hoàn thành",
                 style: {
-                    color: "#247BA0"
+                    color: "#47D66D"
                 }
             }
         }

@@ -50,8 +50,7 @@
                     .comment {
                         margin-bottom: 20px;
                         padding: 10px 0px 0px 10px;
-                        border-style: groove;
-                        border-radius: 15px;
+                        
                     }
 
                     .comnent-rep {
@@ -80,25 +79,30 @@
                 <div class="comment comment_{{ $comment->bl_id }}">
                     <ul>
                         <li><img src="{{ $comment->customer->kh_hinhanh ?? asset('assets/images/avt_null.jpg')}}" style="width: 50px; height: 50px" class="img-fluid avatar"></li>
-                        <li><a href="">{{ $comment->customer->kh_hovaten }}</a></li>
-                        <li><a href=""><i class="fa fa-clock-o"></i>{{ $comment->created_at->diffForHumans() }}</a></li>
-                        <li><a href=""><i class="fa fa-calendar-o"></i>{{ $comment->created_at->toDateString() }}</a></li>
+                        <li>{{ $comment->customer->kh_hovaten }}</li>
+                        <li><i class="fa fa-clock-o"></i>{{ $comment->created_at->diffForHumans() }}</li>
+                        <li><i class="fa fa-calendar-o"></i>{{ $comment->created_at->toDateString() }}</li>
                     </ul>
                     <ul class="list-inline" title="Average Rating">
                         @for($count = 1; $count<=5; $count++) 
                             @php 
                             if($count<=$comment->bl_sosao){
                                 $color = 'color:#ffcc00;';
-                                }else{
+                                }
+                                else{
                                 $color = 'color:#ccc;';
                                 }
                             @endphp
-                                <li title="đánh giá sao" style="cursor:pointer ; font-size : 20px ; <? $color ?>">
-                                    &#9733;
-                                </li>
+                            <li title="đánh giá sao"
+                                style="cursor:pointer; {{ $color }} font-size: 20px;">
+                                &#9733;
+                            </li>
                         @endfor
                     </ul>
                     <p>{{ $comment->bl_noidung }}</p>
+                    @if($comment->bl_hinhanh != null)
+                    <img src="{{ $comment->bl_hinhanh}}"><br>
+                    @endif
                     <?php
                     $id = Illuminate\Support\Facades\Session::get('customer_id');
                     ?>
@@ -142,9 +146,10 @@
                 <strong class="text-center">Sản phẩm hiện chưa có bình luận</strong>
                 @endif
             </div>
-            <div>
+            <hr>
+            <div style="margin-top: 15px";>
                 @if(Session::get('customer_id'))
-                <form action="{{ route('customer.addComment') }}" method="post">
+                <form id="addComment" action="{{ route('customer.addComment') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <h4>Bình Luận Về Sản Phẩm</h4>
                     <input type="hidden" value="{{ csrf_token() }}">
@@ -152,18 +157,33 @@
                     <textarea class="textComment" placeholder="Viết bình luận cho sản phẩm"></textarea>
                     <b>Đánh giá sao: </b> <img src="images/product-details/rating.png" alt="" />
                     <ul class="list-inline" title="Average Rating">
-                        @for($count = 1; $count<=5; $count++) @if(isset($rating)) @php $rating=$rating; if($count<=$rating){ $color='color:#ffcc00;' ; }else{ $color='color:#ccc;' ; } @endphp @else @php $rating=0; if($count<=$rating){ $color='color:#ffcc00;' ; }else{ $color='color:#ccc;' ; } @endphp @endif <li title="đánh giá sao" id="{{ $product->sp_id }}-{{ $count }}" data-index="{{ $count }}" data-rating="{{ $rating }}" data-product="{{ $product->sp_id }}" data-customer="{{ Session::get('customer_id') }}" data-url="{{ route('customer.addComment') }}" class="rating" style="cursor:pointer; {{$color}} font-size: 30px;">
+                        @for($count = 1; $count<=5; $count++) 
+                            @if(isset($rating)) 
+                                @php $rating=$rating; 
+                                    if($count<=$rating)
+                                    { $color='color:#ffcc00;' ; }
+                                    else
+                                    { $color='color:#ccc;' ; } 
+                                @endphp 
+                            @else 
+                                @php $rating=0; 
+                                    if($count<=$rating){ $color='color:#ffcc00;' ; }
+                            else{ $color='color:#ccc;' ; } 
+                                @endphp 
+                            @endif 
+                            <li title="đánh giá sao" id="{{ $product->sp_id }}-{{ $count }}" data-index="{{ $count }}" data-rating="{{ $rating }}" data-product="{{ $product->sp_id }}" data-customer="{{ Session::get('customer_id') }}" data-url="{{ route('customer.addComment') }}" class="rating" style="cursor:pointer; {{$color}} font-size: 30px;">
                             &#9733;
                             </li>
-                            @endfor
+                        @endfor
                     </ul>
-                    <button type="button" class="btn btn-default addComment">
+                    <input type="file" name="image"><br>
+                    <button type="submit" class="btn btn-default">
                         Gữi bình luận
                     </button>
                 </form>
                 @else
                 <p>Vui lòng đăng nhập vào hệ thống để được bình luận, nếu chưa có tài khoản hãy đăng kí !!!</p>
-                <a href="{{ route('customer.index') }}">Đăng kí tại đây</a>
+                <a href="{{ route('customer.index') }}" class="modalLogin">Đăng kí tại đây</a>
                 @endif
             </div>
         </div>

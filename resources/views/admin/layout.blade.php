@@ -101,7 +101,13 @@
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="{{ asset('js/chart/order.js') }}"></script>
         <script src="{{ asset('js/chart/receipt.js') }}"></script>
+        <script src="{{ asset('js/chart/sales.js') }}"></script>
+        <script src="{{ asset('js/chart/product.js') }}"></script>
         <script src="{{ asset('js/admin/account/account.js') }}"></script>
+        <script src="{{ asset('js/ajax/shipper.js') }}"></script>
+        <script src="{{ asset('js/admin/order/order.js') }}"></script>
+        <script src="{{ asset('js/admin/notification/notify.js') }}"></script>
+        <script src="{{ asset('js/app.js') }}"></script>
         <script>
             $(document).ready( function () {
                 $('#category').DataTable();
@@ -943,37 +949,6 @@
                 })
             })
         </script>
-{{--        CHANGE STATUS ORDER--}}
-        <script>
-            $(document).on('click','.changeStatusOrder',function (e){
-               e.preventDefault();
-               var id = $(this).data('id');
-               var key = $(this).data('key');
-               var idNCC = $(this).data('idncc');
-               var that = $(this);
-               $.ajax({
-                   url : '{{ route('sup.order.changeStatus') }}',
-                   type : 'GET',
-                   data : {
-                       'id' : id,
-                       'key' : key,
-                       'idNCC' : idNCC,
-                   },
-                   success : function (data) {
-                        if(data.code == 200) {
-                            that.removeClass('btn-danger changeStatusOrder').addClass('btn-success');
-                            $('.icon_' + id).removeClass().addClass('fe-thumbs-up');
-                            that.parents('tr').find('.shipper').css('display','inline-block');
-                            $('.count_order_notify').html(data.count);
-                            $('.notify-order_' + id).remove();
-                        }
-                   }
-               })
-            });
-        </script>
-{{--        CHANGE STATUS ORDER--}}
-
-{{--    ADD PERMISSION FROM ROLE--}}
         <script>
             $(document).on('click','.add-permission',function (e){
                 e.preventDefault();
@@ -1378,6 +1353,17 @@
                 }
             })
         })
+    </script>
+    <script>
+        $(function() {
+        var userId = `{{ Auth::id() }}`;
+        window.Echo.private(`App.Models.User.${userId}`)
+            .notification((notification) => {
+                $.get(`{{ route('notitication') }}`, function(data) {
+                    $("#notification-list").html(data);
+                });
+            });
+        });
     </script>
     </body>
 </html>

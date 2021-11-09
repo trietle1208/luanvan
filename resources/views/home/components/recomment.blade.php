@@ -4,7 +4,9 @@
     <div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
             @foreach($product_rating as $key => $productRecomment)
-
+                @php
+                    $quantity =  $productRecomment->receipt()->first();
+                @endphp
                 @if($key % 3 == 0)
                     <div class="item {{$key == 0 ? 'active' : '' }}">
                         @endif
@@ -46,7 +48,19 @@
                                                     </li>
                                                 @endfor
                                             </ul>
-                                            <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+                                            <!-- <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button> -->
+                                            @if($quantity->pivot->soluong > 0)
+                                            <button
+                                                data-id="{{ $productRecomment->sp_id }}" data-key="{{ $productRecomment->ncc->ncc_id }}" data-qty="1" data-url="{{ route('product.addCart') }}"
+                                                class="btn btn-default add-to-cart add-to-cartAjax"><i class="fa fa-shopping-cart">
+                                                </i>Thêm giỏ hàng
+                                            </button>
+                                            @else
+                                            <button
+                                                class="btn btn-danger add-to-cart disable" style="background-color : red; color : white"><i class="fa fa-shopping-cart">
+                                                </i>Hết hàng
+                                            </button>
+                            @endif
                                         </div>
                                     </div>
                                 </div>

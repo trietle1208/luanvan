@@ -44,14 +44,14 @@
                         <a data-bs-toggle="collapse" href="#cardCollpase19" role="button" aria-expanded="false" aria-controls="cardCollpase19"><i class="mdi mdi-minus"></i></a>
                         <a href="javascript: void(0);" data-toggle="remove"><i class="mdi mdi-close"></i></a>
                     </div>
-                    <h4 class="header-title mb-0">Thống kê tổng tiền đơn hàng</h4>
+                    <h4 class="header-title mb-0">Thống kê tình trạng thanh toán đơn hàng</h4>
 
                     <div id="" class="collapse pt-3 show">
                         <div id="chartTotalOrder" class="" 
-                        data-count="{{ $arr_count_total_order }}"
-                        data-name="{{ $arr_name_total_order }}"
-                        data-color="{{ $arr_color_total_order }}"
-                        ></div>
+                        data-count="{{ $arr_count_type_order }}"
+                        data-name="{{ $arr_name_type_order }}"
+                        data-color="{{ $arr_color_type_order }}">
+                        </div>
                     </div> <!-- collapsed end -->
                 </div> <!-- end card-body -->
             </div> <!-- end card-->
@@ -116,6 +116,7 @@
                         <div id="chartOrderByMonth" 
                             data-delete="{{ $arr_count_delete_month_order }}"
                             data-success="{{ $arr_count_success_month_order }}"
+                            data-check="{{ $arr_count_check_month_order }}"
                         ></div>
                     </div> <!-- collapsed end -->
                 </div> <!-- end card-body -->

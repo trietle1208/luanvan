@@ -9,14 +9,6 @@
         <div class="card">
             <div class="card-body">
                 <h2 class="header-title text-center">THÊM TÀI KHOẢN SHIPPER</h2>
-                <?php
-                $message = Session::get('message');
-                if($message)
-                {
-                    echo '<span class="text-primary">'.$message.'</span>';
-                    Session::put('message',null);
-                }
-                ?>
                 <form class="form-horizontal" action="{{ route('admin.account.store_shipper') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="row mb-3">

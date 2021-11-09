@@ -224,11 +224,11 @@ $(document).on('submit','#save-info',function (e){
         }
     })
 })
-$(document).on('click','.followOrder',function (e){
+$(document).on('change','.followOrder',function (e){
     e.preventDefault();
-    var id = $(this).data('id');
+    
+    var id = $(this).val();
     var url = $(this).data('url');
-
     $.ajax({
         type : 'GET',
         url : url,
@@ -259,6 +259,7 @@ $(document).on('click','.confirmFinishOder',function(e){
         success : function (data) {
             if(data.code == 200){
                 $('#theodoidonhang').modal('hide');
+                $('.statusOrder_' + id).removeClass().addClass('text-success statusOrder').html('Đã nhận hàng');
                 Swal.fire(
                     'Thành công!',
                     'Chúc mừng bạn đã nhận được hàng',
@@ -322,13 +323,14 @@ $(document).on('submit','#btnLogin',function (e){
 $(document).on('submit','#btnRegister',function (e){
     e.preventDefault();
     var form = new FormData(this);
-    if(form.get('name') == '' || form.get('pass') == '' || form.get('email') == '' ||form.get('sex') == '' ||form.get('phone') == '' ||form.get('date') == ''){
+    if(form.get('name') == '' || form.get('pass') == '' || form.get('kh_email') == '' ||form.get('sex') == '' ||form.get('phone') == '' ||form.get('date') == ''){
         Swal.fire(
             'Cảnh báo',
             'Vui lòng nhập đầy đủ thông tin đăng kí',
             'error',
         )
-    }else{
+    }
+    else{
         $.ajax({
             url : $(this).attr('action'),
             type : 'POST',
@@ -342,9 +344,6 @@ $(document).on('submit','#btnRegister',function (e){
                 }else if(data.code == 400){
                     $(".errors").html('');
                     $.each(data.errors, function (key, value) {
-                    //    $('.'+key).text(value);
-                    //    $('.error').addClass('alert alert-danger');
-                       
                        $(".errors").append('<div class="alert alert-error"><strong>'+ value +'</strong></div>');
                     });
                 }

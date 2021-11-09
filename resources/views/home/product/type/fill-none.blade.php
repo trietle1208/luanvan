@@ -1,4 +1,7 @@
 @foreach($products as $product)
+    @php
+        $quantity =  $product->receipt()->first();
+    @endphp
     <a href="{{ route('product.detail', ['ncc' => $product->ncc_id ,'slug' => $product->sp_slug]) }}">
         <div class="col-sm-4">
             <div class="product-image-wrapper">
@@ -43,11 +46,23 @@
                                     </li>
                                 @endfor
                             </ul>
+                            <!-- <button
+                                data-id="{{ $product->sp_id }}" data-key="{{ $product->ncc->ncc_id }}" data-qty="1" data-url="{{ route('product.addCart') }}"
+                                class="btn btn-default add-to-cart add-to-cartAjax"><i class="fa fa-shopping-cart">
+                                </i>Thêm giỏ hàng
+                            </button> -->
+                            @if($quantity->pivot->soluong > 0)
                             <button
                                 data-id="{{ $product->sp_id }}" data-key="{{ $product->ncc->ncc_id }}" data-qty="1" data-url="{{ route('product.addCart') }}"
                                 class="btn btn-default add-to-cart add-to-cartAjax"><i class="fa fa-shopping-cart">
                                 </i>Thêm giỏ hàng
                             </button>
+                            @else
+                            <button
+                                class="btn btn-danger add-to-cart disable" style="background-color : red; color : white"><i class="fa fa-shopping-cart">
+                                </i>Hết hàng
+                            </button>
+                            @endif
                         @else
                             <img src="{{ $product->sp_hinhanh }}" style="width: 250px; height: 250px" alt="" />
                             <h2>{{ number_format($product->sp_giabanra) }} VND</h2>
@@ -82,11 +97,23 @@
                                     </li>
                                 @endfor
                             </ul>
+                            <!-- <button
+                                data-id="{{ $product->sp_id }}" data-key="{{ $product->ncc->ncc_id }}" data-qty="1" data-url="{{ route('product.addCart') }}"
+                                class="btn btn-default add-to-cart add-to-cartAjax"><i class="fa fa-shopping-cart">
+                                </i>Thêm giỏ hàng
+                            </button> -->
+                            @if($quantity->pivot->soluong > 0)
                             <button
                                 data-id="{{ $product->sp_id }}" data-key="{{ $product->ncc->ncc_id }}" data-qty="1" data-url="{{ route('product.addCart') }}"
                                 class="btn btn-default add-to-cart add-to-cartAjax"><i class="fa fa-shopping-cart">
                                 </i>Thêm giỏ hàng
                             </button>
+                            @else
+                            <button
+                                class="btn btn-danger add-to-cart disable" style="background-color : red; color : white"><i class="fa fa-shopping-cart">
+                                </i>Hết hàng
+                            </button>
+                            @endif
                         @endif
                     </div>
 

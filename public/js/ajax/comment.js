@@ -13,9 +13,10 @@ $(document).on("click", ".rating", function () {
     $(".rating").attr("data-rating", index);
     $(".addRating").attr("value", index);
 });
-$(document).on("click", ".addComment", function (e) {
+$(document).on("submit", "#addComment", function (e) {
     e.preventDefault();
     var _token = $("input[type=hidden][name=_token]").val();
+    var image = $("input[type=file][name=image]").val();
     var text = $(".textComment").val();
     var rating = $(".addRating").val();
     var id = $(".rating").data("customer");
@@ -28,17 +29,18 @@ $(document).on("click", ".addComment", function (e) {
             "error"
         );
     }
+    var data = new FormData(this);
+    data.append('rating',rating);
+    data.append('text',text);
+    data.append('id',id);
+    data.append('idsp',idsp);
     $.ajax({
         type: "POST",
         url: url,
-        data: {
-            _token: _token,
-            text: text,
-            rating: rating,
-            id: id,
-            idsp: idsp,
-        },
-
+        data: data,
+        cache : false,
+        contentType : false,
+        processData : false,
         success: function (data) {
             if (data.code == 200) {
                 Swal.fire(
@@ -47,8 +49,7 @@ $(document).on("click", ".addComment", function (e) {
                     "success"
                 );
                 $("textarea.textComment").val("");
-                $(".addRating").attr("value", 0);
-                // $('.showComment').append(data.output);
+                $(".addRating").attr("value", '');
             }
         },
     });

@@ -393,6 +393,7 @@ Route::middleware(['auth','verified'])->group(function () {
                     'uses' => 'App\Http\Controllers\Admin\ParameterController@modalAjax'
                 ]);
             });
+
             Route::prefix('phieunhap')->group(function (){
                 Route::get('/danhsach', [
                     'as' => 'receipt.list',
@@ -403,6 +404,7 @@ Route::middleware(['auth','verified'])->group(function () {
                     'uses' => 'App\Http\Controllers\Admin\ReceiptController@changeStatus'
                 ]);
             });
+
             Route::prefix('hinhthucgiaohang')->group(function (){
                 Route::get('/danhsach', [
                     'as' => 'ship.list',
@@ -429,6 +431,38 @@ Route::middleware(['auth','verified'])->group(function () {
                     'uses' => 'App\Http\Controllers\Admin\ShippingController@delete'
                 ]);
             });
+
+            Route::prefix('donhang')->group(function (){
+                Route::get('/danhsach', [
+                    'as' => 'order.list',
+                    'uses' => 'App\Http\Controllers\Admin\OrderController@index'
+                ]);
+                Route::get('/chitiet', [
+                    'as' => 'order.orderDetail',
+                    'uses' => 'App\Http\Controllers\Admin\OrderController@orderDetail'
+                ]);
+                Route::get('/danhsachshipper', [
+                    'as' => 'order.listShipper',
+                    'uses' => 'App\Http\Controllers\Admin\OrderController@listShipper'
+                ]);
+                Route::get('/chonshipper', [
+                    'as' => 'order.chooseShipper',
+                    'uses' => 'App\Http\Controllers\Admin\OrderController@chooseShipper'
+                ]);
+                Route::get('/danhsachdonhangshipper', [
+                    'as' => 'order.listOrderShipper',
+                    'uses' => 'App\Http\Controllers\Admin\OrderController@listOrderShipper'
+                ]);
+                Route::get('/nhandonhang', [
+                    'as' => 'order.selectShipOrder',
+                    'uses' => 'App\Http\Controllers\Admin\OrderController@selectShipOrder'
+                ]);
+                Route::get('/xacnhandagiao', [
+                    'as' => 'order.finishShipOrder',
+                    'uses' => 'App\Http\Controllers\Admin\OrderController@finishShipOrder'
+                ]);
+            });
+
         });
 });
 
@@ -653,6 +687,10 @@ Route::middleware(['auth','verified'])->group(function () {
                     'as' => 'order.changeStatus',
                     'uses' => 'App\Http\Controllers\NCC\OrderController@changeStatus'
                 ]);
+                Route::get('/listShipper', [
+                    'as' => 'order.listShipper',
+                    'uses' => 'App\Http\Controllers\NCC\OrderController@listShipper'
+                ]);
                 Route::get('/chooseShipper', [
                     'as' => 'order.chooseShipper',
                     'uses' => 'App\Http\Controllers\NCC\OrderController@chooseShipper'
@@ -782,6 +820,7 @@ Route::middleware(['auth','verified'])->group(function () {
             });
 
             Route::prefix('thongke')->group(function () {
+                //đơn hàng
                 Route::get('/donhang', [
                     'as' => 'order.statistical',
                     'uses' => 'App\Http\Controllers\NCC\StatisticalController@order'
@@ -794,6 +833,8 @@ Route::middleware(['auth','verified'])->group(function () {
                     'as' => 'order.fillBy3Month',
                     'uses' => 'App\Http\Controllers\NCC\StatisticalController@fillBy3Month'
                 ]);
+
+                //phiếu nhập hàng
                 Route::get('/phieunhaphang', [
                     'as' => 'receipt.statistical',
                     'uses' => 'App\Http\Controllers\NCC\ReceiptStatisticalController@index'
@@ -806,9 +847,35 @@ Route::middleware(['auth','verified'])->group(function () {
                     'as' => 'receipt.fillReceiptBy3Month',
                     'uses' => 'App\Http\Controllers\NCC\ReceiptStatisticalController@fillReceiptBy3Month'
                 ]);
+
+
+                //doanhthu
                 Route::get('/doanhthu', [
                     'as' => 'sales.statistical',
                     'uses' => 'App\Http\Controllers\NCC\SalesStatisticalController@index'
+                ]);
+                Route::get('/doanhthutheothang', [
+                    'as' => 'sales.fillByMonth',
+                    'uses' => 'App\Http\Controllers\NCC\SalesStatisticalController@fillByMonth'
+                ]);
+                Route::get('/doanhthutheongay', [
+                    'as' => 'sales.fillByDate',
+                    'uses' => 'App\Http\Controllers\NCC\SalesStatisticalController@fillByDate'
+                ]);
+                Route::get('/doanhthutheoquy', [
+                    'as' => 'sales.fillBy3Month',
+                    'uses' => 'App\Http\Controllers\NCC\SalesStatisticalController@fillBy3Month'
+                ]);
+
+
+                //sản phẩm
+                Route::get('/sanpham', [
+                    'as' => 'product.statistical',
+                    'uses' => 'App\Http\Controllers\NCC\ProductStatisticalController@index'
+                ]);
+                Route::get('/locsanphamtot', [
+                    'as' => 'product.fillGood',
+                    'uses' => 'App\Http\Controllers\NCC\ProductStatisticalController@fillGood'
                 ]);
             });
         });
@@ -884,6 +951,11 @@ Route::get('/updateCart', [
 Route::get('/deleteCart/{rowId}', [
     'as' => 'product.deleteCart',
     'uses' => 'App\Http\Controllers\Home\ProductController@deleteCart'
+]);
+
+Route::get('/showVoucher', [
+    'as' => 'product.showVoucher',
+    'uses' => 'App\Http\Controllers\Home\ProductController@showVoucher'
 ]);
 
 Route::get('/addVoucher', [
@@ -1038,4 +1110,15 @@ Route::get('/tintuc/{slug}', [
 Route::get('/baiviet', [
     'as' => 'posts.showPosts',
     'uses' => 'App\Http\Controllers\Home\PostsController@showPosts'
+]);
+
+
+Route::get('/thongbao',[
+    'as' => 'notitication',
+    'uses' => 'App\Http\Controllers\HomeController@notitication'
+]);
+
+Route::get('/daxemthongbao/{id}',[
+    'as' => 'seen.notitication',
+    'uses' => 'App\Http\Controllers\HomeController@seen'
 ]);

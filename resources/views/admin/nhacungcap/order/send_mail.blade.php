@@ -4,7 +4,7 @@
     </head>
     <body>
     <h3>Chào, {{ $customer->kh_hovaten }}</h3>
-    <p>Đơn hàng {{ $order->orderAdmin->dh_madonhang }} đã được giao thành công!</p>
+    <p>Đơn hàng {{ $order->dh_madonhang }} đã được giao thành công!</p>
     <p>Cảm ơn bạn đã ghé thăm cửa hàng và mua hàng lần đầu tiên tại cửa
         hàng của chúng tôi! Chúng tôi rất vui vì bạn đã tìm thấy những
         gì bạn đang tìm kiếm.

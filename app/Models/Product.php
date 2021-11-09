@@ -46,6 +46,10 @@ class Product extends Model
 
     public function brand() {
         return $this->belongsTo(Brand::class,'th_id','th_id');
+    }   
+
+    public function type(){
+        return $this->belongsTo(TypeProduct::class,'loaisp_id','loaisp_id');
     }
 
     public function ncc() {
@@ -54,6 +58,10 @@ class Product extends Model
 
     public function detail() {
         return $this->hasMany(DetailPara::class,'sp_id','sp_id');
+    }
+
+    public function receipt(){
+        return $this->belongsToMany(Receipt::class,'chitietphieunhap','sp_id','pnh_id')->withPivot('soluong')->orderBy('chitietphieunhap.created_at','DESC')->get();
     }
 
     public function receiptdetail($id) {
@@ -74,5 +82,23 @@ class Product extends Model
 
     public function comment(){
         return $this->hasMany(Comment::class,'sp_id','sp_id')->where('trangthai',1);
+    }
+
+    public function view(){
+        return $this->hasMany(View::class,'sp_id','sp_id');
+    }
+
+    public function wishlist()
+    {
+        return $this->hasMany(Wishlist::class,'sp_id');
+    }
+
+    public function rating()
+    {
+        return $this->hasMany(Comment::class,'sp_id');
+    }
+
+    public function orderdetail(){
+        return $this->hasMany(OrderDetail::class,'sp_id','sp_id');
     }
 }

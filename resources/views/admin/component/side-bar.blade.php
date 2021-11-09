@@ -42,9 +42,6 @@
         <div id="sidebar-menu">
             @if(auth()->user()->loaitaikhoan == 0)
             <ul id="side-menu">
-
-                <li class="menu-title">Navigation</li>
-
                 <li>
                     <a href="#sidebarLayouts" data-bs-toggle="collapse">
                         <i data-feather="layout"></i>
@@ -73,8 +70,6 @@
                         </ul>
                     </div>
                 </li>
-
-                <li class="menu-title mt-2">Apps</li>
 
                 <li>
                     <a href="#sidebarDashboards" data-bs-toggle="collapse">
@@ -262,13 +257,26 @@
                         </ul>
                     </div>
                 </li>
+
+                <li>
+                    <a href="#sidebarTables" data-bs-toggle="collapse">
+                        <i data-feather="grid"></i>
+                        <span> Quản Lý Đơn Hàng</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarTables">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a href="{{ route('admin.order.list') }}">Danh sách đơn hàng</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
             </ul>
             @else
-            @if(auth()->user()->email_verified_at != null)
+            @if(auth()->user()->email_verified_at != null && auth()->user()->loaitaikhoan != 2)
             <ul id="side-menu">
-
-                <li class="menu-title">Navigation</li>
-
+            @hasanyrole('Admin nhà cung cấp')
                 <li>
                     <a href="#sidebarIcons" data-bs-toggle="collapse">
                         <i data-feather="cpu"></i>
@@ -287,7 +295,7 @@
                                 <a href="{{ route('sup.sales.statistical') }}">Thống kê doanh thu</a>
                             </li>
                             <li>
-                                <a href="icons-two-tone.html">Thống kê sản phẩm</a>
+                                <a href="{{ route('sup.product.statistical') }}">Thống kê sản phẩm</a>
                             </li>
                             <li>
                                 <a href="icons-two-tone.html">Thống kê tài khoản</a>
@@ -295,10 +303,8 @@
                         </ul>
                     </div>
                 </li>
-
-
-                <li class="menu-title mt-2">Apps</li>
-
+                @endhasanyrole
+                @hasanyrole('Quản Lý Sản Phẩm|Admin nhà cung cấp')
                 <li>
                     <a href="#sidebarDashboards" data-bs-toggle="collapse">
                         <i data-feather="airplay"></i>
@@ -320,7 +326,8 @@
                         </ul>
                     </div>
                 </li>
-
+                @endhasanyrole
+                @hasanyrole('Quản Lý Khuyến Mãi|Admin nhà cung cấp')
                 <li>
                     <a href="#sidebarLayouts" data-bs-toggle="collapse">
                         <i data-feather="layout"></i>
@@ -338,6 +345,8 @@
                         </ul>
                     </div>
                 </li>
+                @endhasanyrole
+                @hasanyrole('Quản Lý Kho|Admin nhà cung cấp')
                 <li>
                     <a href="#sidebarEmail" data-bs-toggle="collapse">
                         <i data-feather="mail"></i>
@@ -355,7 +364,8 @@
                         </ul>
                     </div>
                 </li>
-
+                @endhasanyrole
+                @hasanyrole('Quản Lý Khuyến Mãi|Admin nhà cung cấp')
                 <li>
                     <a href="#sidebarTickets" data-bs-toggle="collapse">
                         <i data-feather="aperture"></i>
@@ -373,7 +383,8 @@
                         </ul>
                     </div>
                 </li>
-
+                @endhasanyrole
+                
                 <li>
                     <a href="#sidebarTables" data-bs-toggle="collapse">
                         <i data-feather="grid"></i>
@@ -382,15 +393,21 @@
                     </a>
                     <div class="collapse" id="sidebarTables">
                         <ul class="nav-second-level">
+                            @hasanyrole('Quản Lý Đơn Hàng|Admin nhà cung cấp')
                             <li>
                                 <a href="{{ route('sup.order.list') }}">Danh sách đơn hàng</a>
                             </li>
+                            @endhasanyrole
+                            @hasrole('Quản Lý Giao Hàng')
                             <li>
                                 <a href="{{ route('sup.order.listOrderShipper') }}">Danh sách giao hàng</a>
                             </li>
+                            @endhasrole
                         </ul>
                     </div>
                 </li>
+                
+                @hasanyrole('Quản Lý Tài Khoản|Admin nhà cung cấp')
                 <li>
                     <a href="#sidebarMaps" data-bs-toggle="collapse">
                         <i data-feather="map"></i>
@@ -406,6 +423,24 @@
                                 <a href="{{ route('sup.account.list') }}">Danh sách tài khoản</a>
                             </li>
 
+                        </ul>
+                    </div>
+                </li>
+                @endhasanyrole
+            </ul>
+            @elseif(auth()->user()->loaitaikhoan == 2)
+            <ul>
+                <li>
+                    <a href="#sidebarTables" data-bs-toggle="collapse">
+                        <i data-feather="grid"></i>
+                        <span> Quản Lý Đơn Hàng </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarTables">
+                        <ul class="nav-second-level">
+                            <li>
+                                <a href="{{ route('admin.order.listOrderShipper') }}">Danh sách giao hàng</a>
+                            </li>
                         </ul>
                     </div>
                 </li>

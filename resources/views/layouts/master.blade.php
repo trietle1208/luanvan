@@ -115,7 +115,7 @@
                         onAuthorize: function(data, actions) {
                             return actions.payment.execute().then(function() {
                                 // Show a confirmation message to the buyer
-                                window.alert('Thank you for your purchase!');
+                                document.getElementById('payment').click(); 
                             });
                         }
                     }, '#paypal-button');
@@ -276,60 +276,6 @@
         $(document).on('change','.cart_quantity_input',checkQty);
     </script>
     {{--    CHECK QTY ADD CART--}}
-
-{{--AJAX DELETE CART--}}
-    <script>
-        $(document).on('click','.cart_quantity_delete',function (e) {
-            e.preventDefault();
-            var urlRequest = $(this).data('url');
-            var idNCC = $(this).data('key');
-            var that = $(this);
-
-            Swal.fire({
-                title: 'Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Có, tôi đồng ý!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-
-                    $.ajax({
-                        type : 'GET',
-                        url : urlRequest,
-                        data : {
-                            'idNCC' : idNCC,
-                        },
-                        success : function (data) {
-                            if(data.code == 200) {
-                                that.parent().parent().remove();
-                                $('.subtotal span').html(data.subtotal + ' VND');
-                                $('.total span').html(data.total + ' VND');
-                                if(data.output){
-                                    $('.voucher1 span').html(data.discount + ' VND');
-                                    $('#select-voucher_' + idNCC).html(data.output);
-                                    $('#button-voucher_' + idNCC).removeClass('btn-danger').addClass('btn-success').val(1).text('Áp dụng mã');
-                                }
-                                Swal.fire(
-                                    'Đã xóa',
-                                    'Sản phẩm bạn chọn đã được xóa',
-                                    'success'
-                                )
-                            }
-                            else {
-                                location.href = data.url;
-                            }
-                        },
-                        error : function () {
-
-                        }
-                    })
-                }
-            })
-        })
-    </script>
-{{--AJAX DELETE CART--}}
     <script>
         $(document).on('change','.choose',function (){
            var attr = $(this).attr('id');

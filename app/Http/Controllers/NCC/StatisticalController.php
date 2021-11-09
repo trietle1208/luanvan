@@ -18,6 +18,9 @@ class StatisticalController extends Controller
         $arr_count_order = [];
         $arr_name_order = [];
         $arr_color_order = [];
+        $arr_count_type_order = [];
+        $arr_name_type_order = ['Thanh toán trực tiếp','Thanh toán Paypal'];
+        $arr_color_type_order = ['#4a81d4','#1abc9c'];
         $count_order = OrderNCC::where('ncc_id',Auth::user()->ncc_id)
         ->select(DB::raw('count(*) as count, trangthai'))
         ->groupBy('trangthai')
@@ -53,6 +56,22 @@ class StatisticalController extends Controller
             $arr_name_order[] = (string)$status;
             $arr_color_order[] = (string)$color;
         }
+        //Thống kê tính trạng đơn hàng
+        $count_order_type = OrderNCC::where('ncc_id',Auth::user()->ncc_id)
+        ->where('trangthai','!=',2)
+        ->with('orderAdmin')
+        ->get();
+        // dd($count_order_type->toArray());
+        $count_shipcode = 0;
+        $count_paypal = 0;
+        foreach ($count_order_type as $item){
+            if($item->orderAdmin->ht_id == 1){
+                $count_paypal++;
+            }else{
+                $count_shipcode++;
+            }
+        }
+        $arr_count_type_order = [$count_shipcode,$count_paypal];
         
         //Thống kê theo tổng tiền đơn hàng
         $arr_count_total_order =[];
@@ -128,6 +147,7 @@ class StatisticalController extends Controller
         $arr_month_order = [];
         $arr_count_success_month_order = [];
         $arr_count_delete_month_order = [];
+        $arr_count_check_month_order = [];
         $count_order_by_month_delete = OrderNCC::where('ncc_id',Auth::user()->ncc_id)
         ->select(DB::raw('count(*) as count, trangthai, MONTH(created_at) month'))
         ->groupBy('trangthai','month')
@@ -138,7 +158,14 @@ class StatisticalController extends Controller
         ->groupBy('trangthai','month')
         ->orHaving('trangthai','=',5)
         ->get();
+
+        $count_order_by_month_check = OrderNCC::where('ncc_id',Auth::user()->ncc_id)
+        ->select(DB::raw('count(*) as count, trangthai, MONTH(created_at) month'))
+        ->groupBy('trangthai','month')
+        ->orHaving('trangthai','=',1)
+        ->get();
         $arr_month = [1,2,3,4,5,6,7,8,9,10,11,12];
+
         foreach($arr_month as $month) {
             $count = 0;
             foreach($count_order_by_month_success as $item){
@@ -166,16 +193,35 @@ class StatisticalController extends Controller
             $arr_count_delete_month_order[] = $count;
             
         }
-        
+        foreach($arr_month as $month) {
+            $count = 0;
+            foreach($count_order_by_month_check as $item){
+                if($item['month'] == $month){
+                    if($item['trangthai'] == 1){
+                        $count = (int)$item['count'];
+                        break;
+                    }
+                }
+            }
+            $arr_count_check_month_order[] = $count;
+        }
+
         $arr_order = [
             'arr_count_order' => json_encode($arr_count_order),
             'arr_name_order' => json_encode($arr_name_order),
             'arr_color_order' => json_encode($arr_color_order),
+
+            'arr_count_type_order' => json_encode($arr_count_type_order),
+            'arr_name_type_order' => json_encode($arr_name_type_order),
+            'arr_color_type_order' => json_encode($arr_color_type_order),
+
             'arr_count_total_order' => json_encode($arr_count_total_order),
             'arr_name_total_order' => json_encode($arr_name_total_order),
             'arr_color_total_order' => json_encode($arr_color_total_order),
+            
             'arr_count_success_month_order' => json_encode($arr_count_success_month_order),
             'arr_count_delete_month_order' => json_encode($arr_count_delete_month_order),
+            'arr_count_check_month_order' => json_encode($arr_count_check_month_order),
         ];
         return view('admin.nhacungcap.statistical.order.index',$arr_order);
     }

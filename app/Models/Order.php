@@ -34,5 +34,14 @@ class Order extends Model
         return $this->belongsTo(Address::class, 'dc_id', 'dc_id');
     }
 
+    public function typepayment()
+    {
+        return $this->belongsTo(Shipping::class, 'ht_id', 'ht_id');
+    }
+
+    public function shipper()
+    {
+        return $this->belongsTo(User::class,'gh_id','id');
+    }
 
 }

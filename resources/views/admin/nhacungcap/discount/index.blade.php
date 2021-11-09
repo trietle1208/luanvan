@@ -10,14 +10,6 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="header-title text-center">DANH SÁCH KHUYẾN MÃI</h4>
-                    <?php
-                    $message = Session::get('message');
-                    if($message)
-                    {
-                        echo '<span class="text-primary">'.$message.'</span>';
-                        Session::put('message',null);
-                    }
-                    ?>
                     <div class="table-responsive">
                         <table class="table mb-0">
                             <thead class="table-light">
@@ -33,7 +25,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($discounts as $discount)
+                            @foreach($discounts as $key => $discount)
                                 <tr>
                                     <th scope="row">{{ $discount['km_id'] }}</th>
                                     <td>{{ $discount['km_ten'] }}</td>

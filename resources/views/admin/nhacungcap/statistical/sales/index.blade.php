@@ -1,7 +1,7 @@
 @extends('admin.layout')
 
 @section('title')
-    Thống kê đơn hàng
+    Thống kê doanh thu
 @endsection
 
 @section('content')
@@ -20,8 +20,7 @@
                     <div class="card-body">
                         <i class="fa fa-info-circle text-muted float-end" data-bs-container="#tooltip-container" data-bs-toggle="tooltip" data-bs-placement="bottom" title="More Info"></i>
                         <h4 class="mt-0 font-16">Chi phí nhập hàng</h4>
-                        <h2 class="text-primary my-3 text-center"><span data-plugin="counterup">{{ number_format($total_receipt) }}</span> VNĐ</h2>
-                        <p class="text-muted mb-0">Total income: $22506 <span class="float-end"><i class="fa fa-caret-up text-success me-1"></i>10.25%</span></p>
+                        <h2 class="text-primary my-3 text-center"><span data-plugin="counterup" class="total_receipt">{{ number_format($total_receipt) }}</span> VNĐ</h2>
                     </div>
                 </div>
             </div>
@@ -31,8 +30,8 @@
                     <div class="card-body">
                         <i class="fa fa-info-circle text-muted float-end" data-bs-container="#tooltip-container1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="More Info"></i>
                         <h4 class="mt-0 font-16">Lợi nhuận</h4>
-                        <h2 class="text-primary my-3 text-center"><span data-plugin="counterup">{{ number_format($total_sales) }}</span> VNĐ</h2>
-                        <p class="text-muted mb-0"> 
+                        <h2 class="text-primary my-3 text-center"><span data-plugin="counterup" class="total_sales">{{ number_format($total_sales) }}</span> VNĐ</h2>
+                        <!-- <p class="text-muted mb-0"> 
                             <span class="float-end">
                                     @if($percent_sales > 1)
                                         <i class="fa fa-caret-up text-success me-1">
@@ -46,22 +45,94 @@
                                         {{ round($percent_sales,3) }}%
                                     @endif
                             </span>
-                        </p>
+                        </p> -->
                     </div>
                 </div>
             </div>
-
             <div class="col-md-6 col-xl-4">
                 <div class="card" id="tooltip-container3">
                     <div class="card-body">
                         <i class="fa fa-info-circle text-muted float-end" data-bs-container="#tooltip-container3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="More Info"></i>
                         <h4 class="mt-0 font-16">Tổng doanh thu</h4>
-                        <h2 class="text-primary my-3 text-center"><span data-plugin="counterup">{{ number_format($total_order) }}</span> VNĐ</h2>
-                        <p class="text-muted mb-0">Total revenue: $1.2 M <span class="float-end"><i class="fa fa-caret-up text-success me-1"></i>17.48%</span></p>
+                        <h2 class="text-primary my-3 text-center"><span data-plugin="counterup" class="total_order">{{ number_format($total_order) }}</span> VNĐ</h2>
                     </div>
                 </div>
             </div>
         </div>
+        <hr>
+        <div class="row">
+            <div class="col-6">
+                <div class="row">
+                    <h5>Thống kê theo tháng & ngày</h3>
+                    <div class="row">
+                        <div class="col-5">
+                            <input type="month" class="form-control col-4 valMonth" placeholder="">
+                        </div>
+                        <div class="col-1">
+                            <button class="btn btn-secondary btn-rounded fillByMonth" data-url="{{ route('sup.sales.fillByMonth') }}">Lọc</button>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top: 15px">
+                        <div class="col-5">
+                            <input type="date" class="form-control col-4 valDateStart" placeholder="">
+                        </div>
+                        <div class="col-5">
+                            <input type="date" class="form-control col-4 valDateEnd" placeholder="">
+                        </div>
+                        <div class="col-1">
+                            <button class="btn btn-secondary btn-rounded fillByDate" data-url="{{ route('sup.sales.fillByDate') }}">Lọc</button>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-5">
+                        <select class="form-control typeOption">
+                            <option value="1">
+                                Quý 1
+                            </option>
+                            <option value="2">
+                                Quý 2
+                            </option>
+                            <option value="3">
+                                Quý 3
+                            </option>
+                            <option value="4">
+                                Quý 4
+                            </option>       
+                        </select>
+                        <input type="number" class="form-control col-4 valYear" value="2021" placeholder="" min="2021" max="3000">
+                    </div>
+                    <div class="col-1">
+                    <button class="btn btn-secondary btn-rounded fillBy3Month" data-url="{{ route('sup.sales.fillBy3Month') }}">Lọc</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <hr>
+        <div class="col-xl-12">
+            <!-- Portlet card -->
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-widgets">
+                        <a href="javascript: void(0);" data-toggle="reload"><i class="mdi mdi-refresh"></i></a>
+                        <a data-bs-toggle="collapse" href="#cardCollpase19" role="button" aria-expanded="false" aria-controls="cardCollpase19"><i class="mdi mdi-minus"></i></a>
+                    </div>
+                    <h4 class="header-title mb-0">Thống kê doanh thu cả năm</h4>
+
+                    <div id="" class="collapse pt-3 show">
+                        <div id="chartTotalSales" class="" 
+                        data-order="{{ $arr_order }}"
+                        data-receipt="{{ $arr_receipt }}"
+                        data-sales="{{ $arr_sales }}"
+                        data-month="{{ $arr_month }}"
+                        ></div>
+                    </div> <!-- collapsed end -->
+                </div> <!-- end card-body -->
+            </div> <!-- end card-->
+        </div> <!-- end col-->
     </div>
                       
 @endsection

@@ -1,0 +1,37 @@
+{
+	"authHost": "https://thegioilinhkien.com",
+	"authEndpoint": "/broadcasting/auth",
+	"clients": [
+		{
+			"appId": "7b6240d2fc48860d",
+			"key": "d48b4f49563fc464817544b1838b6a1b"
+		}
+	],
+	"database": "redis",
+	"databaseConfig": {
+		"redis": {},
+		"sqlite": {
+			"databasePath": "/database/laravel-echo-server.sqlite"
+		}
+	},
+	"devMode": true,
+	"host": null,
+	"port": "6001",
+	"protocol": "https",
+	"socketio": {},
+	"secureOptions": 67108864,
+	"sslCertPath": "D:\\xampp\\apache\\crt\\thegioilinhkien.com\\server.crt",
+	"sslKeyPath": "D:\\xampp\\apache\\crt\\thegioilinhkien.com\\server.key",
+	"sslCertChainPath": "",
+	"sslPassphrase": "",
+	"subscribers": {
+		"http": true,
+		"redis": true
+	},
+	"apiOriginAllow": {
+		"allowCors": false,
+		"allowOrigin": "",
+		"allowMethods": "",
+		"allowHeaders": ""
+	}
+}

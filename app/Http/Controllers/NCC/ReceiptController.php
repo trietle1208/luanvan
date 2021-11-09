@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\NCC;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ReceiptAdd;
 use App\Models\Brand;
 use App\Models\DanhMuc;
 use App\Models\Product;
@@ -140,7 +141,7 @@ class ReceiptController extends Controller
         }
     }
 
-    public function store(Request $request)
+    public function store(ReceiptAdd $request)
     {
 //        dd(Session::get('product'));
         //Session::forget('product');

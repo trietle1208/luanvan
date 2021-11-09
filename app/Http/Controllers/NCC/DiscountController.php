@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\NCC;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\DiscountAdd;
 use App\Models\Discount;
 use App\Models\Product;
 use App\Traits\StorageImageTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
-
-
+use Brian2694\Toastr\Facades\Toastr;
 class DiscountController extends Controller
 {
     use StorageImageTrait;
@@ -34,7 +34,7 @@ class DiscountController extends Controller
         return view('admin.nhacungcap.discount.create');
     }
 
-    public function store(Request $request) {
+    public function store(DiscountAdd $request) {
         $dataCreate = [
             'km_ten' => $request->name,
             'km_mota' => $request->desc,
@@ -50,7 +50,7 @@ class DiscountController extends Controller
 
         $this->discount->create($dataCreate);
 
-        Session::put('message','Thêm chương trình khuyến mãi thành công !!!');
+        Toastr::success('Thêm khuyến mãi thành công!','Thành công');
         return redirect()->route('sup.discount.create');
     }
 
@@ -83,7 +83,7 @@ class DiscountController extends Controller
         return view('admin.nhacungcap.discount.edit',compact('discounts','htmlType','htmlStatus'));
     }
 
-    public function update($id, Request $request) {
+    public function update($id, DiscountAdd $request) {
         $dataUpdate = [
             'km_ten' => $request->name,
             'km_mota' => $request->desc,
@@ -100,7 +100,7 @@ class DiscountController extends Controller
 
         $this->discount->find($id)->update($dataUpdate);
 
-        Session::put('message','Cập nhật khuyến mãi thành công !!!');
+        Toastr::success('Cập nhật khuyến mãi thành công!','Thành công');
         return redirect()->route('sup.discount.list');
     }
 

@@ -35,6 +35,7 @@
                         <ul class="list-inline" title="Average Rating">
                             @php
                                 $rating = $product->comment()->avg('bl_sosao');
+                                $quantity =  $product->receipt()->first();
                             @endphp
                             @for($count = 1; $count<=5; $count++)
                                 @if(isset($rating))
@@ -80,11 +81,57 @@
                 </div>
                 <div class="row para">
                     <div class="col-md-6">
-                        <h5><strong>Thông tin nhà cung cấp</strong></h5>
-                        <span><b>Tên nhà cung cấp :</b> {{ $product->ncc->ncc_ten }}</span><br>
-                        <span><b>Địa chỉ :</b>  {{ $product->ncc->ncc_diachi }}</span><br>
-                        <span><b>Mô tả :</b> {{ $product->ncc->ncc_mota }}</span><br>
-                        <span><b>Số điện thoại liên hệ :</b> {{ $product->ncc->ncc_sdt }}</span><br>
+                        <div class="row">
+                            <h5><strong>Thông tin nhà cung cấp</strong></h5>
+                            <span><b>Tên nhà cung cấp :</b> {{ $product->ncc->ncc_ten }}</span><br>
+                            <span><b>Địa chỉ :</b>  {{ $product->ncc->ncc_diachi }}</span><br>
+                            <span><b>Mô tả :</b> {{ $product->ncc->ncc_mota }}</span><br>
+                            <span><b>Số điện thoại liên hệ :</b> {{ $product->ncc->ncc_sdt }}</span><br>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="col-2"> 
+                                    <h1>{{round($product->comment()->avg('bl_sosao'))}}.0</h1>
+                                    <h4>/5.0</h4>
+                                    <ul class="list-inline" title="Average Rating">
+                                        @php
+                                            $rating = $product->comment()->avg('bl_sosao');
+                                            $quantity =  $product->receipt()->first();
+                                        @endphp
+                                        @for($count = 1; $count<=5; $count++)
+                                            @if(isset($rating))
+                                                @php
+                                                    $rating = $rating;
+                                                    if($count<=$rating){
+                                                        $color = 'color:#ffcc00;';
+                                                    }else{
+                                                        $color = 'color:#ccc;';
+                                                    }
+                                                @endphp
+                                            @else
+                                                @php
+                                                    $rating = 0;
+                                                    if($count<=$rating){
+                                                        $color = 'color:#ffcc00;';
+                                                    }else{
+                                                        $color = 'color:#ccc;';
+                                                    }
+                                                @endphp
+                                            @endif
+                                            <li title="đánh giá sao"
+                                                style="cursor:pointer; {{$color}} font-size: 10px;">
+                                                &#9733;
+                                            </li>
+                                        @endfor
+                                    </ul>
+                                </div>
+                                <div class="col-4">
+                                    <h1>{{round($product->comment()->avg('bl_sosao'))}}.0</h1>
+                                    <h4>/5.0</h4>
+                                </div>
+                            </div>
+                            
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <h5><strong>Thông số kỹ thuật</strong></h5>
@@ -101,11 +148,13 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+            @if($quantity->pivot->soluong > 0)
             <button
                 data-id="{{ $product->sp_id }}" data-key="{{ $product->ncc->ncc_id }}" data-qty="1" data-url="{{ route('product.addCart') }}"
                 class="btn btn-success add-to-cartAjax"><i class="fa fa-shopping-cart">
                 </i>Thêm giỏ hàng
             </button>
+            @endif
         </div>
     </div>
 </div>

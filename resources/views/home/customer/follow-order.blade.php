@@ -56,31 +56,39 @@
                 }
 
                 .progressbar li.active {
-                    color : green;
+                    color : #43D018;
                 }
 
                 .progressbar li.active:before {
-                    background-color: green;
+                    background-color: #43D018;
                     color: white;
                 }
 
                 .progressbar li.active + li:after {
-                    background-color: green;
+                    background-color: #43D018;
                 }
             </style>
             <div class="container">
                 <ul class="progressbar">
-                    <li class="">
+                    <li class="{{ $order->trangthai == 0 || $order->trangthai == 1 || $order->trangthai == 3 || $order->trangthai == 4 || $order->trangthai == 5 ? 'active' : '' }}"">
                         Đặt hàng
+                        <i class="{{ $order->trangthai == 0 || $order->trangthai == 1 || $order->trangthai == 3 || $order->trangthai == 4 || $order->trangthai == 5 ? 'fa fa-check' : 'fa fa-times' }}"></i><br>
+                        <img src="{{asset('assets/images/icon1.jpg') }}" style="width: 100; height: 100" class="img-fluid"><br>
                     </li>
-                    <li class="{{ $order->trangthai == 1 ? 'active' : '' }}">
+                    <li class="{{ $order->trangthai == 1 || $order->trangthai == 3 || $order->trangthai == 4 || $order->trangthai == 5 ? 'active' : '' }}">
                         Xác nhận đơn hàng
+                        <i class="{{ $order->trangthai == 1 || $order->trangthai == 3 || $order->trangthai == 4 || $order->trangthai == 5 ? 'fa fa-check' : 'fa fa-times' }}"></i><br>
+                        <img src="{{asset('assets/images/icon-2.jpg') }}" style="width: 100; height: 100" class="img-fluid"><br>
                     </li>
-                    <li class="{{ $order->trangthai == 3 ? 'active' : '' }}">
+                    <li class="{{ $order->trangthai == 3 || $order->trangthai == 4 || $order->trangthai == 5 ? 'active' : '' }}">
                         Giao hàng
+                        <i class="{{ $order->trangthai == 3 || $order->trangthai == 4 || $order->trangthai == 5 ? 'fa fa-check' : 'fa fa-times' }}"></i><br>
+                        <img src="{{asset('assets/images/icon-3.jpg') }}" style="width: 100; height: 100" class="img-fluid"><br>
                     </li>
                     <li class="{{ $order->trangthai == 4 || $order->trangthai == 5 ? 'active' : '' }}">
                         Hoàn thành đơn
+                        <i class="{{ $order->trangthai == 4 || $order->trangthai == 5 ? 'fa fa-check' : 'fa fa-times' }}"></i><br>
+                        <img src="{{asset('assets/images/icon-4.jpg') }}" style="width: 100; height: 100" class="img-fluid"><br>
                     </li>
                 </ul>
             </div>
@@ -126,7 +134,7 @@
                         <div class="col-md-4">
                             <label>Người giao hàng: </label> {{ $order->shipper->name ?? 'Chưa cập nhật' }} <br>
                             <label>Email: </label> {{ $order->shipper->email ?? 'Chưa cập nhật' }} <br>
-                            <label>Số điện thoại: </label> <br>
+                            <label>Số điện thoại: </label>{{ $order->shipper->info->tt_sdt ?? 'Chưa cập nhật' }} <br>
                         </div>
                     </div>
                 </div>

@@ -17,6 +17,7 @@ class Comment extends Model
         'bl_noidung',
         'bl_sosao',
         'bl_idcha',
+        'bl_hinhanh',
         'sp_id',
         'kh_id',
         'us_id',
