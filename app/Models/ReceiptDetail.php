@@ -27,4 +27,9 @@ class ReceiptDetail extends Model
     public function productdetail() {
         return $this->hasMany(Product::class,'sp_id','sp_id');
     }
+
+    public function receipt()
+    {
+        return $this->belongsTo(Receipt::class,'pnh_id','pnh_id');
+    }
 }

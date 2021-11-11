@@ -2,25 +2,25 @@
 
 namespace App\Notifications;
 
-use App\Models\OrderNCC;
+use App\Models\Comment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
 
-class OrderNCCNotification extends Notification
+class CommentNotification extends Notification
 {
     use Queueable;
-    public $order;
+    public $comment;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(OrderNCC $order)
+    public function __construct(Comment $comment)
     {
-        $this->order = $order;
+        $this->comment = $comment;
     }
 
     /**
@@ -57,18 +57,18 @@ class OrderNCCNotification extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'order' => $this->order->toArray(),
-            'route' => route('sup.order.list'),
-            'name_route' => 'sup.order.list',
+            'comment' => $this->comment->toArray(),
+            'route' => route('sup.product.listComment'),
+            'name_route' => 'sup.product.listComment',
         ];
     }
 
     public function toBroadcast($notifiable)
     {
         return new BroadcastMessage([
-            'order' => $this->order->toArray(),
-            'route' => route('admin.order.list'),
-            'name_route' => 'admin.order.list',
+            'comment' => $this->comment->toArray(),
+            'route' => route('sup.product.listComment'),
+            'name_route' => 'sup.product.listComment',
         ]);
     }
 }

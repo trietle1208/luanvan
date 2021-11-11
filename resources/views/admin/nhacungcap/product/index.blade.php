@@ -84,39 +84,6 @@ Sản phẩm
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <!-- <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Thuộc danh mục</th>
-                            <th scope="col">Thuộc thương hiệu</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>{{ $product->cate->dm_ten }}</td>
-                            <td>{{ $product->brand->th_ten }}</td>
-                        </tr>
-
-                    </tbody>
-                </table>
-
-                <table class="table">
-                    <thead>
-                        <tr>
-                            @foreach($product->para as $para)
-                            <th scope="row">{{ $para->ts_tenthongso }}</th>
-                            @endforeach
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            @foreach($product->detail as $detail)
-                            <td>{{ $detail->chitietthongso }}</td>
-                            @endforeach
-                        </tr>
-
-                    </tbody>
-                </table> -->
                 <div class="row">
                     <div class="col-6">
                         <p><strong>Thuộc danh mục : </strong>{{ $product->cate->dm_ten }}</p>

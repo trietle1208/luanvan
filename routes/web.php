@@ -877,6 +877,34 @@ Route::middleware(['auth','verified'])->group(function () {
                     'as' => 'product.fillGood',
                     'uses' => 'App\Http\Controllers\NCC\ProductStatisticalController@fillGood'
                 ]);
+                Route::get('/chitietsanpham', [
+                    'as' => 'product.detail',
+                    'uses' => 'App\Http\Controllers\NCC\ProductStatisticalController@detail'
+                ]);
+                Route::get('/locsanphamtheothang', [
+                    'as' => 'product.fillProductByMonth',
+                    'uses' => 'App\Http\Controllers\NCC\ProductStatisticalController@fillProductByMonth'
+                ]);
+                Route::get('/locsanphamtheoquy', [
+                    'as' => 'product.fillProductBy3Month',
+                    'uses' => 'App\Http\Controllers\NCC\ProductStatisticalController@fillProductBy3Month'
+                ]);
+                Route::get('/locsanphamtheongay', [
+                    'as' => 'product.fillProductByDate',
+                    'uses' => 'App\Http\Controllers\NCC\ProductStatisticalController@fillProductByDate'
+                ]);
+                Route::get('/doanhthusanphamtheothang', [
+                    'as' => 'product.fillProductSalesByMonth',
+                    'uses' => 'App\Http\Controllers\NCC\ProductStatisticalController@fillProductSalesByMonth'
+                ]);
+                Route::get('/doanhthusanphamtheoquy', [
+                    'as' => 'product.fillProductSalesBy3Month',
+                    'uses' => 'App\Http\Controllers\NCC\ProductStatisticalController@fillProductSalesBy3Month'
+                ]);
+                Route::get('/doanhthusanphamtheongay', [
+                    'as' => 'product.fillProductSalesByDate',
+                    'uses' => 'App\Http\Controllers\NCC\ProductStatisticalController@fillProductSalesByDate'
+                ]);
             });
         });
 });

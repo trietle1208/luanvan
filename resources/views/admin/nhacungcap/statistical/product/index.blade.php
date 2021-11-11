@@ -1,7 +1,7 @@
 @extends('admin.layout')
 
 @section('title')
-    Thống kê đơn hàng
+    Thống kê sản phẩm
 @endsection
 
 @section('content')
@@ -26,7 +26,7 @@
                         </div>
                         <div class="col-6">
                             <div class="text-end">
-                                <h3 class="text-dark mt-1"><span data-plugin="counterup">{{ $count_product }}</span></h3>
+                                <h3 class="text-dark mt-1"><span data-plugin="counterup">{{ $product->count() }}</span></h3>
                                 <p class="text-muted mb-1 text-truncate">Sản phẩm</p>
                             </div>
                         </div>
@@ -46,7 +46,7 @@
                         </div>
                         <div class="col-6">
                             <div class="text-end">
-                                <h3 class="text-dark mt-1"><span data-plugin="counterup"></span>{{ $count_comment }}</h3>
+                                <h3 class="text-dark mt-1"><span data-plugin="counterup"></span>{{ $comment->sum('comment_count') }}</h3>
                                 <p class="text-muted mb-1 text-truncate">Bình luận</p>
                             </div>
                         </div>
@@ -66,7 +66,7 @@
                         </div>
                         <div class="col-6">
                             <div class="text-end">
-                                <h3 class="text-dark mt-1"><span data-plugin="counterup">{{ $count_view }}</span></h3>
+                                <h3 class="text-dark mt-1"><span data-plugin="counterup">{{ $view->sum('view_count') }}</span></h3>
                                 <p class="text-muted mb-1 text-truncate">Lượt truy cập</p>
                             </div>
                         </div>
@@ -97,7 +97,7 @@
                                         <th>Giá</th>
                                         <th>Loại</th>
                                         <th>Bảo hành</th>
-                                        <th>Action</th>
+                                        <th>Hành động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -109,7 +109,7 @@
 
                                         <td>
                                             <h5 class="m-0 fw-normal">{{ $product->sp_ten }}</h5>
-                                            <p class="mb-0 text-muted"><small>{{ $product->created_at }}</small></p>
+                                            <p class="mb-0 text-muted"><small>{{ $product->created_at->format('Y-m-d') }}</small></p>
                                         </td>
 
                                         <td>
@@ -125,8 +125,10 @@
                                         </td>
 
                                         <td>
-                                            <a href="javascript: void(0);" class="btn btn-xs btn-light"><i class="mdi mdi-plus"></i></a>
-                                            <a href="javascript: void(0);" class="btn btn-xs btn-secondary"><i class="mdi mdi-minus"></i></a>
+                                            <a href="" class="btn btn-xs btn-light detail_product"
+                                            data-id="{{ $product->sp_id }}"
+                                            data-url="{{ route('sup.product.detail') }}"
+                                            >Chi tiết</a>
                                         </td>
                                     </tr>  
                                     @endforeach
@@ -138,8 +140,341 @@
                 </div>
             </div>
         </div> <!-- end col -->
+        <div class="col-xl-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title mb-3 text-center text-uppercase">Các bình luận gần đây</h4>
+                    @php
+                        $count = 0;
+                        $count_1 = 0;
+                        $count_2 = 0;
+                        $count_3 = 0;
+                        $count_4 = 0;
+                        $count_5 = 0;
+                        foreach ($comments as $comment){
+                            if($comment->bl_sosao != NULL && $comment['product'] != NULL){
+                                $count++;
+                            }
+                        }
 
-        
-    </div>  
+                        foreach ($comments as $comment){
+                            if($comment->bl_sosao == 1 && $comment['product'] != NULL){
+                                $count_1++;
+                            }else if($comment->bl_sosao == 2 && $comment['product'] != NULL){
+                                $count_2++;
+                            }else if($comment->bl_sosao == 3 && $comment['product'] != NULL){
+                                $count_3++;
+                            }else if($comment->bl_sosao == 4 && $comment['product'] != NULL){
+                                $count_4++;
+                            }else if($comment->bl_sosao == 5 && $comment['product'] != NULL){
+                                $count_5++;
+                            }
+                        }
+                    @endphp
+                    <!-- <div class="progress mb-2">
+                        
+                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width: {{ ($count_5/$count)*100 }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="progress mb-2">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width: {{ ($count_4/$count)*100 }}%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="progress mb-2">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" style="width: {{ ($count_3/$count)*100 }}%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="progress mb-2">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: {{ ($count_2/$count)*100 }}%"></div>
+                    </div>
+                    <div class="progress mb-2">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" style="width: {{ ($count_1/$count)*100 }}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div> -->
+                    <select class="form-control text-center selectTypeStatisticalProduct" data-url="{{ route('sup.product.fillGood') }}">
+                        <option value="1" class="selected text-center">Bán chạy</option>
+                        <option value="2">Lượt xem cao</option>
+                        <option value="3">Yêu thích</option>
+                        <option value="4">Rating cao</option>
+                    </select>
+                    <hr>
+                    <div class="">
+                        <div class="table-responsive">
+                            <table class="table table-borderless table-hover table-nowrap table-centered m-0">
+
+                                <thead class="table-light">
+                                    <tr>
+                                        <th colspan="2">Hình ảnh</th>
+                                        <th>Người đăng tải</th>
+                                        <th>Nội dung</th>
+                                        <th>Số sao</th>
+                                        <th>Ngày đăng</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                @foreach ($comments as $comment)
+                                    @if($comment['product'] != NULL)
+                                        <tr>
+                                            <td style="width: 36px;">
+                                                <img src="{{ $comment['product']['sp_hinhanh'] }}" alt="contact-img" title="contact-img" class="rounded-circle avatar-sm" />
+                                            </td>
+
+                                            <td>
+                                                <h5 class="m-0 fw-normal">{{ $comment['product']['sp_ten'] }}</h5>
+                                                <p class="mb-0 text-muted"><small>{{ $comment['product']['created_at']->format('Y-m-d') }}</small></p>
+                                            </td>
+
+                                            <td>
+                                                {{ $comment['customer']['kh_hovaten'] }} VNĐ
+                                            </td>
+
+                                            <td>
+                                            {{ $comment->bl_noidung }}
+                                            </td>
+
+                                            @if($comment->bl_sosao)
+                                                <td style="color : #ffcc00; font-size : 20px">
+                                                    @for($i = 0 ; $i < $comment->bl_sosao ; $i++)
+                                                        &#9733;
+                                                    @endfor
+                                                </td>
+                                            @else
+                                                <td><strong class="text-primary">Bình luận phản hồi</strong></td>
+                                            @endif
+
+                                            <td>
+                                                {{ $comment->created_at->format('Y-m-d') }}
+                                            </td>
+                                        </tr>
+                                    @endif  
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div> <!-- end col -->
+    </div>
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title mb-3 text-center text-uppercase">Thống kê biểu đồ sản phẩm bán chạy</h4>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row" style="padding-bottom : 30px">
+                                <div class="col-6">
+                                    <h4>Thống kê theo ngày & tháng </h4>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <input type="month" class="form-control month">
+                                            <hr>
+                                            <button class="btn btn-success fillProductByMonth" data-url="{{ route('sup.product.fillProductByMonth') }}">Lọc</button>
+                                        </div>
+                                        <div class="col-8">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <input type="date" class="form-control dateStart">
+                                                </div>
+                                                <div class="col-6">
+                                                    <input type="date" class="form-control dateEnd">
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <button class="btn btn-success fillProductByDate" data-url="{{ route('sup.product.fillProductByDate') }}">Lọc</button>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                </div>
+                                <div class="col-6">
+                                <h4>Thống kê theo quý </h4>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <select class="form-control type">
+                                                <option value="1">Quý 1</option>
+                                                <option value="2">Quý 2</option>
+                                                <option value="3">Quý 3</option>
+                                                <option value="4">Quý 4</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-6">
+                                            <input type="number" class="form-control year" value="2021" min="2021">
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <button class="btn btn-success fillProductBy3Month" data-url="{{ route('sup.product.fillProductBy3Month') }}">Lọc</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div id="" class="collapse pt-3 show">
+                                <div id="chartProductSell" class="" 
+                                    data-count="{{ $arr_product_qty }}"
+                                    data-name="{{ $arr_product_name }}">
+                                </div>
+                            </div> 
+                        </div>
+                        <div class="col-6">
+                            <div class="fillTable">
+                                <div class="table-responsive">
+                                    <table class="table table-borderless table-hover table-nowrap table-centered m-0">
+
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th colspan="2">Hình ảnh</th>
+                                                <th>Đã bán</th>
+                                                <th>Hành động</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($product_count as $product)
+                                                <tr>
+                                                    <td style="width: 36px;">
+                                                        <img src="{{ $product->sp_hinhanh }}" alt="contact-img" title="contact-img" class="rounded-circle avatar-sm" />
+                                                    </td>
+
+                                                    <td>
+                                                        <h5 class="m-0 fw-normal">{{ $product->sp_ten }}</h5>
+                                                        <p class="mb-0 text-muted"><small>{{ $product->created_at->format('Y-m-d') }}</small></p>
+                                                    </td>
+
+                                                    <td>
+                                                        {{ $product['orderdetail_sum_soluong'] }} sản phẩm
+                                                    </td>
+
+                                                    <td>
+                                                        <a href="" class="btn btn-xs btn-light detail_product"
+                                                        data-id="{{ $product->sp_id }}"
+                                                        data-url="{{ route('sup.product.detail') }}"
+                                                        >Chi tiết</a>
+                                                    </td>
+                                                </tr> 
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- end col -->
+    </div>
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title mb-3 text-center text-uppercase">Thống kê biểu đồ doanh thu sản phẩm</h4>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row" style="padding-bottom : 30px">
+                                <div class="col-6">
+                                    <h4>Thống kê theo ngày & tháng </h4>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <input type="month" class="form-control monthSales">
+                                            <hr>
+                                            <button class="btn btn-success fillProductSalesByMonth" data-url="{{ route('sup.product.fillProductSalesByMonth') }}">Lọc</button>
+                                        </div>
+                                        <div class="col-8">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <input type="date" class="form-control dateSalesStart">
+                                                </div>
+                                                <div class="col-6">
+                                                    <input type="date" class="form-control dateSalesEnd">
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <button class="btn btn-success fillProductSalesByDate" data-url="{{ route('sup.product.fillProductSalesByDate') }}">Lọc</button>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                </div>
+                                <div class="col-6">
+                                <h4>Thống kê theo quý </h4>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <select class="form-control typeSales">
+                                                <option value="1">Quý 1</option>
+                                                <option value="2">Quý 2</option>
+                                                <option value="3">Quý 3</option>
+                                                <option value="4">Quý 4</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-6">
+                                            <input type="number" class="form-control yearSales" value="2021" min="2021">
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <button class="btn btn-success fillProductSalesBy3Month" data-url="{{ route('sup.product.fillProductSalesBy3Month') }}">Lọc</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="fillTableSales">
+                                <div class="table-responsive">
+                                    <table class="table table-borderless table-hover table-nowrap table-centered m-0">
+
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th colspan="2">Hình ảnh</th>
+                                                <th>Lợi nhuận</th>
+                                                <th>Hành động</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($product_sales as $product)
+                                                <tr>
+                                                    <td style="width: 36px;">
+                                                        <img src="{{ $product->sp_hinhanh }}" alt="contact-img" title="contact-img" class="rounded-circle avatar-sm" />
+                                                    </td>
+
+                                                    <td>
+                                                        <h5 class="m-0 fw-normal">{{ $product->sp_ten }}</h5>
+                                                        <p class="mb-0 text-muted"><small>{{ $product->created_at->format('Y-m-d') }}</small></p>
+                                                    </td>
+
+                                                    <td>
+                                                        {{ number_format($product['total']) }} VNĐ
+                                                    </td>
+
+                                                    <td>
+                                                        <a href="" class="btn btn-xs btn-light detail_product"
+                                                        data-id="{{ $product->sp_id }}"
+                                                        data-url="{{ route('sup.product.detail') }}"
+                                                        >Chi tiết</a>
+                                                    </td>
+                                                </tr> 
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div> 
+                        </div>
+                        <div class="col-6">
+                            <div id="" class="collapse pt-3 show">
+                                <div id="chartProductSales" class="" 
+                                    data-name="{{ $arr_product_name_sales }}"
+                                    data-count="{{ $arr_product_sales }}"
+                                >
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- end col -->
+    </div>   
+</div>
+
+
+
+<div class="modal fade" id="chitietsanpham" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
 </div>
 @endsection

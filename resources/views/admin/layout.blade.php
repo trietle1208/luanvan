@@ -111,7 +111,7 @@
         <script>
             $(document).ready( function () {
                 $('#category').DataTable();
-            } );
+            });
         </script>
 {{--        CHANGE-STATUS-USER--}}
         <script>
@@ -995,7 +995,7 @@
                 success : function (data){
                     if(data.code == 200){
                         $('#danhsachsanpham').html(data.output);
-                        $('#sanphamphieunhap').DataTable();
+                        // $('#sanphamphieunhap').DataTable();
                         $('#danhsachsanpham').modal('show');
                     }
                 }

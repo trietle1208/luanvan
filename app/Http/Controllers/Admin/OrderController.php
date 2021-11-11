@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Notifications\ShipperNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Notification;
 
 class OrderController extends Controller
 {
@@ -63,10 +65,12 @@ class OrderController extends Controller
     }
 
     public function chooseShipper(Request $request){
-        $order = Order::find($request->id_order)->update([
+        Order::find($request->id_order)->update([
             'gh_id' => $request->id_shipper,
         ]);
-        
+        $user = User::find($request->id_shipper);
+        $order = Order::find($request->id_order)->load('address.customer');
+        Notification::send($user, new ShipperNotification($order));
         return response()->json([
             'code' => 200,
             'message' => 'Chọn shipper thành công!',

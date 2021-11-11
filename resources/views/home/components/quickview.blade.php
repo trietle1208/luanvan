@@ -89,47 +89,7 @@
                             <span><b>Số điện thoại liên hệ :</b> {{ $product->ncc->ncc_sdt }}</span><br>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="col-2"> 
-                                    <h1>{{round($product->comment()->avg('bl_sosao'))}}.0</h1>
-                                    <h4>/5.0</h4>
-                                    <ul class="list-inline" title="Average Rating">
-                                        @php
-                                            $rating = $product->comment()->avg('bl_sosao');
-                                            $quantity =  $product->receipt()->first();
-                                        @endphp
-                                        @for($count = 1; $count<=5; $count++)
-                                            @if(isset($rating))
-                                                @php
-                                                    $rating = $rating;
-                                                    if($count<=$rating){
-                                                        $color = 'color:#ffcc00;';
-                                                    }else{
-                                                        $color = 'color:#ccc;';
-                                                    }
-                                                @endphp
-                                            @else
-                                                @php
-                                                    $rating = 0;
-                                                    if($count<=$rating){
-                                                        $color = 'color:#ffcc00;';
-                                                    }else{
-                                                        $color = 'color:#ccc;';
-                                                    }
-                                                @endphp
-                                            @endif
-                                            <li title="đánh giá sao"
-                                                style="cursor:pointer; {{$color}} font-size: 10px;">
-                                                &#9733;
-                                            </li>
-                                        @endfor
-                                    </ul>
-                                </div>
-                                <div class="col-4">
-                                    <h1>{{round($product->comment()->avg('bl_sosao'))}}.0</h1>
-                                    <h4>/5.0</h4>
-                                </div>
-                            </div>
+                            
                             
                         </div>
                     </div>

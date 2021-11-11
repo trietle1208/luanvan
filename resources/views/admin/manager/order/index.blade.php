@@ -88,7 +88,7 @@
                             </thead>
                             <tbody>
                             @foreach($orders as $order)
-                                @if($order['dh_trangthai'] == 2)
+                                @if($order['dh_trangthai'] == 4)
                                     <tr>
                                         <th scope="row">{{ $order['dh_id'] }}</th>
                                         <td>{{ $order->dh_madonhang }}</td>

@@ -101,4 +101,8 @@ class Product extends Model
     public function orderdetail(){
         return $this->hasMany(OrderDetail::class,'sp_id','sp_id');
     }
+
+    public function detailreceipt(){
+        return $this->hasMany(ReceiptDetail::class,'sp_id','sp_id');
+    }
 }

@@ -79,9 +79,9 @@
                 <div class="comment comment_{{ $comment->bl_id }}">
                     <ul>
                         <li><img src="{{ $comment->customer->kh_hinhanh ?? asset('assets/images/avt_null.jpg')}}" style="width: 50px; height: 50px" class="img-fluid avatar"></li>
-                        <li>{{ $comment->customer->kh_hovaten }}</li>
-                        <li><i class="fa fa-clock-o"></i>{{ $comment->created_at->diffForHumans() }}</li>
-                        <li><i class="fa fa-calendar-o"></i>{{ $comment->created_at->toDateString() }}</li>
+                        <li><a href="">{{ $comment->customer->kh_hovaten }}</a></li>
+                        <li><a href=""><i class="fa fa-clock-o"></i>{{ $comment->created_at->diffForHumans() }}</a></li>
+                        <li><a href=""><i class="fa fa-calendar-o"></i>{{ $comment->created_at->toDateString() }}</a></li>
                     </ul>
                     <ul class="list-inline" title="Average Rating">
                         @for($count = 1; $count<=5; $count++) 

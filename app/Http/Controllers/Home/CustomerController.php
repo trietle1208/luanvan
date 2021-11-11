@@ -20,11 +20,13 @@ use App\Models\Social;
 use App\Models\User;
 use App\Models\Ward;
 use App\Models\Wishlist;
+use App\Notifications\CommentNotification;
 use App\Traits\StorageImageTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
@@ -419,26 +421,46 @@ class CustomerController extends Controller
     }
 
     public function addComment(Request $request){
-        Carbon::setLocale('vi');
-        $now = Carbon::now('Asia/Ho_Chi_Minh');
-        $dt = Carbon::now('Asia/Ho_Chi_Minh');
-        $image = $this->storageTraitUploadCustomer($request,'image','comment');
-        if($image){
-            $comment = Comment::create([
-                'bl_noidung' => $request->text,
-                'bl_sosao' => $request->rating,
-                'bl_idcha' => null,
-                'bl_hinhanh' => $image['file_path'],
-                'sp_id' => $request->idsp,
-                'kh_id' => $request->id,
-                'us_id' => null,
-                'trangthai' => 0,
-            ]);
+        try {
+            Carbon::setLocale('vi');
+            $now = Carbon::now('Asia/Ho_Chi_Minh');
+            $dt = Carbon::now('Asia/Ho_Chi_Minh');
+            DB::beginTransaction();
+            $image = $this->storageTraitUploadCustomer($request,'image','comment');
+            if($image){
+                $comment = Comment::create([
+                    'bl_noidung' => $request->text,
+                    'bl_sosao' => $request->rating,
+                    'bl_idcha' => null,
+                    'bl_hinhanh' => $image['file_path'],
+                    'sp_id' => $request->idsp,
+                    'kh_id' => $request->id,
+                    'us_id' => null,
+                    'trangthai' => 0,
+                ]);
+            }else{
+                $comment = Comment::create([
+                    'bl_noidung' => $request->text,
+                    'bl_sosao' => $request->rating,
+                    'bl_idcha' => null,
+                    'sp_id' => $request->idsp,
+                    'kh_id' => $request->id,
+                    'us_id' => null,
+                    'trangthai' => 0,
+                ]);
+            }
+            $comment = $comment->load('customer','product');
+            $product = Product::find($request->idsp);
+            $users = User::where('ncc_id',$product->ncc->ncc_id)->role(['Quản Lý Sản Phẩm','Admin nhà cung cấp'])->get();
+            Notification::send($users, new CommentNotification($comment));
+            DB::commit();
+            return response()->json([
+            'code' => 200,
+            ],200);
+        } catch (\Throwable $th) {
+            DB::rollBack();
         }
-        return response()->json([
-           'code' => 200,
-        //    'output' => view('home.customer.comment',compact('comment','dt','now'))->render(),
-        ],200);
+        
     }
 
     public function repComment(Request $request){

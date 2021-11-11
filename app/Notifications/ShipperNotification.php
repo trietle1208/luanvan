@@ -2,14 +2,14 @@
 
 namespace App\Notifications;
 
-use App\Models\OrderNCC;
+use App\Models\Order;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
 
-class OrderNCCNotification extends Notification
+class ShipperNotification extends Notification
 {
     use Queueable;
     public $order;
@@ -18,7 +18,7 @@ class OrderNCCNotification extends Notification
      *
      * @return void
      */
-    public function __construct(OrderNCC $order)
+    public function __construct(Order $order)
     {
         $this->order = $order;
     }
@@ -58,8 +58,8 @@ class OrderNCCNotification extends Notification
     {
         return [
             'order' => $this->order->toArray(),
-            'route' => route('sup.order.list'),
-            'name_route' => 'sup.order.list',
+            'route' => route('admin.order.listOrderShipper'),
+            'name_route' => 'admin.order.listOrderShipper',
         ];
     }
 
@@ -67,8 +67,8 @@ class OrderNCCNotification extends Notification
     {
         return new BroadcastMessage([
             'order' => $this->order->toArray(),
-            'route' => route('admin.order.list'),
-            'name_route' => 'admin.order.list',
+            'route' => route('admin.order.listOrderShipper'),
+            'name_route' => 'admin.order.listOrderShipper',
         ]);
     }
 }
