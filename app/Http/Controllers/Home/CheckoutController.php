@@ -103,51 +103,54 @@ class CheckoutController extends Controller
                     'code' => 400,
                     'errors' => $validator->errors()
                 ]);
-            }
-            $data = Address::insertGetId([
-                'dc_sonha' => $request->address,
-                'dc_tennguoinhan' => $request->name,
-                'dc_sdt' => $request->phone,
-                'kh_id' => $user,
-                'xp_id' => $request->ward,
-            ]);
-            $carts = Session::get('cart');
-            $total = 0;
-            $subtotal = 0;
-            $discount = 0;
-            foreach ($carts as $key => $cart) {
-                foreach ($cart as $key => $product) {
-                    if($key != 0) {
-                        $subtotal += $product['total'];
-                    }else
-                        if(count($product) > 0){
-                            $discount += $product['voucherPrice'];
+            }else{
+                $data = Address::insertGetId([
+                    'dc_sonha' => $request->address,
+                    'dc_tennguoinhan' => $request->name,
+                    'dc_sdt' => $request->phone,
+                    'kh_id' => $user,
+                    'xp_id' => $request->ward,
+                ]);
+                $carts = Session::get('cart');
+                $total = 0;
+                $subtotal = 0;
+                $discount = 0;
+                if(isset($carts)){
+                    foreach ($carts as $key => $cart) {
+                        foreach ($cart as $key => $product) {
+                            if($key != 0) {
+                                $subtotal += $product['total'];
+                            }else
+                                if(count($product) > 0){
+                                    $discount += $product['voucherPrice'];
+                                }
                         }
+                    }
                 }
-            }
-
-            $address = Address::where('kh_id',$user)->orderBy('dc_id','DESC')->get();
-            foreach ($address as $add){
-                if($add->dc_id == $data) {
-                    $output .= '<option value="'.$add->dc_id.'" selected>
-                                    '.$add->dc_sonha.'
-                                </option>';
-                }else{
-                    $output .= '<option value="'.$add->dc_id.'">
-                                    '.$add->dc_sonha.'
-                                </option>';
+    
+                $address = Address::where('kh_id',$user)->orderBy('dc_id','DESC')->get();
+                foreach ($address as $add){
+                    if($add->dc_id == $data) {
+                        $output .= '<option value="'.$add->dc_id.'" selected>
+                                        '.$add->dc_sonha.'
+                                    </option>';
+                    }else{
+                        $output .= '<option value="'.$add->dc_id.'">
+                                        '.$add->dc_sonha.'
+                                    </option>';
+                    }
                 }
+                $fee = Address::find($data)->ward->province->city->phivanchuyen;
+                $total = $subtotal - $discount + $fee;
+                return response()->json([
+                    'code' => 200,
+                    'message' => 'success',
+                    'output' => $output,
+                    'fee' => number_format($fee),
+                    'total' => number_format($total),
+                    'total1' => $total,
+                ],200);
             }
-            $fee = Address::find($data)->ward->province->city->phivanchuyen;
-            $total = $subtotal - $discount + $fee;
-            return response()->json([
-                'code' => 200,
-                'message' => 'success',
-                'output' => $output,
-                'fee' => number_format($fee),
-                'total' => number_format($total),
-                'total1' => $total,
-            ],200);
         }
     }
 
@@ -185,13 +188,12 @@ class CheckoutController extends Controller
     }
 
     public function payment(Request $request) {
-        try {
-                $dt = Carbon::now('Asia/Ho_Chi_Minh')->toDateString();
+        
+                $dt = Carbon::now('Asia/Ho_Chi_Minh')->toDateTimeString();
             do {
                 $number = random_int(0, 999);
                 $code = 'MDH'.$number;
             } while (Order::where("dh_madonhang", "=", $code)->first());
-            DB::beginTransaction();
             
             if($request) {
                 $carts = Session::get('cart');
@@ -234,10 +236,9 @@ class CheckoutController extends Controller
                         'updated_at' => $dt,
                         'trangthai' => 0,
                     ]);
-                        $order_ncc_new = OrderNCC::find($dataCreateOrderNCC);
-                        $list_user = User::where('ncc_id',$key)->get();
-                        $users = $list_user->hasAnyRole(['Quản Lý Đơn Hàng','Admin nhà cung cấp']);
-                        Notification::send($users, new OrderNCCNotification($order_ncc_new));
+                        $order_ncc_new = OrderNCC::find($dataCreateOrderNCC)->load('orderAdmin.address.customer');
+                        // $users = User::where('ncc_id',$key)->role(['Quản Lý Đơn Hàng','Admin nhà cung cấp'])->get();
+                        // Notification::send($users, new OrderNCCNotification($order_ncc_new));
                     }else{ 
                         $dataCreateOrderNCC = OrderNCC::insertGetId([
                             'dh_id' => $dataCreateOrder,
@@ -248,8 +249,8 @@ class CheckoutController extends Controller
                             'updated_at' => $dt,
                         ]);
                         $order_ncc_new = OrderNCC::find($dataCreateOrderNCC)->load('orderAdmin.address.customer');
-                        $users = User::where('ncc_id',$key)->role(['Quản Lý Đơn Hàng','Admin nhà cung cấp'])->get();
-                        Notification::send($users, new OrderNCCNotification($order_ncc_new));
+                        // $users = User::where('ncc_id',$key)->role(['Quản Lý Đơn Hàng','Admin nhà cung cấp'])->get();
+                        // Notification::send($users, new OrderNCCNotification($order_ncc_new));
                     }
                     foreach ($cart as $key2 => $item){
                         if($key2 != 0){
@@ -274,17 +275,13 @@ class CheckoutController extends Controller
                 }
                 Session::forget('cart');
                 $order_new = Order::find($dataCreateOrder)->load('address.customer');
-                $users = User::whereNull('ncc_id')->where('loaitaikhoan',0)->get();
-                Notification::send($users, new OrderNotification($order_new));
-                DB::commit();
+                // $users = User::whereNull('ncc_id')->where('loaitaikhoan',0)->get();
+                // Notification::send($users, new OrderNotification($order_new));
+                
                 return response()->json([
                     'code' => 200,
                     'url' => route('trangchu'),
                 ],200);
             }
-        } catch (\Throwable $th) {
-            DB::rollBack();
-        }
-        
     }
 }

@@ -393,7 +393,7 @@ Route::middleware(['auth','verified'])->group(function () {
                     'uses' => 'App\Http\Controllers\Admin\ParameterController@modalAjax'
                 ]);
             });
-
+//receipt
             Route::prefix('phieunhap')->group(function (){
                 Route::get('/danhsach', [
                     'as' => 'receipt.list',
@@ -404,7 +404,7 @@ Route::middleware(['auth','verified'])->group(function () {
                     'uses' => 'App\Http\Controllers\Admin\ReceiptController@changeStatus'
                 ]);
             });
-
+//typeShip
             Route::prefix('hinhthucgiaohang')->group(function (){
                 Route::get('/danhsach', [
                     'as' => 'ship.list',
@@ -431,7 +431,7 @@ Route::middleware(['auth','verified'])->group(function () {
                     'uses' => 'App\Http\Controllers\Admin\ShippingController@delete'
                 ]);
             });
-
+//order
             Route::prefix('donhang')->group(function (){
                 Route::get('/danhsach', [
                     'as' => 'order.list',
@@ -462,7 +462,24 @@ Route::middleware(['auth','verified'])->group(function () {
                     'uses' => 'App\Http\Controllers\Admin\OrderController@finishShipOrder'
                 ]);
             });
-
+            Route::prefix('thongke')->group(function (){
+                Route::get('/donhang', [
+                    'as' => 'order.list',
+                    'uses' => 'App\Http\Controllers\Admin\StatisticalOrderController@index'
+                ]);
+                Route::get('/donhangtheothang', [
+                    'as' => 'order.fillOrderByMonth',
+                    'uses' => 'App\Http\Controllers\Admin\StatisticalOrderController@fillOrderByMonth'
+                ]);
+                Route::get('/donhangtheoquy', [
+                    'as' => 'order.fillOrderBy3Month',
+                    'uses' => 'App\Http\Controllers\Admin\StatisticalOrderController@fillOrderBy3Month'
+                ]);
+                Route::get('/donhangtheongay', [
+                    'as' => 'order.fillOrderByDate',
+                    'uses' => 'App\Http\Controllers\Admin\StatisticalOrderController@fillOrderByDate'
+                ]);
+            });
         });
 });
 
@@ -833,6 +850,10 @@ Route::middleware(['auth','verified'])->group(function () {
                     'as' => 'order.fillBy3Month',
                     'uses' => 'App\Http\Controllers\NCC\StatisticalController@fillBy3Month'
                 ]);
+                Route::get('/donhangtheongay', [
+                    'as' => 'order.fillByDate',
+                    'uses' => 'App\Http\Controllers\NCC\StatisticalController@fillByDate'
+                ]);
 
                 //phiếu nhập hàng
                 Route::get('/phieunhaphang', [
@@ -847,7 +868,7 @@ Route::middleware(['auth','verified'])->group(function () {
                     'as' => 'receipt.fillReceiptBy3Month',
                     'uses' => 'App\Http\Controllers\NCC\ReceiptStatisticalController@fillReceiptBy3Month'
                 ]);
-
+                
 
                 //doanhthu
                 Route::get('/doanhthu', [

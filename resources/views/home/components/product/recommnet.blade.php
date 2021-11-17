@@ -16,7 +16,6 @@
                                             <img src="{{ $productRecomment->sp_hinhanh }}" style="height: 250px ; width: 250px" alt="" />
                                             <h2>{{ number_format($productRecomment->sp_giabanra) }} VND</h2>
                                             <p>{{ $productRecomment->sp_ten }}</p>
-                                            <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
                                         </div>
                                     </div>
                                 </div>

@@ -103,6 +103,7 @@
         <script src="{{ asset('js/chart/receipt.js') }}"></script>
         <script src="{{ asset('js/chart/sales.js') }}"></script>
         <script src="{{ asset('js/chart/product.js') }}"></script>
+        <script src="{{ asset('js/chartAdmin/order.js') }}"></script>
         <script src="{{ asset('js/admin/account/account.js') }}"></script>
         <script src="{{ asset('js/ajax/shipper.js') }}"></script>
         <script src="{{ asset('js/admin/order/order.js') }}"></script>

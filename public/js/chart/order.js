@@ -87,7 +87,7 @@ check_parse = JSON.parse(check);
         },
         plotOptions: {
             bar: {
-                columnWidth: "20%"
+                columnWidth: "80%"
             }
         },
         xaxis: {
@@ -231,4 +231,60 @@ $(document).on('click','.fillBy3Month',function(e){
             }
         }
     })
+})
+
+//Thống kê theo ngày
+$(document).on('click','.fillByDate',function (e){
+    e.preventDefault();
+    var dateStart = $('.valDateStart').val();
+    var dateEnd = $('.valDateEnd').val();
+    var url = $(this).data('url');
+
+    if(dateEnd == '' || dateStart == ''){
+        Swal.fire(
+          'Cảnh báo',
+          'Vui lòng chọn ngày bắt đầu và ngày kết thúc!',
+          'error'
+        )
+      }
+    else if(dateEnd <= dateStart) {
+        Swal.fire(
+            'Cảnh báo',
+            'Vui lòng chọn ngày kết thúc lớn hơn ngày bắt đầu!',
+            'error'
+        )
+    }else{
+        $.ajax({
+            type : 'GET',
+            url : url,
+            data : {
+                'dateStart' : dateStart,
+                'dateEnd' : dateEnd,
+            },
+                success : function (data) {
+                    if(data.code == 200){
+                        chart_month.updateOptions({
+                            series: [
+                                {
+                                    type: "column",
+                                    name: "Đã hủy",
+                                    data: JSON.parse(data.output['arr_count_order_delete']),
+                                },
+                                {
+                                    type: "column",
+                                    name: "Đã hoàn thành",
+                                    data: JSON.parse(data.output['arr_count_order_success']),
+                                }
+                            ],
+                            xaxis: {
+                                categories: JSON.parse(data.output['arrDay']),
+                            },
+                        })
+                        $('.resultOrderByMonth').css('display', 'block');
+                        $('.resultOrderByMonthSuccess').text(data.count_success + ' đơn hàng');
+                        $('.resultOrderByMonthDelete').text(data.count_delete + ' đơn hàng');
+                    }
+                }
+            });
+    }
 })

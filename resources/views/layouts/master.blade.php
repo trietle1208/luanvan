@@ -51,8 +51,9 @@
         }(document, 'script', 'facebook-jssdk'));
     </script>
 
+<!-- <script src="{{ asset('js/app.js') }}"></script> -->
 <script src="{{ asset('Eshopper/js/jquery.js') }}"></script>
-    <script src="{{ asset('Eshopper/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('Eshopper/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('Eshopper/js/jquery.scrollUp.min.js') }}"></script>
 <script src="{{ asset('Eshopper/js/price-range.js') }}"></script>
 <script src="{{ asset('Eshopper/js/jquery.prettyPhoto.js') }}"></script>
@@ -72,6 +73,18 @@
 {{--    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>--}}
     <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
 @yield('js')
+
+    <!-- <script>
+        $(function() {
+        var userId = `{{ Session::get('customer_id') }}`;
+        window.Echo.join(`App.Models.Customer.${userId}`)
+            .notification((notification) => {
+                $.get(`{{ route('notitication') }}`, function(data) {
+                    $("#notification-list").html(data);
+                });
+            });
+        });
+    </script> -->
     <script>
         var count = 0;
         $(document).on('click','.shipping',function (){

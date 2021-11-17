@@ -26,6 +26,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -457,10 +458,10 @@ class CustomerController extends Controller
             return response()->json([
             'code' => 200,
             ],200);
-        } catch (\Throwable $th) {
+        } catch (\Exception $exception) {
             DB::rollBack();
+            Log::error($exception->getLine() . '---' . $exception->getMessage());
         }
-        
     }
 
     public function repComment(Request $request){

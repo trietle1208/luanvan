@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 class Customer extends Model
 {
@@ -22,6 +23,11 @@ class Customer extends Model
         'kh_gioitinh',
         'kh_hinhanh',
     ];
+
+    // public function receivesBroadcastNotificationsOn()
+    // {
+    //     return 'users.'.$this->id;
+    // }
 
     public function address(){
         return $this->hasMany(Address::class,'kh_id','kh_id');

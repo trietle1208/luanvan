@@ -31,7 +31,8 @@ class CommentNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['database','broadcast'];
+        // return ['database','broadcast'];
+        return ['database'];
     }
 
     /**
@@ -63,12 +64,12 @@ class CommentNotification extends Notification
         ];
     }
 
-    public function toBroadcast($notifiable)
-    {
-        return new BroadcastMessage([
-            'comment' => $this->comment->toArray(),
-            'route' => route('sup.product.listComment'),
-            'name_route' => 'sup.product.listComment',
-        ]);
-    }
+    // public function toBroadcast($notifiable)
+    // {
+    //     return new BroadcastMessage([
+    //         'comment' => $this->comment->toArray(),
+    //         'route' => route('sup.product.listComment'),
+    //         'name_route' => 'sup.product.listComment',
+    //     ]);
+    // }
 }

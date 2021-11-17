@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\OrderNCC;
 use App\Models\Product;
 use App\Models\Receipt;
@@ -49,13 +50,13 @@ class HomeController extends Controller
             return view('admin.manager.admin-dashbroad',
             compact('count_favorites','count_order','total_order','count_product','count_receipt','count_voucher','count_account'));
         }else{
-            $count_order = 0;
-            $total_order = 0;
+            $count_order = Order::all()->count();
+            $total_order = Order::all()->sum('dh_tongtien');;
             $count_favorites = 0;
-            $count_product = 0;
-            $count_receipt = 0;
+            $count_product = Product::where('sp_trangthai',1)->count();
+            $count_receipt = Receipt::all()->count();
             $count_voucher = 0;
-            $count_account = 0;
+            $count_account = User::where('ncc_id','!=',null)->count();
             return view('admin.manager.admin-dashbroad',compact('count_favorites','count_order','total_order','count_product','count_receipt','count_voucher','count_account'));
         }
         

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\OrderNCC;
 use App\Models\Receipt;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -245,11 +246,11 @@ class StatisticalController extends Controller
 
         foreach ($count_order as $item){
             if($item['trangthai'] == 2){
-                $count_delete = $item['count'];
+                $count_delete += $item['count'];
             }
             else if($item['trangthai'] == 5)
             {
-                $count_success = $item['count'];
+                $count_success += $item['count'];
             }
         }
         $count_order_delete = OrderNCC::where('ncc_id',Auth::user()->ncc_id)
@@ -419,11 +420,11 @@ class StatisticalController extends Controller
 
             foreach ($count_order as $item){
                 if($item['trangthai'] == 2){
-                    $count_delete = $item['count'];
+                    $count_delete += $item['count'];
                 }
                 else if($item['trangthai'] == 5)
                 {
-                    $count_success = $item['count'];
+                    $count_success += $item['count'];
                 }
             }
 
@@ -462,5 +463,86 @@ class StatisticalController extends Controller
                 'count_delete' => $count_delete,
             ]);
         }
+    }
+
+    public function fillByDate(Request $request){
+        $dateStart = $request->dateStart;
+        $dateEnd = $request->dateEnd;
+
+        $arr_count_order_success = [];
+        $arr_count_order_delete = [];
+        $count_success = 0;
+        $count_delete = 0;
+
+        $count_order = OrderNCC::where('ncc_id',Auth::user()->ncc_id)
+            ->select(DB::raw('count(*) as count, trangthai, DATE(created_at) day'))
+            ->whereBetween('created_at',[$dateStart,$dateEnd])
+            ->groupBy('trangthai','day')
+            ->get();
+
+        $count_order_success = OrderNCC::where('ncc_id',Auth::user()->ncc_id)
+            ->select(DB::raw('count(*) as count, trangthai, DATE(created_at) day'))
+            ->whereBetween('created_at',[$dateStart,$dateEnd])
+            ->groupBy('trangthai','day')
+            ->having('trangthai','=',5)
+            ->get();
+
+        $count_order_delete = OrderNCC::where('ncc_id',Auth::user()->ncc_id)
+            ->select(DB::raw('count(*) as count, trangthai, DATE(created_at) day'))
+            ->whereBetween('created_at',[$dateStart,$dateEnd])
+            ->groupBy('trangthai','day')
+            ->having('trangthai','=',2)
+            ->get();
+
+        foreach ($count_order as $item){
+            if($item['trangthai'] == 2){
+                $count_delete += $item['count'];
+            }
+            else if($item['trangthai'] == 5)
+            {
+                $count_success += $item['count'];
+            }
+        }
+
+        $period = CarbonPeriod::create($request->dateStart, $request->dateEnd);
+
+        foreach ($period as $date) {
+            $arrDay[] = $date->format('Y-m-d');
+        }
+
+        foreach ($arrDay as $day){
+            $count = 0;
+            foreach ($count_order_success as $item){
+                if($item['day'] == $day){
+                    $count = $item['count'];
+                    break;
+                }
+            }
+            $arr_count_order_success[] = $count;
+        }
+
+        foreach ($arrDay as $day){
+            $count = 0;
+            foreach ($count_order_delete as $item){
+                if($item['day'] == $day){
+                    $count = $item['count'];
+                    break;
+                }
+            }
+            $arr_count_order_delete[] = $count;
+        }
+
+        $arr_day_order = [
+            'arr_count_order_success' => json_encode($arr_count_order_success),
+            'arr_count_order_delete' => json_encode($arr_count_order_delete),
+            'arrDay' => json_encode($arrDay),
+        ];
+
+        return response()->json([
+            'code' => 200,
+            'output' => $arr_day_order,
+            'count_success' => $count_success,
+            'count_delete' => $count_delete,
+        ]);
     }
 }

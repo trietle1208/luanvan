@@ -15,7 +15,7 @@
                 <a href="" class="text-dark">
                     <small>Đã xem tất cả</small>
                 </a>
-            </span>Thông Báo Đơn Hàng
+            </span>Thông Báo
         </h5>
     </div>
 
@@ -33,7 +33,7 @@
                         <small>Ngày đặt : {{ $notification['data']['order']['dh_thoigiandathang'] }}</small>
                     </p>
                 </a>
-            @elseif($notification->type == 'App\Notifications\App\Notifications\OrderNCCNotification')
+            @elseif($notification->type == 'App\Notifications\OrderNCCNotification')
                 <a href="{{ route('seen.notitication',['id' => $notification->id ]) }}" class="dropdown-item notify-item active">
                     <div class="notify-icon">
                         <img src="../assets/images/users/user-1.jpg" class="img-fluid rounded-circle" alt="" /> 

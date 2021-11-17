@@ -26,10 +26,10 @@
                     <h4 class="header-title mb-0">Thống kê tình trạng đơn hàng</h4>
 
                     <div id="" class="collapse pt-3 show">
-                        <div id="chartStatusOrder" class="" 
-                        data-count="{{ $arr_count_order }}"
-                        data-name="{{ $arr_name_order }}"
-                        data-color="{{ $arr_color_order }}"
+                        <div id="chartAdminStatusOrder" class="" 
+                            data-count="{{ $arr_count_order }}"
+                            data-name="{{ $arr_name_order }}"
+                            data-color="{{ $arr_color_order }}"
                         ></div>
                     </div> <!-- collapsed end -->
                 </div> <!-- end card-body -->
@@ -47,10 +47,11 @@
                     <h4 class="header-title mb-0">Thống kê tình trạng thanh toán đơn hàng</h4>
 
                     <div id="" class="collapse pt-3 show">
-                        <div id="chartTotalOrder" class="" 
+                        <div id="chartAdminTotalOrder" class=""
                         data-count="{{ $arr_count_type_order }}"
                         data-name="{{ $arr_name_type_order }}"
-                        data-color="{{ $arr_color_type_order }}">
+                        data-color="{{ $arr_color_type_order }}" 
+                        >
                         </div>
                     </div> <!-- collapsed end -->
                 </div> <!-- end card-body -->
@@ -69,53 +70,43 @@
                         <div class="col-6">
                             <h4>Thống kê theo tháng</h4>
                             <div class="row">
-                                <div class="row">
-                                    <div class="col-5">
-                                        <input type="month" class="form-control col-4 valMonth" placeholder="">
-                                    </div>
-                                    <div class="col-1">
-                                        <button class="btn btn-secondary btn-rounded fillByMonth" data-url="{{ route('sup.order.fillByMonth') }}">Lọc</button>
-                                    </div>
+                                <div class="col-4">
+                                    <input type="month" class="form-control month">
+                                    <hr>
+                                    <button class="btn btn-success fillAdminOrderByMonth" data-url="{{ route('admin.order.fillOrderByMonth') }}">Lọc</button>
                                 </div>
-                                <div class="row" style="padding-top: 15px">
-                                    <div class="col-5">
-                                        <input type="date" class="form-control col-4 valDateStart" placeholder="">
+                                <div class="col-8">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <input type="date" class="form-control dateStart">
+                                        </div>
+                                        <div class="col-6">
+                                            <input type="date" class="form-control dateEnd">
+                                        </div>
                                     </div>
-                                    <div class="col-5">
-                                        <input type="date" class="form-control col-4 valDateEnd" placeholder="">
-                                    </div>
-                                    <div class="col-1">
-                                        <button class="btn btn-secondary btn-rounded fillByDate" data-url="{{ route('sup.order.fillByDate') }}">Lọc</button>
-                                    </div> 
+                                    <hr>
+                                    <button class="btn btn-success fillAdminOrderByDate" data-url="{{ route('admin.order.fillOrderByDate') }}">Lọc</button>
                                 </div>
                             </div>
                         </div>
     
-                        <div class="col-4">
-                            <h4>Thống kê theo quý</h4>
+                        <div class="col-6">
+                            <h4>Thống kê theo quý </h4>
                             <div class="row">
-                                <div class="col-4">
-                                    <select class="form-control typeOption">
-                                        <option value="1">
-                                            Quý 1
-                                        </option>
-                                        <option value="2">
-                                            Quý 2
-                                        </option>
-                                        <option value="3">
-                                            Quý 3
-                                        </option>
-                                        <option value="4">
-                                            Quý 4
-                                        </option>       
+                                <div class="col-6">
+                                    <select class="form-control type">
+                                        <option value="1">Quý 1</option>
+                                        <option value="2">Quý 2</option>
+                                        <option value="3">Quý 3</option>
+                                        <option value="4">Quý 4</option>
                                     </select>
-                                    <br>
-                                    <input type="number" class="form-control col-4 valYear" value="2021" placeholder="" min="2021" max="3000">
                                 </div>
-                                <div class="col-2">
-                                    <button class="btn btn-secondary btn-rounded fillBy3Month" data-url="{{ route('sup.order.fillBy3Month') }}">Lọc</button>
+                                <div class="col-6">
+                                    <input type="number" class="form-control year" value="2021" min="2021">
                                 </div>
                             </div>
+                            <hr>
+                            <button class="btn btn-success fillAdminOrderBy3Month" data-url="{{ route('admin.order.fillOrderBy3Month') }}">Lọc</button>
                         </div>
                         <div class="col-2 resultOrderByMonth" style="display : none">
                             <h4>Kết quả thống kê</h4>
@@ -126,10 +117,13 @@
 
                     
                     <div id="cardCollpase5" class="collapse pt-3 show">
-                        <div id="chartOrderByMonth" 
-                            data-delete="{{ $arr_count_delete_month_order }}"
-                            data-success="{{ $arr_count_success_month_order }}"
+                        <div id="chartAdminOrderByMonth" 
+                            data-new="{{ $arr_count_new_month_order }}"
                             data-check="{{ $arr_count_check_month_order }}"
+                            data-delete="{{ $arr_count_delete_month_order }}"
+                            data-ship="{{ $arr_count_ship_month_order }}"
+                            data-confirm="{{ $arr_count_confirm_month_order }}"
+                            data-success="{{ $arr_count_success_month_order }}"
                         ></div>
                     </div> <!-- collapsed end -->
                 </div> <!-- end card-body -->

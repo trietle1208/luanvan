@@ -75,20 +75,17 @@
                 </button><br>
                 @endif 
             </span>
-                    <div class="row">
-                        <div class="col-3">
-                            @if($quantityProduct > 0)
-                            <p class="text-success"><b>Tình trạng:</b> Còn hàng {{ $quantityProduct }}</p>
-                            @else
-                            <p class="text-danger"><b>Tình trạng:</b> Hết hàng </p>
-                            @endif
-                            <p><b>Trạng thái:</b> Mới nhất</p>
-                            <p><b>Thương hiệu:</b> {{ $product->brand->th_ten }}</p>
-                        </div>
-                        <div class="col-2">
-                            <p><img src="{{ $product->brand->th_hinhanh }}" style="width: 150px; height: 100px"></p>
-                        </div>
-                    </div>
+            <div class="row" style="padding-top : 20px; padding-left : 20px">
+                <div class="col-3">
+                    @if($quantityProduct > 0)
+                    <p class="text-success"><b>Tình trạng:</b> Còn hàng {{ $quantityProduct }}</p>
+                    @else
+                    <p class="text-danger"><b>Tình trạng:</b> Hết hàng </p>
+                    @endif
+                    <p><b>Trạng thái:</b> Mới nhất</p>
+                    <p><b>Thương hiệu:</b> {{ $product->brand->th_ten }}</p>
+                </div>
+            </div>
            
             
         </div><!--/product-information-->
