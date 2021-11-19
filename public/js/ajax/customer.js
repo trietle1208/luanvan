@@ -214,7 +214,9 @@ $(document).on('submit','#save-info',function (e){
                 $('.fullname').text(data.name);
                 $('.phone').text(data.phone);
                 $('.date').text(data.date);
-                $('.avt_ajax').html(data.image);
+                if(data.image != ''){
+                    $('.avt_ajax').html(data.image);
+                }
             }else{
                 $.each(data.errors, function (key, value) {
                     $('.'+key).text(value);

@@ -505,18 +505,46 @@ class CustomerController extends Controller
 
     public function quickView(Request $request){
         if($request){
+            $count = 0;
+            $star_1 = 0;
+            $star_2 = 0;
+            $star_3 = 0;
+            $star_4 = 0;
+            $star_5 = 0;
             $product = Product::find($request->id);
             $receiptdetail = ReceiptDetail::where('sp_id',$product->sp_id)->orderBy('created_at','DESC')->first();
             $quantityProduct = $receiptdetail->soluong;
+            // $rating = $product->with('comment')->first();
+            // dd($rating->toArray());
+            foreach ($product->comment as $comment){
+                if($comment['bl_sosao'] != null){
+                    $count++;
+                }
+                if($comment['bl_sosao'] == 1){
+                    $star_1++;
+                }
+                if($comment['bl_sosao'] == 2){
+                    $star_2++;
+                }
+                if($comment['bl_sosao'] == 3){
+                    $star_3++;
+                }
+                if($comment['bl_sosao'] == 4){
+                    $star_4++;
+                }
+                if($comment['bl_sosao'] == 5){
+                    $star_5++;
+                }
+            }
             return response()->json([
                 'code' => 200,
-                'product' => view('home.components.quickview',compact('product','quantityProduct'))->render(),
+                'product' => view('home.components.quickview',compact('product','quantityProduct','count','star_1','star_2','star_3','star_4','star_5'))->render(),
             ],200);
         }
     }
 
     public function followOrder(Request $request) {
-        $order = OrderNCC::find($request->id);
+        $order = Order::find($request->id);
         return response()->json([
             'code' => 200,
             'output' => view('home.customer.follow-order',compact('order'))->render(),

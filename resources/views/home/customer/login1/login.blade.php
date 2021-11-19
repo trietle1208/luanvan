@@ -34,19 +34,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <!--//header-->
     <div class="main-content-agile register" style="display: none">
         <div class="sub-main-w3">
-            {{--            <div class="wthree-pro">--}}
-            {{--                <h2>Xin chào!</h2>--}}
-            {{--            </div>--}}
             <form action="{{ route('customer.register') }}" method="POST">
                 @csrf
-                <?php
-                $message = Session::get('message');
-                if($message)
-                {
-                    echo '<span class="text-primary">'.$message.'</span>';
-                    Session::put('message',null);
-                }
-                ?>
                 <div class="pom-agile">
                     <input placeholder="Điền vào họ và tên" name="name" class="user" type="text" >
                 </div>
@@ -81,19 +70,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     </div>
     <div class="main-content-agile login" style="display: block">
         <div class="sub-main-w3">
-{{--            <div class="wthree-pro">--}}
-{{--                <h2>Xin chào!</h2>--}}
-{{--            </div>--}}
             <form action="{{ route('customer.login') }}" method="POST">
                 @csrf
-                <?php
-                $message = Session::get('message');
-                if($message)
-                {
-                    echo '<span class="text-primary">'.$message.'</span>';
-                    Session::put('message',null);
-                }
-                ?>
                 <div class="pom-agile">
                     <input placeholder="E-mail" name="name" class="user" type="email" >
                     <span class="icon1"><i class="fa fa-user" aria-hidden="true"></i></span>

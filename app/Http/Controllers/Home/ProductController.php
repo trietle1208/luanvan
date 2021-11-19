@@ -24,6 +24,12 @@ class ProductController extends Controller
 
     public function detail(Request $request, $ncc,$slug) {
         $quantityProduct = 0;
+        $count = 0;
+        $star_1 = 0;
+        $star_2 = 0;
+        $star_3 = 0;
+        $star_4 = 0;
+        $star_5 = 0;
         $cateposts = CatePosts::all();
         $categories = DanhMuc::all();
         $brands = Brand::all();
@@ -43,12 +49,34 @@ class ProductController extends Controller
             ]);
         }
         $view = View::where('sp_id',$product->sp_id)->count();
+        foreach ($product->comment as $comment){
+            if($comment['bl_sosao'] != null){
+                $count++;
+            }
+            if($comment['bl_sosao'] == 1){
+                $star_1++;
+            }
+            if($comment['bl_sosao'] == 2){
+                $star_2++;
+            }
+            if($comment['bl_sosao'] == 3){
+                $star_3++;
+            }
+            if($comment['bl_sosao'] == 4){
+                $star_4++;
+            }
+            if($comment['bl_sosao'] == 5){
+                $star_5++;
+            }
+        }
         if(!empty($comments)){
             Carbon::setLocale('vi');
             $now = Carbon::now('Asia/Ho_Chi_Minh');
-            return view('home.product.detail',compact('categories','brands','product','quantityProduct','productRecomments','comments','now','cateposts','view'));
+            return view('home.product.detail',
+            compact('categories','brands','product','quantityProduct','productRecomments','comments','now','cateposts','view','count','star_1','star_2','star_3','star_4','star_5'));
         }else{
-            return view('home.product.detail',compact('categories','brands','product','quantityProduct','productRecomments','cateposts','view'));
+            return view('home.product.detail',
+            compact('categories','brands','product','quantityProduct','productRecomments','cateposts','view','count','star_1','star_2','star_3','star_4','star_5'));
 
         }
     }
@@ -119,6 +147,8 @@ class ProductController extends Controller
             }else{
                 return view('home.product.cart.index', compact( 'totalDiscount', 'totalCart','cateposts'));
             }
+        }else{
+            return view('home.product.cart.empty',compact('cateposts'));
         }
     }
     public function addCart(Request $request) {
@@ -163,9 +193,18 @@ class ProductController extends Controller
         Session::put('cart',$session_cart);
 //        Session::forget('cart');
 //        var_dump(Session::get('cart'));
+        $count_cart = 0;
+        foreach ($session_cart as $key => $ncc){
+            foreach ($ncc as $key1 => $item){
+                if($key1 != 0){
+                    $count_cart++;
+                }
+            }
+        }
         return response()->json([
             'code' => 200,
             'message' => 'success',
+            'count_cart' => $count_cart,
         ],200);
     }
 
@@ -258,6 +297,14 @@ class ProductController extends Controller
                 }
                 $total = $total - $discount;
                 $subtotal = $total + $discount;
+                $count_cart = 0;
+                foreach ($carts as $key => $ncc){
+                    foreach ($ncc as $key1 => $item){
+                        if($key1 != 0){
+                            $count_cart++;
+                        }
+                    }
+                }
                 return response()->json([
                     'code' => 200,
                     'total' => number_format($total),
@@ -265,6 +312,7 @@ class ProductController extends Controller
                     'discount' => number_format($discount),
                     'check' => $check,
                     'output' => $output,
+                    'count_cart' => $count_cart,
                 ],200);
             }
         }

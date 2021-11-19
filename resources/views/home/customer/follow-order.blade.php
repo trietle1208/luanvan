@@ -70,24 +70,24 @@
             </style>
             <div class="container">
                 <ul class="progressbar">
-                    <li class="{{ $order->trangthai == 0 || $order->trangthai == 1 || $order->trangthai == 3 || $order->trangthai == 4 || $order->trangthai == 5 ? 'active' : '' }}"">
+                    <li class="{{ $order->dh_trangthai == 0 || $order->dh_trangthai == 1 || $order->dh_trangthai == 2 || $order->dh_trangthai == 3 || $order->dh_trangthai == 5 ? 'active' : '' }}">
                         Đặt hàng
-                        <i class="{{ $order->trangthai == 0 || $order->trangthai == 1 || $order->trangthai == 3 || $order->trangthai == 4 || $order->trangthai == 5 ? 'fa fa-check' : 'fa fa-times' }}"></i><br>
+                        <i class="{{ $order->dh_trangthai == 0 || $order->dh_trangthai == 1 || $order->dh_trangthai == 3 || $order->dh_trangthai == 2 || $order->dh_trangthai == 5 ? 'fa fa-check' : 'fa fa-times' }}"></i><br>
                         <img src="{{asset('assets/images/icon1.jpg') }}" style="width: 100; height: 100" class="img-fluid"><br>
                     </li>
-                    <li class="{{ $order->trangthai == 1 || $order->trangthai == 3 || $order->trangthai == 4 || $order->trangthai == 5 ? 'active' : '' }}">
+                    <li class="{{ $order->dh_trangthai == 1 || $order->dh_trangthai == 3 || $order->dh_trangthai == 2 || $order->dh_trangthai == 5 ? 'active' : '' }}">
                         Xác nhận đơn hàng
-                        <i class="{{ $order->trangthai == 1 || $order->trangthai == 3 || $order->trangthai == 4 || $order->trangthai == 5 ? 'fa fa-check' : 'fa fa-times' }}"></i><br>
+                        <i class="{{ $order->dh_trangthai == 1 || $order->dh_trangthai == 3 || $order->dh_trangthai == 2 || $order->dh_trangthai == 5 ? 'fa fa-check' : 'fa fa-times' }}"></i><br>
                         <img src="{{asset('assets/images/icon-2.jpg') }}" style="width: 100; height: 100" class="img-fluid"><br>
                     </li>
-                    <li class="{{ $order->trangthai == 3 || $order->trangthai == 4 || $order->trangthai == 5 ? 'active' : '' }}">
+                    <li class="{{ $order->dh_trangthai == 3 || $order->dh_trangthai == 2 || $order->dh_trangthai == 5 ? 'active' : '' }}">
                         Giao hàng
-                        <i class="{{ $order->trangthai == 3 || $order->trangthai == 4 || $order->trangthai == 5 ? 'fa fa-check' : 'fa fa-times' }}"></i><br>
+                        <i class="{{ $order->dh_trangthai == 3 || $order->dh_trangthai == 2 || $order->dh_trangthai == 5 ? 'fa fa-check' : 'fa fa-times' }}"></i><br>
                         <img src="{{asset('assets/images/icon-3.jpg') }}" style="width: 100; height: 100" class="img-fluid"><br>
                     </li>
-                    <li class="{{ $order->trangthai == 4 || $order->trangthai == 5 ? 'active' : '' }}">
+                    <li class="{{ $order->dh_trangthai == 2 || $order->dh_trangthai == 5 ? 'active' : '' }}">
                         Hoàn thành đơn
-                        <i class="{{ $order->trangthai == 4 || $order->trangthai == 5 ? 'fa fa-check' : 'fa fa-times' }}"></i><br>
+                        <i class="{{ $order->dh_trangthai == 3 || $order->dh_trangthai == 5 ? 'fa fa-check' : 'fa fa-times' }}"></i><br>
                         <img src="{{asset('assets/images/icon-4.jpg') }}" style="width: 100; height: 100" class="img-fluid"><br>
                     </li>
                 </ul>
@@ -142,7 +142,7 @@
 
         </div>
         <div class="modal-footer">
-            @if($order->trangthai == 4)
+            @if($order->dh_trangthai == 3)
                 <button type="button" class="btn btn-success confirmFinishOder"
                         data-id="{{ $order->dhncc_id }}"
                         data-url="{{ route('customer.confirmFinishOrder') }}"

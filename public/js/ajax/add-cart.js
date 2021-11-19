@@ -15,7 +15,9 @@ $(document).on('click','.add-cart', function () {
                     'Thêm giỏ hàng thành công!',
                     'Xin chúc mừng',
                     'success',
-                )
+                );
+                $('#count_cart').show();
+                $('#count_cart').html(data.count_cart);
             }else if(data.code == 400) {
                 if(data.count == 0){
                     Swal.fire(
@@ -65,6 +67,8 @@ $(document).on('click','.add-to-cartAjax', function (e) {
                 function (){
                    window.location.href = "/giohang";
                 });
+                $('#count_cart').show();
+                $('#count_cart').html(data.count_cart);
             }else if(data.code == 400){
                 Swal.fire(
                     'Cảnh báo',
@@ -257,7 +261,14 @@ $(document).on('click','.cart_quantity_delete',function (e) {
                             'Đã xóa',
                             'Sản phẩm bạn chọn đã được xóa',
                             'success'
-                        )
+                        );
+                        if(data.count_cart == 0){
+                            $('#count_cart').css('display','none');
+                        }else{
+                            $('#count_cart').html(data.count_cart);
+                        }
+                        
+                        
                     }else if(data.code == 400)
                     {
                         location.href = data.url;
@@ -279,3 +290,12 @@ $(document).on('click','.cart_quantity_delete',function (e) {
     })
 })
 
+$(document).on('mouseenter','#show_cart',function (e) {
+    e.preventDefault();
+    $('#hover_cart').css('display', 'flex');
+})
+
+$(document).on('mouseleave','#show_cart',function (e) {
+    e.preventDefault();
+    $('#hover_cart').css('display', 'none');
+})

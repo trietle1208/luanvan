@@ -11,10 +11,12 @@
     <link href="{{ asset('Eshopper/css/price-range.css') }}" rel="stylesheet">
     <link href="{{ asset('Eshopper/css/animate.css') }}" rel="stylesheet">
     <link href="{{ asset('Eshopper/css/main.css') }}" rel="stylesheet">
+    <link href="{{ asset('Eshopper/css/jquery.exzoom.css') }}" rel="stylesheet">
     <link href="{{ asset('css/lightgallery.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/lightslider.css') }}" rel="stylesheet">
     <link href="{{ asset('css/prettify.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+    <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
     @yield('css')
 </head>
 
@@ -58,6 +60,8 @@
 <script src="{{ asset('Eshopper/js/price-range.js') }}"></script>
 <script src="{{ asset('Eshopper/js/jquery.prettyPhoto.js') }}"></script>
 <script src="{{ asset('Eshopper/js/main.js') }}"></script>
+<script src="{{ asset('Eshopper/js/jquery.exzoom.js') }}"></script>
+<script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{ asset('js/lightgallery-all.min.js') }}"></script>
 <script src="{{ asset('js/lightslider.js') }}"></script>
@@ -71,7 +75,8 @@
 <script src="{{ asset('js/ajax/comment.js') }}"></script>
 <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 {{--    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>--}}
-    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+
 @yield('js')
 
     <!-- <script>
@@ -371,6 +376,29 @@
             })
         });
     </script>
+    <script type="text/javascript">
 
+    $('.container').imagesLoaded( function() {
+    $("#exzoom").exzoom({
+        autoPlay: false,
+    });
+    $("#exzoom").removeClass('hidden')
+    });
+
+    </script>
+    <script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-36251023-1']);
+    _gaq.push(['_setDomainName', 'jqueryscript.net']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+    </script>
 </body>
 </html>

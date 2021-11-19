@@ -6,7 +6,7 @@
                     <div class="contactinfo">
                         <ul class="nav nav-pills">
                             <li><a href="#"><i class="fa fa-phone"></i> +2 95 01 88 821</a></li>
-                            <li><a href="#"><i class="fa fa-envelope"></i> info@domain.com</a></li>
+                            <li><a href="#"><i class="fa fa-envelope"></i> thegioilinhkienb@dev.com</a></li>
                         </ul>
                     </div>
                 </div>
@@ -40,6 +40,16 @@
                             .nav navbar-nav li{
                                 cursor : pointer;
                             }
+                            #count_cart {
+                                padding: 3px;
+                                font-size: 13px;
+                                margin-left : 3px;
+                                width: 30px;
+                                height: 30px;
+                                color: white;
+                                background-color : red;
+                                border-radius: 50%;
+                            }
                         </style>
                         <ul class="nav navbar-nav">
                             @if(Session::get('customer_id') || Session::get('admin_id'))
@@ -47,7 +57,33 @@
                             <li><a style="cursor: pointer" class="showWishlist" data-id="{{ Session::get('customer_id') }}"><i class="fa fa-star"></i> Yêu thích</a></li>
                             @endif
                             <li><a href="{{ route('checkout.index') }}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
-                            <li><a href="{{ route('product.showCart') }}"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a></li>
+                            @if(Session::get('cart'))
+                                @php
+                                    $count_cart = 0;
+                                @endphp
+                                @foreach (Session::get('cart') as $key => $ncc)
+                                    @foreach ($ncc as $key1 => $item)
+                                        @if($key1 != 0)
+                                            @php
+                                                $count_cart = $count_cart + 1;
+                                            @endphp
+                                        @endif
+                                    @endforeach
+                                @endforeach
+                                <li>
+                                    <a href="{{ route('product.showCart') }}" id="show_cart"><i class="fa fa-shopping-cart"></i> Giỏ hàng<span id="count_cart">{{ $count_cart }}<span></a>
+                                    <div id="hover_cart" style="display: none; width: 200px; height: 150px; background-color : red;">
+
+                                    </div>
+                                </li>
+                            @else
+                            <li>
+                                <a href="{{ route('product.showCart') }}" id="show_cart"><i class="fa fa-shopping-cart"></i> Giỏ hàng<span id="count_cart" style="display: none"><span></a>
+                                <div id="hover_cart" style="display: none; width: 200px; height: 150px; background-color : red;">
+
+                                </div>
+                            </li>
+                            @endif
                             <li>
                                 @if(Session::get('customer_id') || Session::get('admin_id'))
                                     <a href="{{ route('customer.logout') }}"><i class="fa fa-lock"></i> Đăng xuất</a>

@@ -7,7 +7,7 @@
                 max-width: 100%;
             }
         </style>
-        <ul id="imageGallery">
+        <!-- <ul id="imageGallery">
             <li data-thumb="{{ $product->sp_hinhanh }}" data-src="{{ $product->sp_hinhanh }}">
                 <img src="{{ $product->sp_hinhanh }}" style="height : 450px; width: 100%" class="img-fluid"/>
             </li>
@@ -16,7 +16,25 @@
                 <img src="{{ $image->ha_duongdan }}" style="height : 100%; width: 100%" />
             </li>
             @endforeach
-        </ul>
+        </ul> -->
+        <!-- <div class="container"> -->
+            <div class="exzoom" id="exzoom">
+                <div class="exzoom_img_box">
+                    
+                    <ul class='exzoom_img_ul'>
+                        <li><img src="{{ $product->sp_hinhanh }}"/></li>
+                        @foreach($product->images as $key => $image)
+                            <li><img src="{{ $image->ha_duongdan }}"/></li>
+                        @endforeach
+                    </ul>
+                </div>
+                <div class="exzoom_nav"></div>
+                <p class="exzoom_btn">
+                    <a href="javascript:void(0);" class="exzoom_prev_btn"> < </a>
+                    <a href="javascript:void(0);" class="exzoom_next_btn"> > </a>
+                </p>
+            </div>
+        <!-- </div> -->
     </div>
     <div class="col-sm-7">
         <div class="product-information"><!--/product-information-->

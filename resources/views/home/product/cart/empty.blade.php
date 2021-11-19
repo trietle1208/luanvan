@@ -26,7 +26,8 @@
                                         <li class="active">Giỏ hàng</li>
                                     </ol>
                                 </div>
-                                <h3>Vui lòng thêm sản phẩm vào giỏ hàng</h3>
+                                <h3 class="text-center">Giỏ hàng của bạn hiện đang trống, hãy mua sắm thôi nào!</h3>
+                                <img src="{{ asset('assets/images/cart1.png') }}" style="width: 400px; height: 400px; margin-left: 350px;" class="img-fluid">
                             </div>
                         </section>
                     </div>

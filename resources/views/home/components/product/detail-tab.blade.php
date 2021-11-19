@@ -11,9 +11,9 @@
         <div class="tab-pane fade" id="details">
             <div class="col-sm-6">
                 <div style="padding-left: 40px">
-                    <span><b>THƯƠNG HIỆU :</b> {{ $product->brand->th_ten }}.</span><br><br>
-                    <span><b>BẢO HÀNH :</b> {{ $product->sp_thoigianbaohanh }} tháng.</span><br><br>
-                    <span><img src="{{ $product->brand->th_hinhanh }}" style="width: 150px; height: 100px"></span>
+                    <span><b>THƯƠNG HIỆU :</b> {{ $product->brand->th_ten }}</span><br><br>
+                    <span><b>BẢO HÀNH :</b> {{ $product->sp_thoigianbaohanh }} tháng.</span><br><hr>
+                    <span><img src="{{ $product->brand->th_hinhanh }}" style="width: 300px; height: 150px"></span>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -52,12 +52,17 @@
                         padding: 10px 0px 0px 10px;
                         
                     }
-
+                    .comment p{
+                       font-size: 17px;
+                    }
                     .comnent-rep {
                         padding-left: 50px;
 
                     }
 
+                    .comnent-rep p {
+                        font-size: 17px;
+                    }
                     .comnent-rep p {
                         padding-left: 60px;
                     }
@@ -73,7 +78,177 @@
                     .repComment button {
                         border-radius: 12px;
                     }
+                    
+                    .card {
+                        border-radius: 5px;
+                        background-color: #fff;
+                        padding-left: 60px;
+                        padding-right: 60px;
+                    }
+                    .rating-box {
+                        width: 150px;
+                        height: 125px;
+                        margin-right: auto;
+                        margin-left: auto;
+                        background-color: #FBC02D;
+                        color: #fff
+                    }
+
+                    .rating-box h1{
+                        font-size: 50px;
+                        padding: 40px;
+                        /* margin: 0 auto; */
+                    }
+
+                    
+                    .rating-label {
+                        font-weight: bold
+                    }
+                    .bar {
+                        padding-top : 10px;
+                    }
+                    .rating-bar {
+                        width: 300px;
+                        padding: 8px;
+                        border-radius: 5px
+                    }
+                    .bar-star{
+                        padding-left: 30px;
+                    }
+                    .bar-container {
+                        width: 100%;
+                        background-color: #f1f1f1;
+                        text-align: center;
+                        color: white;
+                        border-radius: 20px;
+                        cursor: pointer;
+                        margin-bottom: 5px
+                    }
+
+                    .bar-5 {
+                        height: 13px;
+                        background-color: #FBC02D;
+                        border-radius: 20px
+                    }
+
+                    .bar-4 {
+                        height: 13px;
+                        background-color: #FBC02D;
+                        border-radius: 20px
+                    }
+
+                    .bar-3 {
+                        height: 13px;
+                        background-color: #FBC02D;
+                        border-radius: 20px
+                    }
+
+                    .bar-2 {
+                        height: 13px;
+                        background-color: #FBC02D;
+                        border-radius: 20px
+                    }
+
+                    .bar-1 {
+                        height: 13px;
+                        background-color: #FBC02D;
+                        border-radius: 20px
+                    }
+
+                    .star-active {
+                        font-size: 20px;
+                        padding-left: 5px;
+                        color: #FBC02D;
+                        margin-top: 10px;
+                        margin-bottom: 10px
+                    }
+
+                    .star-active:hover {
+                        color: #F9A825;
+                        cursor: pointer
+                    }
+
+                    .star-inactive {
+                        font-size: 20px;
+                        padding-left: 5px;
+                        color: #CFD8DC;
+                        margin-top: 10px;
+                        margin-bottom: 10px
+                    }
                 </style>
+                <div class="card">
+                    <div class="row justify-content-left d-flex">
+                        <div class="col-md-4 d-flex flex-column">
+                            <div class="rating-box">
+                                @php
+                                    $rating = $product->comment()->avg('bl_sosao');
+                                    $rating = round($rating);
+                                @endphp
+                                <h1 class="pt-4">{{ $rating }}.0</h1>
+                                <!-- <p class="">out of 5</p> -->
+                            </div>
+                            <div class="bar-star"> 
+                                <span class="fa fa-star {{ $count == 1 ||  $count == 2 ||  $count == 3 || $count == 4 || $count == 5 ? 'star-active' : 'star-inactive' }} mx-1"></span>
+                                <span class="fa fa-star {{ $count == 2 ||  $count == 3 || $count == 4 || $count == 5 ? 'star-active' : 'star-inactive' }} mx-1"></span>
+                                <span class="fa fa-star {{ $count == 3 || $count == 4 || $count == 5 ? 'star-active' : 'star-inactive' }} mx-1"></span>
+                                <span class="fa fa-star {{ $count == 4 || $count == 5 ? 'star-active' : 'star-inactive' }} mx-1"></span>
+                                <span class="fa fa-star {{ $count == 5 ? 'star-active' : 'star-inactive' }} mx-1"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-8 bar">
+                            <div class="rating-bar0 justify-content-center">
+                                <table class="text-left mx-auto">
+                                    <tr>
+                                        <td class="rating-label">Rất tốt</td>
+                                        <td class="rating-bar">
+                                            <div class="bar-container">
+                                                <div class="bar-5" style="width: {{ ($star_5/$count)*100  }}%;"></div>
+                                            </div>
+                                        </td>
+                                        <td class="text-right">{{ $star_5 }} đánh giá</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="rating-label">Tôt</td>
+                                        <td class="rating-bar">
+                                            <div class="bar-container">
+                                                <div class="bar-4" style="width: {{ ($star_4/$count)*100  }}%;"></div>
+                                            </div>
+                                        </td>
+                                        <td class="text-right">{{ $star_4 }} đánh giá</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="rating-label">Ổn</td>
+                                        <td class="rating-bar">
+                                            <div class="bar-container">
+                                                <div class="bar-3" style="width: {{ ($star_3/$count)*100  }}%;"></div>
+                                            </div>
+                                        </td>
+                                        <td class="text-right">{{ $star_3 }} đánh giá</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="rating-label">Tệ</td>
+                                        <td class="rating-bar">
+                                            <div class="bar-container">
+                                                <div class="bar-2" style="width: {{ ($star_2/$count)*100  }}%;"></div>
+                                            </div>
+                                        </td>
+                                        <td class="text-right">{{ $star_2 }} đánh giá</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="rating-label">Rất tệ</td>
+                                        <td class="rating-bar">
+                                            <div class="bar-container">
+                                                <div class="bar-1" style="width: {{ ($star_1/$count)*100  }}%;"></div>
+                                            </div>
+                                        </td>
+                                        <td class="text-right">{{ $star_1 }} đánh giá</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
                 @if(isset($comments))
                 @foreach($comments as $comment)
                 <div class="comment comment_{{ $comment->bl_id }}">
@@ -182,12 +357,11 @@
                     </button>
                 </form>
                 @else
-                <p>Vui lòng đăng nhập vào hệ thống để được bình luận, nếu chưa có tài khoản hãy đăng kí !!!</p>
+                <strong>Vui lòng đăng nhập vào hệ thống để được bình luận, nếu chưa có tài khoản hãy đăng kí !!!</trong><br>
                 <a href="{{ route('customer.index') }}" class="modalLogin">Đăng kí tại đây</a>
                 @endif
             </div>
         </div>
-
     </div>
 </div>
 <!--/category-tab-->

@@ -189,7 +189,7 @@
                                                 <li>Phí vận chuyển: <span>0 VND</span></li>
                                                 <li class="total">Tổng tiền  <span>{{  number_format($totalCart)  }} VND</span></li>
                                             </ul>
-                                            <a class="btn btn-default check_out" href="{{ route('checkout.index') }}">Thanh toán</a>
+                                            <a class="btn btn-default check_out" style="margin : 15px;" href="{{ route('checkout.index') }}">Thanh toán</a>
                                         </div>
                                     </div>
                                 </div>

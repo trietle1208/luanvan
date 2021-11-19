@@ -67,11 +67,9 @@
             <div class="modal-body signin_modal">    
                 <div class="social_login">
                     <p>Đăng nhập với các tài khoản mạng xã hội</p>
-                    <ul class="social_log">
-                        <li><a href="{{ route('customer.loginGoogle') }}"><img src="{{ asset('assets/images/gmail.png') }}"></a></li>
-                        <li><a href="{{ route('customer.loginFacebook') }}"><img src="{{ asset('assets/images/fb.png') }}"></a></li>
-                        <li><img src="{{ asset('assets/images/gmail.png') }}"></li>
-                    </ul>
+                    <a href="{{ route('customer.loginGoogle') }}" class="btn btn-danger" style="width : 250px; height : 30px"><i class="fa fa-google-plus-square"></i> Đăng nhập với Gmail</i></a>
+                    <a href="{{ route('customer.loginFacebook') }}" class="btn" style="width : 250px; height : 30px; background-color : blue; color : white"><i class="fa fa-facebook-square"></i> Đăng nhập với Facebook</a>
+                    <hr>
                     <p>Hoặc</p>
                 </div>
                 <div class="signin_tab">
