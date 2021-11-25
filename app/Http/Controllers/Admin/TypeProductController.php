@@ -18,7 +18,7 @@ class TypeProductController extends Controller
         $this->category = $category;
     }
     public function index() {
-        $types = $this->type->latest()->paginate(10);
+        $types = $this->type->latest()->get();
 
         return view('admin.manager.type.index', compact('types'));
     }

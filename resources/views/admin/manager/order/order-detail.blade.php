@@ -1,7 +1,7 @@
 <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Modal title</h5>
+        <h5 class="modal-title">Chi tiết đơn hàng</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -127,8 +127,8 @@
                             <h4 class="header-title mb-2">Thông tin người nhận</h4>
 
                             <p class="mb-2"><span class="fw-semibold me-2">Họ và tên:</span>{{ $order->address->customer->kh_hovaten }}</p>
-                            <p class="mb-2"><span class="fw-semibold me-2">Địa chỉ:</span>{{ $order->address->customer->kh_email }}</p>
-                            <p class="mb-2"><span class="fw-semibold me-2">Email:</span>{{ $order->address->dc_sonha }}</p>
+                            <p class="mb-2"><span class="fw-semibold me-2">Địa chỉ:</span>{{ $order->address->dc_sonha }}</p>
+                            <p class="mb-2"><span class="fw-semibold me-2">Email:</span>{{ $order->address->customer->kh_email }}</p>
                             <p class="mb-2"><span class="fw-semibold me-2">Số điện thoại:</span>{{ $order->address->customer->kh_sdt }}</p>
 
                         </div>

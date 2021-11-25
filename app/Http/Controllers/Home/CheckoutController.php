@@ -237,8 +237,8 @@ class CheckoutController extends Controller
                         'trangthai' => 0,
                     ]);
                         $order_ncc_new = OrderNCC::find($dataCreateOrderNCC)->load('orderAdmin.address.customer');
-                        // $users = User::where('ncc_id',$key)->role(['Quản Lý Đơn Hàng','Admin nhà cung cấp'])->get();
-                        // Notification::send($users, new OrderNCCNotification($order_ncc_new));
+                        $users = User::where('ncc_id',$key)->role(['Quản Lý Đơn Hàng','Admin nhà cung cấp'])->get();
+                        Notification::send($users, new OrderNCCNotification($order_ncc_new));
                     }else{ 
                         $dataCreateOrderNCC = OrderNCC::insertGetId([
                             'dh_id' => $dataCreateOrder,
@@ -249,8 +249,8 @@ class CheckoutController extends Controller
                             'updated_at' => $dt,
                         ]);
                         $order_ncc_new = OrderNCC::find($dataCreateOrderNCC)->load('orderAdmin.address.customer');
-                        // $users = User::where('ncc_id',$key)->role(['Quản Lý Đơn Hàng','Admin nhà cung cấp'])->get();
-                        // Notification::send($users, new OrderNCCNotification($order_ncc_new));
+                        $users = User::where('ncc_id',$key)->role(['Quản Lý Đơn Hàng','Admin nhà cung cấp'])->get();
+                        Notification::send($users, new OrderNCCNotification($order_ncc_new));
                     }
                     foreach ($cart as $key2 => $item){
                         if($key2 != 0){
@@ -275,8 +275,8 @@ class CheckoutController extends Controller
                 }
                 Session::forget('cart');
                 $order_new = Order::find($dataCreateOrder)->load('address.customer');
-                // $users = User::whereNull('ncc_id')->where('loaitaikhoan',0)->get();
-                // Notification::send($users, new OrderNotification($order_new));
+                $users = User::whereNull('ncc_id')->where('loaitaikhoan',0)->get();
+                Notification::send($users, new OrderNotification($order_new));
                 
                 return response()->json([
                     'code' => 200,

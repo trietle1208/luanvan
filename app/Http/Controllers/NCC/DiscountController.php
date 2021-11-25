@@ -21,9 +21,9 @@ class DiscountController extends Controller
     public function __construct(Discount $discount, Product $product) {
         $this->discount = $discount;
         $this->product = $product;
-        $this->middleware(['permission:Add Discount'])->only(['create']);
-        $this->middleware(['permission:Edit Discount'])->only(['edit']);
-        $this->middleware(['permission:Delete Discount'])->only(['delete']);
+        $this->middleware(['permission:Thêm khuyến mãi'])->only(['create']);
+        $this->middleware(['permission:Chỉnh sửa khuyến mãi'])->only(['edit']);
+        $this->middleware(['permission:Xóa khuyến mãi'])->only(['delete']);
     }
     public function index() {
         $discounts = $this->discount->where('ncc_id',Auth::user()->ncc->ncc_id)->get();

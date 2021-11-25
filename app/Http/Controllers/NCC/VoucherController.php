@@ -13,9 +13,9 @@ class VoucherController extends Controller
     private $voucher;
     public function __construct(Voucher $voucher) {
         $this->voucher = $voucher;
-        $this->middleware(['permission:Add Voucher'])->only(['create']);
-        $this->middleware(['permission:Edit Voucher'])->only(['edit']);
-        $this->middleware(['permission:Delete Voucher'])->only(['delete']);
+        $this->middleware(['permission:Thêm mã giảm giá'])->only(['create']);
+        $this->middleware(['permission:Chỉnh sửa mã giảm giá'])->only(['edit']);
+        $this->middleware(['permission:Xóa mã giảm giá'])->only(['delete']);
     }
 
     public function index() {

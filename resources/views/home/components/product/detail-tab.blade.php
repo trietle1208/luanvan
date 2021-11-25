@@ -202,7 +202,7 @@
                                         <td class="rating-label">Rất tốt</td>
                                         <td class="rating-bar">
                                             <div class="bar-container">
-                                                <div class="bar-5" style="width: {{ ($star_5/$count)*100  }}%;"></div>
+                                                <div class="bar-5" style="width: {{ $count == 0 ? 0 : ($star_5/$count)*100  }}%;"></div>
                                             </div>
                                         </td>
                                         <td class="text-right">{{ $star_5 }} đánh giá</td>
@@ -211,7 +211,7 @@
                                         <td class="rating-label">Tôt</td>
                                         <td class="rating-bar">
                                             <div class="bar-container">
-                                                <div class="bar-4" style="width: {{ ($star_4/$count)*100  }}%;"></div>
+                                                <div class="bar-4" style="width: {{ $count == 0 ? 0 : ($star_4/$count)*100  }}%;"></div>
                                             </div>
                                         </td>
                                         <td class="text-right">{{ $star_4 }} đánh giá</td>
@@ -220,7 +220,7 @@
                                         <td class="rating-label">Ổn</td>
                                         <td class="rating-bar">
                                             <div class="bar-container">
-                                                <div class="bar-3" style="width: {{ ($star_3/$count)*100  }}%;"></div>
+                                                <div class="bar-3" style="width: {{ $count == 0 ? 0 : ($star_3/$count)*100  }}%;"></div>
                                             </div>
                                         </td>
                                         <td class="text-right">{{ $star_3 }} đánh giá</td>
@@ -229,7 +229,7 @@
                                         <td class="rating-label">Tệ</td>
                                         <td class="rating-bar">
                                             <div class="bar-container">
-                                                <div class="bar-2" style="width: {{ ($star_2/$count)*100  }}%;"></div>
+                                                <div class="bar-2" style="width: {{ $count == 0 ? 0 : ($star_2/$count)*100  }}%;"></div>
                                             </div>
                                         </td>
                                         <td class="text-right">{{ $star_2 }} đánh giá</td>
@@ -238,7 +238,7 @@
                                         <td class="rating-label">Rất tệ</td>
                                         <td class="rating-bar">
                                             <div class="bar-container">
-                                                <div class="bar-1" style="width: {{ ($star_1/$count)*100  }}%;"></div>
+                                                <div class="bar-1" style="width: {{ $count == 0 ? 0 : ($star_1/$count)*100  }}%;"></div>
                                             </div>
                                         </td>
                                         <td class="text-right">{{ $star_1 }} đánh giá</td>

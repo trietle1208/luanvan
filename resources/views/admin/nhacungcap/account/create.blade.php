@@ -8,15 +8,8 @@
     <div class="col-lg-12 pt-5">
         <div class="card">
             <div class="card-body">
-                        <h2 class="header-title text-center">THÊM TÀI KHOẢN NHÂN VIÊN</h2>
-                <?php
-                $message = Session::get('message');
-                if($message)
-                {
-                    echo '<span class="text-primary">'.$message.'</span>';
-                    Session::put('message',null);
-                }
-                ?>
+                <h2 class="header-title text-center">THÊM TÀI KHOẢN NHÂN VIÊN</h2>
+                
                 {!! Toastr::message() !!}
                 <form class="form-horizontal" action="{{ route('sup.account.store') }}" method="post" enctype="multipart/form-data">
                     @csrf

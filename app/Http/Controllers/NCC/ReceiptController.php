@@ -31,9 +31,9 @@ class ReceiptController extends Controller
         $this->brand = $brand;
         $this->type = $type;
         $this->receiptdetail = $receiptdetail;
-        $this->middleware(['permission:Add Receipt'])->only(['create']);
-        $this->middleware(['permission:Edit Receipt'])->only(['edit']);
-        $this->middleware(['permission:Delete Receipt'])->only(['delete']);
+        $this->middleware(['permission:Thêm phiếu nhập'])->only(['create']);
+        $this->middleware(['permission:Chỉnh sửa phiếu nhập'])->only(['edit']);
+        $this->middleware(['permission:Xóa phiếu nhập'])->only(['delete']);
     }
 
     public function index()

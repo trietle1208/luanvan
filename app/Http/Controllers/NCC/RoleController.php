@@ -50,4 +50,12 @@ class RoleController extends Controller
         ]);
         Return redirect()->route('sup.role.list');
     }
+
+    public function delete(Request $request)
+    {
+        $role = Role::find($request->id)->delete();
+        return response()->json([
+            'code' => 200,
+        ]);
+    }
 }

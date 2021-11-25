@@ -15,6 +15,14 @@
         <link href="{{ asset('assets/libs/flatpickr/flatpickr.min.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('assets/libs/selectize/css/selectize.bootstrap3.css') }}" rel="stylesheet" type="text/css" />
 
+        <!-- third party css -->
+        <link href="{{ asset('assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('assets/libs/datatables.net-select-bs4/css//select.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
+        <!-- third party css end -->
+
+
         <!-- App css -->
         <link href="{{ asset('assets/css/config/default/bootstrap.min.css') }}" rel="stylesheet" type="text/css" id="bs-default-stylesheet" />
         <link href="{{ asset('assets/css/config/default/app.min.css') }}" rel="stylesheet" type="text/css" id="app-default-stylesheet" />
@@ -25,8 +33,6 @@
         <!-- icons -->
         <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
 
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/dt-1.11.3/datatables.min.css"/>
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css"/>
         <link rel="stylesheet" href="https://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
     </head>
 
@@ -71,25 +77,19 @@
         <!-- Vendor js -->
         <script src="{{ asset('assets/js/vendor.min.js') }}"></script>
         
+        
         <!-- Plugins js-->
         <script src="{{ asset('assets/libs/flatpickr/flatpickr.min.js') }}"></script>
-        <!-- <script src="{{ asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script> -->
         <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-        <!-- <script src="https://apexcharts.com/samples/assets/irregular-data-series.js"></script>
-        <script src="https://apexcharts.com/samples/assets/ohlc.js"></script> -->
         <script src="{{ asset('assets/libs/selectize/js/standalone/selectize.min.js') }}"></script>
-        <!-- <script src="{{ asset('assets/js/pages/apexcharts.init.js') }}"></script> -->
-
         <!-- Dashboar 1 init js-->
         <script src="{{ asset('assets/js/pages/dashboard-1.init.js') }}"></script>
         <script src="{{ asset('js/ajax/comment.js') }}"></script>
         <!-- Chart -->
+
         <!-- App js-->
         <script src="{{ asset('assets/js/app.min.js') }}"></script>
         <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
-        <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.11.3/datatables.min.js"></script>
-        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
-        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
         <script src="https://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
         {!! Toastr::message() !!}
         <script>
@@ -109,11 +109,25 @@
         <script src="{{ asset('js/admin/order/order.js') }}"></script>
         <script src="{{ asset('js/admin/notification/notify.js') }}"></script>
         <script src="{{ asset('js/app.js') }}"></script>
-        <script>
-            $(document).ready( function () {
-                $('#category').DataTable();
-            });
-        </script>
+
+        <!-- third party js -->
+        <script src="{{ asset('assets/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+        <script src="{{ asset('assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
+        <script src="{{ asset('assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>
+        <script src="{{ asset('assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
+        <script src="{{ asset('assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js') }}"></script>
+        <script src="{{ asset('assets/libs/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
+        <script src="{{ asset('assets/libs/datatables.net-buttons/js/buttons.flash.min.js') }}"></script>
+        <script src="{{ asset('assets/libs/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
+        <script src="{{ asset('assets/libs/datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
+        <script src="{{ asset('assets/libs/datatables.net-select/js/dataTables.select.min.js') }}"></script>
+        <script src="{{ asset('assets/libs/pdfmake/build/pdfmake.min.js') }}"></script>
+        <script src="{{ asset('assets/libs/pdfmake/build/vfs_fonts.js') }}"></script>
+        <!-- third party js ends -->
+
+        <!-- Datatables init -->
+        <script src="{{ asset('assets/js/pages/datatables.init.js') }}"></script>
 {{--        CHANGE-STATUS-USER--}}
         <script>
             $(document).ready(function (){
@@ -146,6 +160,7 @@
             $(document).ready(function (){
                 $('.changeReceipt').click(function (){
                     var id = $(this).data('id');
+                    var url = $(this).data('url');
                     var that = $(this);
                     Swal.fire({
                         title: 'Bạn có chắc chắn muốn duyệt phiếu này không?',
@@ -160,7 +175,7 @@
 
                             $.ajax({
                                 type : 'GET',
-                                url : '{{ route('admin.receipt.change') }}',
+                                url : url,
                                 data :{
                                     'id':id,
                                 },
@@ -1365,6 +1380,84 @@
                 });
             });
         });
+    </script>
+   
+    <script>
+        $(document).on('click','.deleteRole',function(e){
+            e.preventDefault();
+            var id = $(this).data('id');
+            var url = $(this).data('url');
+            var that = $(this);
+            Swal.fire({
+                title: 'Bạn có chắc chắn muốn xóa vai trò này không?',
+                text: "Bạn sẽ không thể khôi phục lại!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Có, tôi đồng ý!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    $.ajax({
+                        type : 'GET',
+                        url : url,
+                        data : {
+                            'id' : id,
+                        },
+                        success : function (data) {
+                            if(data.code == 200) {
+                                that.parent().parent().remove();
+                                Swal.fire(
+                                    'Đã xóa',
+                                    'Vai trò bạn chọn đã được xóa',
+                                    'success'
+                                )
+                            }
+                        }
+                    })
+                }
+            })
+        })
+    </script>
+
+<script>
+        $(document).on('click','.deletePermission',function(e){
+            e.preventDefault();
+            var id = $(this).data('id');
+            var url = $(this).data('url');
+            var that = $(this);
+            Swal.fire({
+                title: 'Bạn có chắc chắn muốn xóa quyền này không?',
+                text: "Bạn sẽ không thể khôi phục lại!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Có, tôi đồng ý!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    $.ajax({
+                        type : 'GET',
+                        url : url,
+                        data : {
+                            'id' : id,
+                        },
+                        success : function (data) {
+                            if(data.code == 200) {
+                                that.parent().parent().remove();
+                                Swal.fire(
+                                    'Đã xóa',
+                                    'Quyền bạn chọn đã được xóa',
+                                    'success'
+                                )
+                            }
+                        }
+                    })
+                }
+            })
+        })
     </script>
     </body>
 </html>

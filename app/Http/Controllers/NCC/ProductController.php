@@ -49,9 +49,9 @@ class ProductController extends Controller
         $this->discount = $discount;
         $this->productImage = $productImage;
         $this->detail = $detail;
-        $this->middleware(['permission:Add Product'])->only(['create']);
-        $this->middleware(['permission:Edit Product'])->only(['edit']);
-        $this->middleware(['permission:Delete Product'])->only(['delete']);
+        $this->middleware(['permission:Thêm sản phẩm'])->only(['create']);
+        $this->middleware(['permission:Chỉnh sửa sản phẩm'])->only(['edit']);
+        $this->middleware(['permission:Xóa sản phẩm'])->only(['delete']);
     }
     public function index()
     {

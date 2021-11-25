@@ -79,17 +79,6 @@
 
 @yield('js')
 
-    <!-- <script>
-        $(function() {
-        var userId = `{{ Session::get('customer_id') }}`;
-        window.Echo.join(`App.Models.Customer.${userId}`)
-            .notification((notification) => {
-                $.get(`{{ route('notitication') }}`, function(data) {
-                    $("#notification-list").html(data);
-                });
-            });
-        });
-    </script> -->
     <script>
         var count = 0;
         $(document).on('click','.shipping',function (){

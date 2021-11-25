@@ -10,16 +10,8 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="header-title text-center">DANH SÁCH SLIDE</h4>
-                    <?php
-                    $message = Session::get('message');
-                    if($message)
-                    {
-                        echo '<span class="text-primary">'.$message.'</span>';
-                        Session::put('message',null);
-                    }
-                    ?>
                     <div class="table-responsive">
-                        <table class="table mb-0">
+                        <table class="table table-bordered table-hover mb-0" id="basic-datatable">
                             <thead class="table-light">
                             <tr>
                                 <th>ID</th>

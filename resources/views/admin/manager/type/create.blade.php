@@ -9,14 +9,6 @@ Loại sản phẩm
     <div class="card">
         <div class="card-body">
             <h2 class="header-title text-center">THÊM LOẠI SẢN PHẨM</h2>
-            <?php
-            $message = Session::get('message');
-            if($message)
-            {
-                echo '<span class="text-primary">'.$message.'</span>';
-                Session::put('message',null);
-            }
-            ?>
             <form class="form-horizontal" action="{{ route('admin.type.store') }}" method="post">
                 @csrf
                 <div class="row mb-3">

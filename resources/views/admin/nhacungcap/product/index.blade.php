@@ -52,12 +52,12 @@ Sản phẩm
                                             <a href="" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#chitiet_{{ $product->sp_id }}">Chi tiết</a>
                                         </li>
                                         <li>
-                                            @can('Edit Product')
+                                            @can('Chỉnh sửa sản phẩm')
                                             <a href="{{ route('sup.product.edit', ['id' => $product->sp_id]) }}" class="btn btn-info">Chỉnh sửa</a>
                                             @endcan
                                         </li>
                                         <li>
-                                            @can('Delete Product')
+                                            @can('Xóa sản phẩm')
                                             <a onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?')" href="{{ route('sup.product.delete', ['id' => $product->sp_id]) }}" class="btn btn-danger">Xóa</a>
                                             @endcan
                                         </li>

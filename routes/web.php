@@ -55,7 +55,7 @@ Route::post('/email/verification-notification', function (Request $request) {
 
 Route::get('/taonhacungcap', function () {
     return view('admin.nhacungcap.create');
-});
+})->name('dangkinhacungcap');
 
 Route::get('/thongbao', [
     'as' => 'notification.content',
@@ -464,19 +464,19 @@ Route::middleware(['auth','verified'])->group(function () {
             });
             Route::prefix('thongke')->group(function (){
                 Route::get('/donhang', [
-                    'as' => 'order.list',
+                    'as' => 'statistical.list',
                     'uses' => 'App\Http\Controllers\Admin\StatisticalOrderController@index'
                 ]);
                 Route::get('/donhangtheothang', [
-                    'as' => 'order.fillOrderByMonth',
+                    'as' => 'statistical.fillOrderByMonth',
                     'uses' => 'App\Http\Controllers\Admin\StatisticalOrderController@fillOrderByMonth'
                 ]);
                 Route::get('/donhangtheoquy', [
-                    'as' => 'order.fillOrderBy3Month',
+                    'as' => 'statistical.fillOrderBy3Month',
                     'uses' => 'App\Http\Controllers\Admin\StatisticalOrderController@fillOrderBy3Month'
                 ]);
                 Route::get('/donhangtheongay', [
-                    'as' => 'order.fillOrderByDate',
+                    'as' => 'statistical.fillOrderByDate',
                     'uses' => 'App\Http\Controllers\Admin\StatisticalOrderController@fillOrderByDate'
                 ]);
             });
@@ -747,7 +747,7 @@ Route::middleware(['auth','verified'])->group(function () {
                     'as' => 'role.update',
                     'uses' => 'App\Http\Controllers\NCC\RoleController@update',
                 ]);
-                Route::get('/xoa/{id}', [
+                Route::get('/xoa', [
                     'as' => 'role.delete',
                     'uses' => 'App\Http\Controllers\NCC\RoleController@delete'
                 ]);
@@ -783,7 +783,7 @@ Route::middleware(['auth','verified'])->group(function () {
                     'as' => 'permission.update',
                     'uses' => 'App\Http\Controllers\NCC\PermissionController@update'
                 ]);
-                Route::get('/xoa/{id}', [
+                Route::get('/xoa', [
                     'as' => 'permission.delete',
                     'uses' => 'App\Http\Controllers\NCC\PermissionController@delete'
                 ]);

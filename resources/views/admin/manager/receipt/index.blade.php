@@ -11,7 +11,7 @@
                 <div class="card-body">
                     <h4 class="header-title text-center">DANH SÁCH PHIẾU NHẬP</h4>
                     <div class="table-responsive">
-                        <table class="table mb-0">
+                        <table class="table table-bordered table-hover mb-0" id="basic-datatable">
                             <thead class="table-light">
                             <tr>
                                 <th>ID</th>
@@ -36,7 +36,7 @@
                                         <td>
                                             <button class="btn btn-primary detail" data-id= "{{ $receipt->pnh_id }}">Chi tiết</button>
 
-                                            <button class="btn btn-info changeReceipt" data-id= "{{ $receipt->pnh_id }}">Duyệt</button>
+                                            <button class="btn btn-info changeReceipt" data-url="{{ route('admin.receipt.change') }}" data-id= "{{ $receipt->pnh_id }}">Duyệt</button>
                                         </td>
                                     @else
                                         <td>

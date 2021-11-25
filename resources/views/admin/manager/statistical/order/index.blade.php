@@ -73,7 +73,7 @@
                                 <div class="col-4">
                                     <input type="month" class="form-control month">
                                     <hr>
-                                    <button class="btn btn-success fillAdminOrderByMonth" data-url="{{ route('admin.order.fillOrderByMonth') }}">Lọc</button>
+                                    <button class="btn btn-success fillAdminOrderByMonth" data-url="{{ route('admin.statistical.fillOrderByMonth') }}">Lọc</button>
                                 </div>
                                 <div class="col-8">
                                     <div class="row">
@@ -85,7 +85,7 @@
                                         </div>
                                     </div>
                                     <hr>
-                                    <button class="btn btn-success fillAdminOrderByDate" data-url="{{ route('admin.order.fillOrderByDate') }}">Lọc</button>
+                                    <button class="btn btn-success fillAdminOrderByDate" data-url="{{ route('admin.statistical.fillOrderByDate') }}">Lọc</button>
                                 </div>
                             </div>
                         </div>
@@ -106,7 +106,7 @@
                                 </div>
                             </div>
                             <hr>
-                            <button class="btn btn-success fillAdminOrderBy3Month" data-url="{{ route('admin.order.fillOrderBy3Month') }}">Lọc</button>
+                            <button class="btn btn-success fillAdminOrderBy3Month" data-url="{{ route('admin.statistical.fillOrderBy3Month') }}">Lọc</button>
                         </div>
                         <div class="col-2 resultOrderByMonth" style="display : none">
                             <h4>Kết quả thống kê</h4>

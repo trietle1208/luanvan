@@ -44,7 +44,7 @@
             <ul id="side-menu">
                 <li>
                     <a href="#sidebarLayouts" data-bs-toggle="collapse">
-                        <i data-feather="layout"></i>
+                        <i data-feather="users"></i>
                         <span> Quản Lý Tài Khoản </span>
                         <span class="menu-arrow"></span>
                     </a>
@@ -52,13 +52,6 @@
                         <ul class="nav-second-level">
                             <li>
                                 <a href="{{ route('admin.account.create_shipper') }}">Thêm tài khoản shipper</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="collapse" id="sidebarLayouts">
-                        <ul class="nav-second-level">
-                            <li>
-                                <a href="{{ route('admin.account.list') }}">Thêm tài khoản nhân viên</a>
                             </li>
                         </ul>
                     </div>
@@ -73,7 +66,7 @@
 
                 <li>
                     <a href="#sidebarDashboards" data-bs-toggle="collapse">
-                        <i data-feather="airplay"></i>
+                        <i data-feather="list"></i>
                         <span> Quản Lý Danh Mục</span>
                         <span class="menu-arrow"></span>
 
@@ -91,7 +84,7 @@
                 </li>
                 <li>
                     <a href="#sidebarMultilevel" data-bs-toggle="collapse">
-                        <i data-feather="share-2"></i>
+                        <i data-feather="file-text"></i>
                         <span> Quản Lý Bài Viết </span>
                         <span class="menu-arrow"></span>
                     </a>
@@ -133,7 +126,7 @@
                 </li>
                 <li>
                     <a href="#sidebarCrm" data-bs-toggle="collapse">
-                        <i data-feather="users"></i>
+                        <i data-feather="flag"></i>
                         <span> Quản Lý Thương Hiệu </span>
                         <span class="menu-arrow"></span>
                     </a>
@@ -150,7 +143,7 @@
                 </li>
                 <li>
                     <a href="#sidebarEmail" data-bs-toggle="collapse">
-                        <i data-feather="mail"></i>
+                        <i data-feather="grid"></i>
                         <span> Quản Lý Slide </span>
                         <span class="menu-arrow"></span>
                     </a>
@@ -168,7 +161,7 @@
                 </li>
                 <li>
                     <a href="#sidebarAuth" data-bs-toggle="collapse">
-                        <i data-feather="file-text"></i>
+                        <i data-feather="server"></i>
                         <span> Quản Lý Hình Thức </span>
                         <span class="menu-arrow"></span>
                     </a>
@@ -184,7 +177,7 @@
                         </ul>
                     </div>
                 </li>
-                <li>
+                <!-- <li>
                     <a href="#sidebarMaps" data-bs-toggle="collapse">
                         <i data-feather="map"></i>
                         <span> Quản Lý Phí Vận Chuyển </span>
@@ -197,10 +190,10 @@
                             </li>
                         </ul>
                     </div>
-                </li>
+                </li> -->
                 <li>
                     <a href="#sidebarCharts" data-bs-toggle="collapse">
-                        <i data-feather="bar-chart-2"></i>
+                        <i data-feather="user-check"></i>
                         <span> Quản Lý Phân Quyền </span>
                         <span class="menu-arrow"></span>
                     </a>
@@ -223,7 +216,7 @@
                 </li>
                 <li>
                     <a href="#sidebarProjects" data-bs-toggle="collapse">
-                        <i data-feather="briefcase"></i>
+                        <i data-feather="info"></i>
                         <span>Quản Lý Loại/Thông Số</span>
                         <span class="menu-arrow"></span>
                     </a>
@@ -245,7 +238,7 @@
 
                 <li>
                     <a href="#sidebarTasks" data-bs-toggle="collapse">
-                        <i data-feather="briefcase"></i>
+                        <i data-feather="clipboard"></i>
                         <span> Quản Lý Phiếu Nhập </span>
                         <span class="menu-arrow"></span>
                     </a>
@@ -260,7 +253,7 @@
 
                 <li>
                     <a href="#sidebarTables" data-bs-toggle="collapse">
-                        <i data-feather="grid"></i>
+                        <i data-feather="truck"></i>
                         <span> Quản Lý Đơn Hàng</span>
                         <span class="menu-arrow"></span>
                     </a>
@@ -275,14 +268,14 @@
 
                 <li>
                     <a href="#sidebarMaps" data-bs-toggle="collapse">
-                        <i data-feather="map"></i>
+                        <i data-feather="bar-chart"></i>
                         <span> Thống kê </span>
                         <span class="menu-arrow"></span>
                     </a>
                     <div class="collapse" id="sidebarMaps">
                         <ul class="nav-second-level">
                             <li>
-                                <a href="{{ route('admin.order.list') }}">Thống kê đơn hàng</a>
+                                <a href="{{ route('admin.statistical.list') }}">Thống kê đơn hàng</a>
                             </li>
                             
 
@@ -296,7 +289,7 @@
             @hasanyrole('Admin nhà cung cấp')
                 <li>
                     <a href="#sidebarIcons" data-bs-toggle="collapse">
-                        <i data-feather="cpu"></i>
+                        <i data-feather="bar-chart"></i>
                         <span> Thống kê </span>
                         <span class="menu-arrow"></span>
                     </a>

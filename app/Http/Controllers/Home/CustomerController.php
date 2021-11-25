@@ -453,7 +453,7 @@ class CustomerController extends Controller
             $comment = $comment->load('customer','product');
             $product = Product::find($request->idsp);
             $users = User::where('ncc_id',$product->ncc->ncc_id)->role(['Quản Lý Sản Phẩm','Admin nhà cung cấp'])->get();
-            Notification::send($users, new CommentNotification($comment));
+            $notifi = Notification::send($users, new CommentNotification($comment));
             DB::commit();
             return response()->json([
             'code' => 200,

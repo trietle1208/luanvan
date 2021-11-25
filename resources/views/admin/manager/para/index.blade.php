@@ -10,14 +10,6 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="header-title text-center">DANH SÁCH THÔNG SỐ</h4>
-                    <?php
-                    $message = Session::get('message');
-                    if($message)
-                    {
-                        echo '<span class="text-primary">'.$message.'</span>';
-                        Session::put('message',null);
-                    }
-                    ?>
                     <div class="table-responsive">
                         <table class="table mb-0">
                             <thead class="table-light">
@@ -37,8 +29,7 @@
                                     <td class="text-success">{{ $type->cate->dm_ten }}</td>
                                     <td>{{ $type['loaisp_mota'] }}</td>
                                     <td>
-
-                                            <a href="" data-id="{{ $type->loaisp_id }}" class="btn btn-primary para-detail">Chi tiết</a>
+                                        <a href="" data-id="{{ $type->loaisp_id }}" class="btn btn-primary para-detail">Chi tiết</a>
                                     </td>
                                 </tr>
                             @endforeach
