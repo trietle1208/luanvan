@@ -14,17 +14,15 @@
                     <th scope="col">Tên</th>
                     <th scope="col">Hình ảnh</th>
                     <th scope="col">Giá</th>
-{{--                    <th scope="col">Hành động</th>--}}
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($wishlist as $item)
                 <tr>
                     <th scope="row">{{ $item->product->sp_id }}</th>
-                    <td>{{ $item->product->sp_ten }}</td>
-                    <td><img src="{{ $item->product->sp_hinhanh }}" class="img-fluid" style="width: 200px; height: 200px"></td>
+                    <td><a href="{{ route('product.detail', ['ncc' => $item->product->ncc_id ,'slug' => $item->product->sp_slug]) }}">{{ $item->product->sp_ten }}</a></td>
+                    <td><a href="{{ route('product.detail', ['ncc' => $item->product->ncc_id ,'slug' => $item->product->sp_slug]) }}"><img src="{{ $item->product->sp_hinhanh }}" class="img-fluid" style="width: 200px; height: 200px"></a></td>
                     <td>{{ number_format($item->product->sp_giabanra) }} VND</td>
-{{--                    <td><button class="btn btn-danger">Xóa yêu thích</button></td>--}}
                 </tr>
                 @endforeach
                 </tbody>

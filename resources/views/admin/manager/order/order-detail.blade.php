@@ -6,7 +6,7 @@
       </div>
       <div class="modal-body">
         <div class="row">
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                     <div class="card">
                         <div class="card-body">
                             <!-- <h4 class="header-title mb-3">Track Order</h4> -->
@@ -61,7 +61,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-8">
+                <div class="col-lg-9">
                     <div class="card">
                         <div class="card-body">
                             <h4 class="header-title mb-3">Các sản phẩm của đơn hàng</h4>
@@ -74,6 +74,7 @@
                                             <th>Hình ảnh</th>
                                             <th>Số lượng</th>
                                             <th>Giá</th>
+                                            <th>Nơi cung cấp</th>
                                             <th>Tổng cộng</th>
                                         </tr>
                                     </thead>
@@ -83,34 +84,50 @@
                                             <tr>
                                                 <th scope="row">{{ $detail->product->sp_ten }}</th>
                                                 <td><img src="{{ $detail->product->sp_hinhanh}}" alt="product-img" height="80"></td>
-                                                <td>{{ $detail->soluong }}</td>
+                                                <td class="text-center">{{ $detail->soluong }}</td>
                                                 @if($detail->km_id != null)
                                                 <td>
                                                     {{ number_format($detail->gia) }}VND
                                                     <p class="text-success">({{ $detail->discount->km_ten }})</p>
                                                 </td>
+                                                <th>
+                                                    {{ $orderNCC->ncc->ncc_ten }}
+                                                    @if($orderNCC->trangthai == 0)
+                                                        <p class="text-danger">Chưa duyệt</p>
+                                                    @else
+                                                        <p class="text-success">Đã duyệt</p>
+                                                    @endif
+                                                </th>
                                                 <td>{{ number_format($detail->gia*$detail->soluong) }}VND</td>
                                                 @else
                                                 <td>{{ number_format($detail->gia) }}VND</td>
+                                                <th>
+                                                    {{ $orderNCC->ncc->ncc_ten }}
+                                                    @if($orderNCC->trangthai == 0)
+                                                        <p class="text-danger">Chưa duyệt</p>
+                                                    @else
+                                                        <p class="text-success">Đã duyệt</p>
+                                                    @endif
+                                                </th>
                                                 <td>{{ number_format($detail->gia*$detail->soluong) }}VND</td>
                                                 @endif
                                             </tr>
                                             @endforeach
                                         @endforeach
                                         <tr>
-                                            <th scope="row" colspan="4" class="text-end">Tạm tính : </th>
+                                            <th scope="row" colspan="5" class="text-end">Tạm tính : </th>
                                             <td><div class="fw-bold">{{ number_format($subtotal) }} VNĐ</div></td>
                                         </tr>
                                         <tr>
-                                            <th scope="row" colspan="4" class="text-end">Phí vận chuyện :</th>
+                                            <th scope="row" colspan="5" class="text-end">Phí vận chuyện :</th>
                                             <td>{{ number_format($fee) }} VNĐ</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row" colspan="4" class="text-end">Số tiền được giảm :</th>
+                                            <th scope="row" colspan="5" class="text-end">Số tiền được giảm :</th>
                                             <td>{{ number_format($voucher) }} VNĐ</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row" colspan="4" class="text-end">Tổng tiền :</th>
+                                            <th scope="row" colspan="5" class="text-end">Tổng tiền :</th>
                                             <td><div class="fw-bold">{{ number_format($order->dh_tongtien) }} VNĐ</div></td>
                                         </tr>
                                     </tbody>

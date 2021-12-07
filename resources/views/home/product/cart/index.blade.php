@@ -108,9 +108,10 @@
                                                                 @if($discount_id == 0)
                                                                     <div class="add add_{{ $key }}">
                                                                         <span style="padding-bottom: 15px;">Bạn có thể chọn 1 trong các mã giảm giá dưới đây</span><br>
-                                                                        <button style="padding: 10px;" class="btn btn-primary showVoucher"
+                                                                        <button style="padding: 10px;" class="showVoucher snip1457"
                                                                             data-url="{{ route('product.showVoucher') }}"
-                                                                            value="1" id="button-voucher_{{ $key }}" data-key="{{ $key }}">Danh sách mã</button>
+                                                                            value="1" id="button-voucher_{{ $key }}" data-key="{{ $key }}">Danh sách mã
+                                                                        </button>
                                                                     </div>
                                                                     
                                                                     <div class="delete delete_{{ $key }}" style="display: none">
@@ -189,7 +190,7 @@
                                                 <li>Phí vận chuyển: <span>0 VND</span></li>
                                                 <li class="total">Tổng tiền  <span>{{  number_format($totalCart)  }} VND</span></li>
                                             </ul>
-                                            <a class="btn btn-default check_out" style="margin : 15px;" href="{{ route('checkout.index') }}">Thanh toán</a>
+                                            <a class="btn btn-default check_out snip1457" style="margin-left: 40px;" href="{{ route('checkout.index') }}">Thanh toán</a>
                                         </div>
                                     </div>
                                 </div>

@@ -5,13 +5,12 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <table class="table" id="sanphamphieunhap">
+            <table class="table table-bordered table-hover mb-0" id="basic-datatable">
                 <thead>
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Tên sản phẩm</th>
                     <th scope="col">Hình ảnh</th>
-                    <th scope="col">Số lượng tồn</th>
                     <th scope="col">Giá bán ra</th>
                     <th scope="col">Số lượng nhập</th>
                     <th scope="col">Giá nhập vào</th>
@@ -24,7 +23,6 @@
                     <th scope="row">{{ $product->sp_id }}</th>
                     <td>{{ $product->sp_ten }}</td>
                     <td><img src="{{ $product->sp_hinhanh }}" style="height: 150px ; width: 150px" class="img-fluid"></td>
-                    <td class="qty_old_{{ $product->sp_id }}">{{ $product->sp_soluong }}</td>
                     <td>{{ number_format($product->sp_giabanra) }} VNĐ</td>
                     @if(!empty(Session::get('product')))
                         <td><input type="text" class="form-control qty_{{ $product->sp_id }}"

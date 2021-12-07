@@ -55,7 +55,7 @@ class ProductController extends Controller
     }
     public function index()
     {
-        $products = $this->product->where('ncc_id', Auth::user()->ncc->ncc_id)->paginate(10);
+        $products = $this->product->where('ncc_id', Auth::user()->ncc->ncc_id)->orderBy('created_at','DESC')->get();
         $detail =   $this->detail->all();
         return view('admin.nhacungcap.product.index', compact('products', 'detail'));
     }
@@ -84,7 +84,6 @@ class ProductController extends Controller
             'name' => 'required|max:255',
             'desc' => 'required',
             'detail' => 'required',
-            'quantity' => 'required|numeric',
             'price' => 'required|numeric',
             'insurance' => 'required|numeric',
             'cate' => 'required',
@@ -97,12 +96,10 @@ class ProductController extends Controller
             'name.required' => 'Vui lòng không để trống mục tên của tên sản phẩm.',
             'desc.required' => 'Vui lòng không để trống mục mô tả của sản phẩm',
             'detail.required' => 'Vui lòng không để trống mục chi tiết của sản phẩm.',
-            'quantity.required' => 'Vui lòng không để trống mục số lượng của sản phẩm.',
             'insurance.required' => 'Vui lòng không để trống mục thời gian bảo hành của sản phẩm.',
             'price.required' => 'Vui lòng không để trống mục giá của sản phẩm.',
             'cate.required' => 'Vui lòng chọn danh mục cho sản phẩm.',
             'brand.required' => 'Vui lòng chọn thương hiệu cho sản phẩm.',
-            'quantity.numeric' => 'Số lượng của sản phẩm nhập vào phải là kiểu số.',
             'insurance.numeric' => 'Thời gian bảo hành của sản phẩm nhập vào phải là kiểu số',
             'price.numeric' => 'Giá tiền của sản phẩm nhập vào phải là kiểu số.',
             'chitietthongso.required' => 'Vui lòng không để trống mục chi tiết thông số.',
@@ -119,7 +116,6 @@ class ProductController extends Controller
         $dataProduct = [
             'sp_ten' => $request->name,
             'sp_giabanra' => $request->price,
-            'sp_soluong' => $request->quantity,
             'sp_mota' => $request->desc,
             'sp_slug' => str_slug($request->name),
             'sp_chitiet' => $request->detail,
@@ -239,7 +235,6 @@ class ProductController extends Controller
         $dataUpdate = [
             'sp_ten' => $request->name,
             'sp_giabanra' => $request->price,
-            'sp_soluong' => $request->quantity,
             'sp_mota' => $request->desc,
             'sp_slug' => str_slug($request->name),
             'sp_chitiet' => $request->detail,
@@ -308,6 +303,22 @@ class ProductController extends Controller
         return view('admin.nhacungcap.product.comment',compact('comments','comments_0','count'));
     }
 
+    public function repComment(Request $request)
+    {
+        $comment = Comment::create([
+            'bl_noidung' => $request->text,
+            'bl_idcha' => $request->id,
+            'sp_id' => $request->idsp,
+            'us_id' => auth()->id(),
+            'trangthai' => 1,
+        ]);
+
+        return response()->json([
+            'code' => 200,
+        ]);
+    }
+
+
     public function confirmComment(Request $request)
     {
         $count = 0;
@@ -327,6 +338,13 @@ class ProductController extends Controller
             'title' => 'Thành công',
             'count' => $count,
         ],200);
+    }
+
+    public function listRepComment(Request $request)
+    {
+        $comments = Comment::where('bl_idcha',$request->id)->where('trangthai',1)->with('product','customer','admin.info')->orderBy('created_at','ASC')->get();
+        // dd($comments->toArray());
+        return view('admin.nhacungcap.product.listRep',compact('comments'))->render();
     }
 
     public function deleteComment(Request $request)

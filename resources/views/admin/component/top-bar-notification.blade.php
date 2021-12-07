@@ -24,7 +24,7 @@
             @if($notification->type == 'App\Notifications\OrderNotification')
                 <a href="{{ route('seen.notitication',['id' => $notification->id ]) }}" class="dropdown-item notify-item active">
                     <div class="notify-icon">
-                        <img src="../assets/images/users/user-1.jpg" class="img-fluid rounded-circle" alt="" /> 
+                        <img src="{{ $notification['data']['order']['address']['customer']['kh_hinhanh'] ?? asset('assets/images/avt_null.jpg') }}" class="img-fluid rounded-circle" alt="" /> 
                     </div>
                     <p class="notify-details"><strong>Mã đơn hàng</strong> : {{ $notification['data']['order']['dh_madonhang'] }}</p>
                     <p class="notify-details"><strong>Khách hàng</strong> : {{ $notification['data']['order']['address']['customer']['kh_hovaten'] }}</p>
@@ -36,7 +36,7 @@
             @elseif($notification->type == 'App\Notifications\OrderNCCNotification')
                 <a href="{{ route('seen.notitication',['id' => $notification->id ]) }}" class="dropdown-item notify-item active">
                     <div class="notify-icon">
-                        <img src="../assets/images/users/user-1.jpg" class="img-fluid rounded-circle" alt="" /> 
+                    <img src="{{ $notification['data']['order']['order_admin']['address']['customer']['kh_hinhanh'] ?? asset('assets/images/avt_null.jpg') }}" class="img-fluid rounded-circle" alt="" /> 
                     </div>
                     <p class="notify-details"><strong>Mã đơn hàng</strong> : {{ $notification['data']['order']['order_admin']['dh_madonhang'] }}</p>
                     <p class="notify-details"><strong>Khách hàng</strong> : {{ $notification['data']['order']['order_admin']['address']['customer']['kh_hovaten'] }}</p>
@@ -48,7 +48,7 @@
             @elseif($notification->type == 'App\Notifications\ShipperNotification')
                 <a href="{{ route('seen.notitication',['id' => $notification->id ]) }}" class="dropdown-item notify-item active">
                     <div class="notify-icon">
-                        <img src="../assets/images/users/user-1.jpg" class="img-fluid rounded-circle" alt="" /> 
+                    <img src="{{ $notification['data']['order']['address']['customer']['kh_hinhanh'] ?? asset('assets/images/avt_null.jpg') }}" class="img-fluid rounded-circle" alt="" /> 
                     </div>
                     <p class="notify-details"><strong>Mã đơn hàng</strong> : {{ $notification['data']['order']['dh_madonhang'] }}</p>
                     <p class="notify-details"><strong>Khách hàng</strong> : {{ $notification['data']['order']['address']['customer']['kh_hovaten'] }}</p>
@@ -58,6 +58,18 @@
                         <small>Ngày đặt : {{ $notification['data']['order']['dh_thoigiandathang'] }}</small>
                     </p>
                 </a>
+            <!-- @elseif($notification->type == 'App\Notifications\ReceiptNotification')
+                <a href="{{ route('seen.notitication',['id' => $notification->id ]) }}" class="dropdown-item notify-item active">
+                    <div class="notify-icon">
+                    <img src="{{ $notification['data']['receipt']['ncc']['ncc_hinhanh'] ?? asset('assets/images/avt_null.jpg') }}" class="img-fluid rounded-circle" alt="" /> 
+                    </div>
+                    <p class="notify-details"><strong>Tên phiếu nhập</strong> : {{ $notification['data']['receipt']['pnh_ten'] }}</p>
+                    <p class="notify-details"><strong>Người nhập</strong> : {{ $notification['data']['receipt']['userNhap']['name'] }}</p>
+                    <p class="notify-details"><strong>Tổng tiền</strong> : {{ number_format($notification['data']['receipt']['pnh_tongcong']) }} VNĐ</p>
+                    <p class="text-muted mb-0 user-msg">
+                        <small>Ngày nhập : {{ $notification['data']['receipt']['created_at'] }}</small>
+                    </p>
+                </a> -->
             @else
                 <a href="{{ route('seen.notitication',['id' => $notification->id ]) }}" class="dropdown-item notify-item active">
                     <div class="notify-icon">

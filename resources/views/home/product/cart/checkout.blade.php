@@ -55,7 +55,7 @@
                                                                 @endforeach
                                                             </select>
                                                             <br>
-                                                            <button class="btn btn-info" data-toggle="modal" data-target="#exampleModalLong">
+                                                            <button class="btn snip1458" data-toggle="modal" data-target="#exampleModalLong">
                                                                 Thêm địa chỉ giao hàng
                                                             </button>
                                                     </div>

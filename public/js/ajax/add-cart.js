@@ -1,41 +1,58 @@
 $(document).on('click','.add-cart', function () {
     var qty = $('.qty-product').val(), id = $('.id-product').val(), ncc_id = $('.id-ncc').val();
+    var qty_cart = $(this).data('qty');
     var url = $(this).data('url');
-    $.ajax({
-        url : url,
-        type : 'GET',
-        data : {
-            'qty' : qty,
-            'id' : id,
-            'ncc_id' : ncc_id,
-        },
-        success : function (data) {
-            if(data.code == 200) {
-                Swal.fire(
-                    'Thêm giỏ hàng thành công!',
-                    'Xin chúc mừng',
-                    'success',
-                );
-                $('#count_cart').show();
-                $('#count_cart').html(data.count_cart);
-            }else if(data.code == 400) {
-                if(data.count == 0){
+    if(qty < 0){
+        Swal.fire(
+            'Cảnh báo',
+            'Vui lòng nhập số lượng khác số âm',
+            'error',
+        );
+    }else if(qty > qty_cart){
+        Swal.fire(
+            'Vui lòng nhập số lượng nhỏ hơn số lượng trong kho',
+            'Hiện tại trong kho chỉ còn ' + qty_cart + ' sản phẩm',
+            'error',
+        );
+        $('.qty-product').val(qty_cart);
+    }
+    else{
+        $.ajax({
+            url : url,
+            type : 'GET',
+            data : {
+                'qty' : qty,
+                'id' : id,
+                'ncc_id' : ncc_id,
+            },
+            success : function (data) {
+                if(data.code == 200) {
                     Swal.fire(
-                        'Cảnh báo',
-                        'Đã vượt quá số lượng trong kho, hiện tại bạn không thể tiếp tục thêm sản phẩm này vào giỏ hàng!',
-                        'error',
-                    )
-                }else {
-                    Swal.fire(
-                        'Cảnh báo',
-                        'Đã vượt quá số lượng trong kho, hiện bạn chỉ có thể thêm được ' + data.count + ' sản phẩm nữa vào giỏ hàng!',
-                        'error',
-                    )
+                        'Thêm giỏ hàng thành công!',
+                        'Xin chúc mừng',
+                        'success',
+                    );
+                    $('#count_cart').show();
+                    $('#count_cart').html(data.count_cart);
+                }else if(data.code == 400) {
+                    if(data.count == 0){
+                        Swal.fire(
+                            'Cảnh báo',
+                            'Đã vượt quá số lượng trong kho, hiện tại bạn không thể tiếp tục thêm sản phẩm này vào giỏ hàng!',
+                            'error',
+                        )
+                    }else {
+                        Swal.fire(
+                            'Cảnh báo',
+                            'Đã vượt quá số lượng trong kho, hiện bạn chỉ có thể thêm được ' + data.count + ' sản phẩm nữa vào giỏ hàng!',
+                            'error',
+                        )
+                    }
+                    
                 }
-                
-            }
-        },
-    })
+            },
+        })
+    }
 })
 
 $(document).on('click','.add-to-cartAjax', function (e) {
@@ -288,14 +305,4 @@ $(document).on('click','.cart_quantity_delete',function (e) {
             })
         }
     })
-})
-
-$(document).on('mouseenter','#show_cart',function (e) {
-    e.preventDefault();
-    $('#hover_cart').css('display', 'flex');
-})
-
-$(document).on('mouseleave','#show_cart',function (e) {
-    e.preventDefault();
-    $('#hover_cart').css('display', 'none');
 })

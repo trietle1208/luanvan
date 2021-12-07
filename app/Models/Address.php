@@ -21,6 +21,7 @@ class Address extends Model
     ];
 
     public function order() {
+        // dump($this->hasMany(Order::class,'dc_id','dc_id')->orderBy('dh_thoigiandathang','DESC')->get()->toArray());
         return $this->hasMany(Order::class,'dc_id','dc_id')->orderBy('dh_thoigiandathang','DESC');
     }
 

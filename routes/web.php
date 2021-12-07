@@ -28,7 +28,7 @@ use App\Http\Controllers\NCC\ReceiptController;
 
 Route::get('/', function () {
     return view('admin.layout');
-})->middleware('auth');
+})->middleware('auth','block');
 
 Route::get('/trang-chu-admin', function () {
     return view('admin.manager.admin-dashbroad');
@@ -483,7 +483,7 @@ Route::middleware(['auth','verified'])->group(function () {
         });
 });
 
-Route::middleware(['auth','verified'])->group(function () {
+Route::middleware(['auth','verified','block'])->group(function () {
     Route::prefix('sup')
         ->name('sup.')
         ->group(function () {
@@ -527,6 +527,14 @@ Route::middleware(['auth','verified'])->group(function () {
                 Route::get('/xoabinhluan', [
                     'as' => 'product.deleteComment',
                     'uses' => 'App\Http\Controllers\NCC\ProductController@deleteComment'
+                ]);
+                Route::get('/danhsachrepbinhluan', [
+                    'as' => 'product.listRepComment',
+                    'uses' => 'App\Http\Controllers\NCC\ProductController@listRepComment'
+                ]);
+                Route::get('/repbinhluan', [
+                    'as' => 'product.repComment',
+                    'uses' => 'App\Http\Controllers\NCC\ProductController@repComment'
                 ]);
                 Route::get('/ajax', [
                     'as' => 'product.ajax',
@@ -834,6 +842,14 @@ Route::middleware(['auth','verified'])->group(function () {
                     'as' => 'account.storeRole',
                     'uses' => 'App\Http\Controllers\NCC\AccountController@storeRole'
                 ]);
+                Route::get('/khoataikhoan', [
+                    'as' => 'account.blockAccount',
+                    'uses' => 'App\Http\Controllers\NCC\AccountController@blockAccount'
+                ]);
+                Route::get('/motaikhoan', [
+                    'as' => 'account.openAccount',
+                    'uses' => 'App\Http\Controllers\NCC\AccountController@openAccount'
+                ]);
             });
 
             Route::prefix('thongke')->group(function () {
@@ -929,6 +945,10 @@ Route::middleware(['auth','verified'])->group(function () {
             });
         });
 });
+
+Route::get('/tamkhoa',function(){
+    return view('admin.blockAccount');
+})->name('blockAcc');
 
 Route::get('/trangchu', [App\Http\Controllers\Home\HomeController::class, 'index'])->name('trangchu');
 

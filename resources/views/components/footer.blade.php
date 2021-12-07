@@ -11,7 +11,7 @@
                 <div class="col-sm-10">
                     <div class="col-sm-3">
                         <div class="video-gallery text-center">
-                            <a href="#">
+                            <a href="https://phongvu.vn/" target="_blank">
                                 <div class="iframe-img">
                                     <img src="{{ asset('assets/images/phongvu.jpg') }}" alt="" />
                                 </div>
@@ -25,7 +25,7 @@
 
                     <div class="col-sm-3">
                         <div class="video-gallery text-center">
-                            <a href="#">
+                            <a href="https://gearvn.com/" target="_blank">
                                 <div class="iframe-img">
                                     <img src="{{ asset('assets/images/greavn.png') }}" alt="" />
                                 </div>
@@ -39,7 +39,7 @@
 
                     <div class="col-sm-3">
                         <div class="video-gallery text-center">
-                            <a href="#">
+                            <a href="https://fptshop.com.vn/" target="_blank">
                                 <div class="iframe-img">
                                     <img src="{{ asset('assets/images/fpt.jpg') }}" alt="" />
                                 </div>
@@ -53,7 +53,7 @@
 
                     <div class="col-sm-3">
                         <div class="video-gallery text-center">
-                            <a href="#">
+                            <a href="https://www.thegioididong.com/" target="_blank">
                                 <div class="iframe-img">
                                     <img src="{{ asset('assets/images/tgdd.png') }}" alt="" />
                                 </div>

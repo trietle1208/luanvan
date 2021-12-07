@@ -34,7 +34,6 @@ class ReceiptController extends Controller
                 $product = $this->product->find($receiptDetail->sp_id);
                 $product->update([
                     'sp_trangthai' => 1,
-                    'sp_soluong' => ($product->sp_soluong - $receiptDetail->soluong),
                 ]);
             }
             return response()->json([

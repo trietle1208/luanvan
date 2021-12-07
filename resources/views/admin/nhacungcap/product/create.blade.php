@@ -69,20 +69,9 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label class="col-4 col-xl-3 col-form-label">Số lượng sản phẩm:</label>
-                        <div class="col-8 col-xl-9">
-                            <input type="text" class="form-control" id="inputPassword5"
-                                   name="quantity"
-                                   value="{{ old('quantity') }}"
-                                   placeholder="Nhập vào số lượng của sản phẩm">
-                            <div class="error quantity"></div>
-                        </div>
-
-                    </div>
-                    <div class="row mb-3">
                         <label class="col-4 col-xl-3 col-form-label">Giá bán ra của sản phẩm:</label>
                         <div class="col-8 col-xl-9">
-                            <input type="text" class="form-control" id="inputPassword5"
+                            <input type="number" class="form-control price" id="inputPassword5"
                                    name="price"
                                    value="{{ old('price') }}"
                                    placeholder="Nhập vào giá bán ra của sản phẩm">
@@ -93,7 +82,7 @@
                     <div class="row mb-3">
                         <label class="col-4 col-xl-3 col-form-label">Thời gian bảo hành:</label>
                         <div class="col-8 col-xl-9">
-                            <input type="text" class="form-control" id="inputPassword5"
+                            <input type="number" class="form-control insurance" id="inputPassword5"
                                    name="insurance"
                                    value="{{ old('insurance') }}"
                                    placeholder="Nhập vào thời gian bảo hành của sản phẩm">

@@ -11,7 +11,7 @@
                 <div class="card-body">
                     <h4 class="header-title text-center">DANH SÁCH ĐƠN HÀNG</h4>
                     <div class="table-responsive">
-                        <table class="table table-bordered table-hover mb-0" id="basic-datatable">
+                        <table class="table table-bordered table-hover mb-0 text-center" id="basic-datatable">
                             <thead class="table-light">
                             <tr>
                                 <th>ID</th>
@@ -34,6 +34,7 @@
                             
                                     @if($order['dh_trangthai'] == 0)
                                         <td class="text-center"><strong class="text-danger">Chưa duyệt</strong></td>
+                                        <td><a data-id="{{ $order->dh_id }}" data-url="{{ route('admin.order.orderDetail') }}" class="btn btn-primary order-detail-admin">Chi tiết</a></td>
                                     @elseif($order['dh_trangthai'] == 1)
                                         <td class="text-center"><strong class="text-info">Đã duyệt</strong></td>
                                         <td>
@@ -75,7 +76,7 @@
                 <div class="card-body">
                     <h4 class="header-title text-center">DANH SÁCH ĐƠN HÀNG BỊ HỦY</h4>
                     <div class="table-responsive">
-                        <table class="table table-bordered table-hover mb-0" id="basic-datatable">
+                        <table class="table table-bordered table-hover mb-0">
                             <thead class="table-light">
                             <tr>
                                 <th>ID</th>

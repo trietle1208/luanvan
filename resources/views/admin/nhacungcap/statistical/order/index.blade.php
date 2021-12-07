@@ -66,7 +66,7 @@
                     </div>
                     <!-- <h4 class="header-title mb-0 pb-20">Thống kê đơn hàng trong năm</h4> -->
                     <div class="row">
-                        <div class="col-6">
+                        <!-- <div class="col-6">
                             <h4>Thống kê theo tháng</h4>
                             <div class="row">
                                 <div class="row">
@@ -74,49 +74,62 @@
                                         <input type="month" class="form-control col-4 valMonth" placeholder="">
                                     </div>
                                     <div class="col-1">
-                                        <button class="btn btn-secondary btn-rounded fillByMonth" data-url="{{ route('sup.order.fillByMonth') }}">Lọc</button>
                                     </div>
                                 </div>
                                 <div class="row" style="padding-top: 15px">
                                     <div class="col-5">
-                                        <input type="date" class="form-control col-4 valDateStart" placeholder="">
                                     </div>
                                     <div class="col-5">
-                                        <input type="date" class="form-control col-4 valDateEnd" placeholder="">
                                     </div>
                                     <div class="col-1">
-                                        <button class="btn btn-secondary btn-rounded fillByDate" data-url="{{ route('sup.order.fillByDate') }}">Lọc</button>
                                     </div> 
                                 </div>
                             </div>
-                        </div>
-    
-                        <div class="col-4">
-                            <h4>Thống kê theo quý</h4>
+                        </div> -->
+
+                        <div class="col-6">
+                            <h4>Thống kê theo ngày & tháng </h4>
                             <div class="row">
                                 <div class="col-4">
-                                    <select class="form-control typeOption">
-                                        <option value="1">
-                                            Quý 1
-                                        </option>
-                                        <option value="2">
-                                            Quý 2
-                                        </option>
-                                        <option value="3">
-                                            Quý 3
-                                        </option>
-                                        <option value="4">
-                                            Quý 4
-                                        </option>       
-                                    </select>
-                                    <br>
-                                    <input type="number" class="form-control col-4 valYear" value="2021" placeholder="" min="2021" max="3000">
+                                    <input type="month" class="form-control valMonth">
+                                    <hr>
+                                    <button class="btn btn-success fillByMonth" data-url="{{ route('sup.order.fillByMonth') }}">Lọc</button>
                                 </div>
-                                <div class="col-2">
-                                    <button class="btn btn-secondary btn-rounded fillBy3Month" data-url="{{ route('sup.order.fillBy3Month') }}">Lọc</button>
+                                <div class="col-8">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <input type="date" class="form-control col-4 valDateStart" placeholder="">
+                                        </div>
+                                        <div class="col-6">
+                                            <input type="date" class="form-control col-4 valDateEnd" placeholder="">
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <button class="btn btn-success fillByDate" data-url="{{ route('sup.order.fillByDate') }}">Lọc</button>
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-4">
+                            <h4>Thống kê theo quý </h4>
+                            <div class="row">
+                                <div class="col-6">
+                                    <select class="form-control typeOption">
+                                        <option value="1">Quý 1</option>
+                                        <option value="2">Quý 2</option>
+                                        <option value="3">Quý 3</option>
+                                        <option value="4">Quý 4</option>
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                    <input type="number" class="form-control col-4 valYear" value="2021" placeholder="" min="2021" max="3000">
+                                </div>
+                            </div>
+                            <hr>
+                            <button class="btn btn-success fillBy3Month" data-url="{{ route('sup.order.fillBy3Month') }}">Lọc</button>
+                        </div>
+
+
                         <div class="col-2 resultOrderByMonth" style="display : none">
                             <h4>Kết quả thống kê</h4>
                             <strong class="text-success">Hoàn thành : </strong><p class="resultOrderByMonthSuccess"></p>

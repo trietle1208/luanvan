@@ -25,16 +25,16 @@
             @endforeach
         </div><!--/category-products-->
 
-        <div class="brands_products"><!--brands_products-->
+        <!-- <div class="brands_products">
             <h2>THƯƠNG HIỆU SẢN PHẨM</h2>
             <div class="brands-name">
                 <ul class="nav nav-pills nav-stacked">
                     @foreach($brands as $brand)
-                    <li><a href="{{ route('brand.product',['slug' => $brand->th_slug, 'id' => $brand->th_id ]) }}"> <span class="pull-right">(50)</span>{{ $brand->th_ten }}</a></li>
+                    <li><a href="{{ route('brand.product',['slug' => $brand->th_slug, 'id' => $brand->th_id ]) }}"> <span class="pull-right"></span>{{ $brand->th_ten }}</a></li>
                     @endforeach
                 </ul>
             </div>
-        </div><!--/brands_products-->
+        </div> -->
         <hr>
         @include('components.price-range')
         <hr>

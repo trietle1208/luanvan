@@ -22,19 +22,19 @@
                 </tbody>
             </table> -->
             <div class="row" style="padding-top: 15px">
-                <div class="col-3">
+                <!-- <div class="col-3">
                   <img src="{{ $receipt->ncc->ncc_hinhanh ?? '' }}" class="img-fuild" style="width: 150px ; height: 150px">  
-                </div>
-                <div class="col-5">
+                </div> -->
+                <div class="col-6">
                     <ul>
                         <li><strong>Người lập phiếu : </strong>{{ $receipt->userNhap->name }}</li>
                         <li><strong>Thuộc nhà cung cấp : </strong>{{ $receipt->ncc->ncc_ten }} </li>
                         <li><strong>Ngày lập phiếu : </strong>{{ $receipt->created_at }} </li>
-                        <li><strong>Tổng cộng : </strong>{{ $receipt->pnh_tongcong }} VNĐ</li>
+                        <li><strong>Tổng cộng : </strong>{{ number_format($receipt->pnh_tongcong) }} VNĐ</li>
                     </ul>
                     
                 </div>
-                <div class="col-4">
+                <div class="col-6">
                     <ul>
                         <li><strong>Người duyệt : </strong>{{ $receipt->userDuyet->name ?? 'Chưa cập nhật' }}</li>
                         <li><strong>Ngày duyệt : </strong>{{ $receipt->pnh_ngayduyet ?? 'Chưa cập nhật' }} </li>

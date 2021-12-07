@@ -35,36 +35,61 @@ class AccountController extends Controller
 
     public function store(Request $request) {
         $dataUpload = $this->storageTraitUpload($request, 'image', 'ncc');
-        $info = Info::updateOrCreate(
-            [
-                'us_id' => Auth::user()->id,
-            ],
-            [
-                'tt_diachi' => $request->address,
-                'tt_sdt' => $request->phone,
-                'tt_gioitinh' => $request->sex,
-                'tt_ngaysinh' => $request->age,
-                'tt_hinhanh' => $dataUpload['file_path'],
-            ]);
-
+        if($dataUpload){
+            $info = Info::updateOrCreate(
+                [
+                    'us_id' => Auth::user()->id,
+                ],
+                [
+                    'tt_diachi' => $request->address,
+                    'tt_sdt' => $request->phone,
+                    'tt_gioitinh' => $request->sex,
+                    'tt_ngaysinh' => $request->age,
+                    'tt_hinhanh' => $dataUpload['file_path'],
+                ]);
+        }else{
+            $info = Info::updateOrCreate(
+                [
+                    'us_id' => Auth::user()->id,
+                ],
+                [
+                    'tt_diachi' => $request->address,
+                    'tt_sdt' => $request->phone,
+                    'tt_gioitinh' => $request->sex,
+                    'tt_ngaysinh' => $request->age,
+                ]);
+        }
+        Toastr::success('Cập nhật thông tin cá nhân thành công!','Thành công');
         return redirect()->route('sup.account.index');
     }
 
     public function store_ncc(Request $request) {
         $dataUpload = $this->storageTraitUpload($request, 'image', 'ncc');
-        $ncc = Manufacture::updateOrCreate(
-            [
-                'ncc_id' => Auth::user()->ncc_id,
-            ],
-            [
-                'ncc_ten' => $request->name,
-                'ncc_diachi' => $request->address,
-                'ncc_sdt' => $request->phone,
-                'ncc_mota' => $request->desc,
-                'ncc_hinhanh' => $dataUpload['file_path'],
-            ]);
-
-
+        if($dataUpload){
+            $ncc = Manufacture::updateOrCreate(
+                [
+                    'ncc_id' => Auth::user()->ncc_id,
+                ],
+                [
+                    'ncc_ten' => $request->name,
+                    'ncc_diachi' => $request->address,
+                    'ncc_sdt' => $request->phone,
+                    'ncc_mota' => $request->desc,
+                    'ncc_hinhanh' => $dataUpload['file_path'],
+                ]);
+        }else{
+            $ncc = Manufacture::updateOrCreate(
+                [
+                    'ncc_id' => Auth::user()->ncc_id,
+                ],
+                [
+                    'ncc_ten' => $request->name,
+                    'ncc_diachi' => $request->address,
+                    'ncc_sdt' => $request->phone,
+                    'ncc_mota' => $request->desc,
+                ]); 
+        }
+        Toastr::success('Cập nhật thông tin nhà cung cấp thành công!','Thành công');
         return redirect()->route('sup.account.index');
     }
 
@@ -121,6 +146,28 @@ class AccountController extends Controller
         return response()->json([
             'code' => 200,
             'output' => view('admin.nhacungcap.account.detail',compact('account'))->render(),
+        ]);
+    }
+
+    public function blockAccount(Request $request)
+    {
+        User::find($request->id)->update([
+            'trangthai' => 0,
+        ]);
+
+        return response()->json([
+            'code' => 200,
+        ]);
+    }
+
+    public function openAccount(Request $request)
+    {
+        User::find($request->id)->update([
+            'trangthai' => 1,
+        ]);
+
+        return response()->json([
+            'code' => 200,
         ]);
     }
 }

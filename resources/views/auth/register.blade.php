@@ -96,6 +96,7 @@
                                     <div class="auth-logo">
                                         
                                     </div>
+                                    <h4 class="mt-0"  style="color : #6658dd; font-weight : 600">ĐĂNG KÝ</h4>
                                     <p class="text-muted mb-4 mt-3">Nhập đầy đủ thông tin về tài khoản mà bạn muốn đăng kí.</p>
                                 </div>
 
@@ -139,7 +140,7 @@
                                         @enderror
                                     </div>
                                     <div class="text-center d-grid">
-                                        <button class="btn btn-success" type="submit"> Đăng kí </button>
+                                        <button class="btn btn-primary" type="submit"> Đăng ký </button>
                                     </div>
 
                                 </form>

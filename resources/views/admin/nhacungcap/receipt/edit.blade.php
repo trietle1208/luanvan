@@ -9,14 +9,7 @@
         <div class="card">
             <div class="card-body">
                 <h2 class="header-title text-center">CẬP NHẬT PHIẾU NHẬP HÀNG</h2>
-                <?php
-                $message = Session::get('message');
-                if($message)
-                {
-                    echo '<span class="text-primary">'.$message.'</span>';
-                    Session::put('message',null);
-                }
-                ?>
+                
                 <form class="form-horizontal" action="{{ route('sup.receipt.update',['id' => $receipt->pnh_id]) }}" method="post">
                     @csrf
                     <div class="row mb-3">
@@ -26,6 +19,9 @@
                                    name="name"
                                    value="{{ $receipt->pnh_ten }}"
                                    placeholder="Nhập vào tên phiếu nhập muốn tạo">
+                            @error('name')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
                     <div class="row mb-3">

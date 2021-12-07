@@ -22,12 +22,13 @@ class TypeController extends Controller
         $brands = Brand::all();
         $type = TypeProduct::find($id);
         $products = Product::where('sp_trangthai',1)->where('loaisp_id',$id)->get();
-        $cate_fill = DanhMuc::where('dm_id',$type->dm_id)->first();
+        // $cate_fill = DanhMuc::where('dm_id',$type->dm_id)->first();
         $id_customer = Session::get('customer_id');
         if(isset($id_customer)){
             $customer = Customer::find($id_customer);
             $wishlist = Wishlist::where('kh_id',$id_customer)->get();
-            return view('home.product.type.list',compact('categories','brands','products','wishlist','customer','cateposts','type','id'));
+            $count_wistlist = $wishlist->count();
+            return view('home.product.type.list',compact('count_wistlist','categories','brands','products','wishlist','customer','cateposts','type','id'));
         }else{
             return view('home.product.type.list',compact('categories','brands','products','cateposts','type','id'));
         }

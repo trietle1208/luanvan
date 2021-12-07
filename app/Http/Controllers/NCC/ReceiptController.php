@@ -4,16 +4,21 @@ namespace App\Http\Controllers\NCC;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ReceiptAdd;
+use App\Http\Requests\ReceiptUpdate;
 use App\Models\Brand;
 use App\Models\DanhMuc;
 use App\Models\Product;
 use App\Models\Receipt;
 use App\Models\ReceiptDetail;
 use App\Models\TypeProduct;
+use App\Models\User;
+use App\Notifications\ReceiptNotification;
+use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 class ReceiptController extends Controller
 {
     private $receipt;
@@ -38,7 +43,7 @@ class ReceiptController extends Controller
 
     public function index()
     {
-        $receipts = $this->receipt->where('ncc_id', Auth::user()->ncc->ncc_id)->get();
+        $receipts = $this->receipt->where('ncc_id', Auth::user()->ncc->ncc_id)->orderBy('created_at','DESC')->get();
 
         return view('admin.nhacungcap.receipt.index', compact('receipts'));
     }
@@ -92,7 +97,7 @@ class ReceiptController extends Controller
                 $output .= '<div class="row">
                             <div class="col-4"><button type="button" class="btn btn-success addProduct" >Thêm</button></div>
                         </div>';
-            } else {
+            }else {
                 $output .= '<span>Không tìm thấy sản phẩm</span>';
             }
         }
@@ -127,23 +132,10 @@ class ReceiptController extends Controller
         }
     }
 
-    public function checkQuantity(Request $request)
-    {
-        if ($request->idsp && $request->soluong) {
-            $product = $this->product->find($request->idsp);
-            if ($product) {
-                $check = 0;
-                if ($product->sp_soluong >= $request->soluong) {
-                    $check = 1;
-                }
-                return response()->json($check);
-            }
-        }
-    }
 
     public function store(ReceiptAdd $request)
     {
-//        dd(Session::get('product'));
+    //    dd(Session::get('product'));
         //Session::forget('product');
         $data = [
             'pnh_ten' => $request->name,
@@ -153,6 +145,9 @@ class ReceiptController extends Controller
         ];
 
         $phieunhap = $this->receipt->create($data);
+        $notification = Receipt::find($phieunhap->pnh_id)->load('userNhap','ncc');
+        $users = User::whereNull('ncc_id')->where('loaitaikhoan',0)->get();
+        Notification::send($users, new ReceiptNotification($notification));
 
         $chitiet = Session::get('product');
         if ($chitiet) {
@@ -169,7 +164,8 @@ class ReceiptController extends Controller
             }
             Session::forget('product');
         }
-        return back();
+        Toastr::success('Thêm phiếu nhập thành công!','Thành công');
+        return redirect()->route('sup.receipt.create');
     }
 
     public function modalAjax(Request $request)
@@ -243,11 +239,11 @@ class ReceiptController extends Controller
         return view('admin.nhacungcap.receipt.edit',compact('receipt'));
     }
 
-    public function update(Request $request,$id){
+    public function update(ReceiptUpdate $request,$id){
         Receipt::find($id)->update([
             'pnh_ten' => $request->name,
         ]);
-
+        Toastr::success('Cập nhật phiếu nhập thành công!','Thành công');
         return redirect()->route('sup.receipt.list');
     }
     public function listProductReceipt(Request $request){

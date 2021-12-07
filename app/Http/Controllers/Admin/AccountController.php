@@ -23,21 +23,16 @@ class AccountController extends Controller
     }
 
     public function changeStatus(Request $request) {
+        $dt = Carbon::now('Asia/Ho_Chi_Minh');
         $data = $request->id;
-        $user = $this->user->find($data);
-        if($user->trangthai == 0){
-            $this->user->find($data)->update([
-                'trangthai' => 1,
-            ]);
-            $output = 'Đã duyêt';
-            return response()->json($output);
-        } else {
-            $this->user->find($data)->update([
-                'trangthai' => 0,
-            ]);
-            $output = 'Duyêt';
-            return response()->json($output);
-        }
+        $user = $this->user->find($data)->update([
+            'trangthai' => 1,
+            'email_verified_at' => $dt,
+        ]);
+        
+        return response()->json([
+            'code' => 200,
+        ]);
     }
 
     public function create_shipper() {

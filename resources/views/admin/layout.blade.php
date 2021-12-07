@@ -107,6 +107,7 @@
         <script src="{{ asset('js/admin/account/account.js') }}"></script>
         <script src="{{ asset('js/ajax/shipper.js') }}"></script>
         <script src="{{ asset('js/admin/order/order.js') }}"></script>
+        <script src="{{ asset('js/admin/comment/comment.js') }}"></script>
         <script src="{{ asset('js/admin/notification/notify.js') }}"></script>
         <script src="{{ asset('js/app.js') }}"></script>
 
@@ -135,20 +136,34 @@
                     var id = $(this).data('id');
                     var that = $(this);
                     var url = $(this).data('url');
-                    var status = $('#status_' + id).val();
-                    $.ajax({
-                        url : url,
-                        method : 'GET',
-                        data :{
-                            'id':id,
-                        },
-                        success:function (data){
-                            if(data == 'Đã duyệt'){
-                                that.removeClass('btn-info').addClass('btn-success').html(data);
-                            }
-                            else if(data == 'Duyệt'){
-                                that.removeClass('btn-success').addClass('btn-info').html(data);
-                            }
+                    Swal.fire({
+                    title: 'Bạn có chắc chắn muốn duyệt tài khoản không?',
+                    text: "Tài khoản sẽ được cấp quyền hoạt động!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Có, tôi đồng ý!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                url : url,
+                                method : 'GET',
+                                data :{
+                                    'id':id,
+                                },
+                                success : function (data) {
+                                    if(data.code == 200) {
+                                        that.removeClass().addClass('btn btn-success').text('Đã duyệt');
+
+                                        Swal.fire(
+                                            'Thành công',
+                                            'Đã cấp quyền tài khoản được chọn',
+                                            'success'
+                                        )
+                                    }
+                                }
+                            })
                         }
                     })
                 })
@@ -157,7 +172,6 @@
 
         {{--        CHANGE-STATUS-RECEIPT--}}
         <script>
-            $(document).ready(function (){
                 $('.changeReceipt').click(function (){
                     var id = $(this).data('id');
                     var url = $(this).data('url');
@@ -197,7 +211,7 @@
                         }
                     })
                 })
-            })
+            
         </script>
 {{--        CHANGE-STATUS-RECEIPT--}}
 
@@ -379,30 +393,6 @@
         </script>
 
 {{--    ADD PRODUCT--}}
-
-{{--    CHECK QUANTITY--}}
-        <script>
-            $(document).on('change','.quantity', function (){
-                var soluong = $(this).val();
-                var idsp = $(this).parent().find('input[name="product[]"]').val();
-
-                $.ajax({
-                    url: '{{ route('sup.receipt.checkQuantity') }}',
-                    method : 'GET',
-                    data : {
-                        'soluong' : soluong,
-                        'idsp' : idsp,
-                    },
-                    success:function (data)
-                    {
-                        if(data == 0) {
-                            alert('Vui lòng nhập số lượng nhỏ hơn số lượng còn lại trong kho!!!');
-                        }
-                    }
-                })
-            })
-        </script>
-{{--    CHECK QUANTITY--}}
 
 {{--        CHECK NAME CATE--}}
         <script>
@@ -940,29 +930,39 @@
                 e.preventDefault();
                 var form = new FormData(this);
                 var that = $(this);
-                $.ajax({
-                    url : $(this).attr('action'),
-                    type : 'POST',
-                    data : form,
-                    cache : false,
-                    contentType : false,
-                    processData : false,
-                    success : function (data) {
-                        if(data.code == 200) {
-                            $('#success').text(data.message);
-                            $('#success1').text(data.message);
-                            $('#success').addClass('alert alert-success')
-                            that[0].reset();
-                            CKEDITOR.instances['detail_product'].setData('');
-                            CKEDITOR.instances['desc_product'].setData('');
-                        }else {
-                            $.each(data.errors, function (key, value) {
-                                $('.'+key).text(value);
-                               $('.error').addClass('alert alert-danger')
-                            });
+                var price = $('.price').val();
+                var insurance = $('.insurance').val();
+                if(price < 0 || insurance < 0){
+                    Swal.fire(
+                    'Cảnh báo!',
+                    'Không được nhập với số âm',
+                    'error'
+                    )
+                }else{
+                        $.ajax({
+                        url : $(this).attr('action'),
+                        type : 'POST',
+                        data : form,
+                        cache : false,
+                        contentType : false,
+                        processData : false,
+                        success : function (data) {
+                            if(data.code == 200) {
+                                $('#success').text(data.message);
+                                $('#success1').text(data.message);
+                                $('#success').addClass('alert alert-success')
+                                that[0].reset();
+                                CKEDITOR.instances['detail_product'].setData('');
+                                CKEDITOR.instances['desc_product'].setData('');
+                            }else {
+                                $.each(data.errors, function (key, value) {
+                                    $('.'+key).text(value);
+                                $('.error').addClass('alert alert-danger')
+                                });
+                            }
                         }
-                    }
-                })
+                    })
+                }
             })
         </script>
         <script>
@@ -1028,11 +1028,23 @@
             var qty_old = $('.qty_old_' + id).html();
             var intRegex = /^\d+$/;
             if(qty == '' || price == ''){
-                alert('Vui lòng nhập đầy đủ số lượng nhập vào và giá gốc trên sản phẩm!')
-            }else if(qty > qty_old){
-                alert('Vui lòng nhập số lượng nhập vào nhỏ hơn số lượng tồn kho!')
+                Swal.fire(
+                'Cảnh báo',
+                'Vui lòng không để trống mục số lượng hoặc giá gốc',
+                'error'
+                );
+            }else if(qty < 0 || price < 0){
+                Swal.fire(
+                'Cảnh báo',
+                'Vui lòng không nhập mục số lượng hoặc giá gốc là số âm',
+                'error'
+                );
             }else if(!intRegex.test(price) || !intRegex.test(qty)) {
-                alert('Giá nhập vào và số lượng của sản phẩm phải là kiểu số!');
+                Swal.fire(
+                'Cảnh báo',
+                'Vui lòng nhập mục số lượng hoặc giá gốc là kiểu số',
+                'error'
+                );
             }
             else{
                 $.ajax({
@@ -1071,9 +1083,6 @@
                 },
                 success : function (data){
                     if(data.code == 200){
-                        {{--that.removeClass().addClass('btn btn-success addProductReceipt')--}}
-                        {{--    .attr('data-url','{{ route('sup.receipt.add') }}')--}}
-                        {{--    .attr('value',0).text('Thêm');--}}
                         that.parent().find('.addProductReceipt').css('display','block');
                         $('.qty_' + id).val('').attr('readonly',false);
                         $('.price_' + id).val('').attr('readonly',false);
@@ -1124,14 +1133,11 @@
             var idReceiptDetail = $(this).data('id');
             var idReceipt = $(this).data('receipt');
             var url = $(this).data('url');
-            var qty = $(this).data('qty');
             var intRegex = /^\d+$/;
             var price_up = $(this).parents('tr').find('.price').val();
             var qty_up = $(this).parents('tr').find('.qty').val();
             if(price_up == '' || qty_up == ''){
                 alert('Vui lòng không để trống 1 trống 2 mục số lượng và giá nhập vào!');
-            }else if(qty_up > qty){
-                alert('Vui lòng nhập số lượng thấp hơn số lượng tồn kho, hiện số lượng tồn kho đang còn ' + qty + ' sản phẩm');
             }else if(!intRegex.test(price_up) || !intRegex.test(qty_up)){
                 alert('Giá nhập vào và số lượng của sản phẩm phải là kiểu số!');
             }else{
@@ -1421,7 +1427,7 @@
         })
     </script>
 
-<script>
+    <script>
         $(document).on('click','.deletePermission',function(e){
             e.preventDefault();
             var id = $(this).data('id');
@@ -1457,6 +1463,97 @@
                     })
                 }
             })
+        })
+    </script>
+
+    <script>
+        $(document).on('click','.blockAccount',function(e){
+            e.preventDefault();
+            var id = $(this).data('id');
+            var auth = $(this).data('auth');
+            var url = $(this).data('url');
+            var that = $(this);
+            if(id == auth){
+                Swal.fire(
+                    'Cảnh báo',
+                    'Bạn không thể khóa tài khoản đang làm việc!',
+                    'error'
+                ) 
+            }else{
+                Swal.fire({
+                title: 'Bạn có chắc chắn muốn khóa tài khoản không?',
+                text: "Tài khoản này sẽ bị vô hiệu hóa đến khi bạn cấp quyền lại!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Có, tôi đồng ý!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        $.ajax({
+                            type : 'GET',
+                            url : url,
+                            data : {
+                                'id' : id,
+                            },
+                            success : function (data) {
+                                if(data.code == 200) {
+                                    that.parents('.body').find('.textStatus').removeClass().addClass('text-danger').text('Tạm khóa');
+                                    that.css('display','none');
+                                    that.parents('.body').find('.openAccount').css('display', 'inline-block');
+                                    Swal.fire(
+                                        'Thành công',
+                                        'Đã tạm khóa tài khoản được chọn',
+                                        'success'
+                                    ) 
+                                }
+                            }
+                        })
+                    }
+                })
+            }
+        })
+    </script>
+    <script>
+        $(document).on('click','.openAccount',function(e){
+            e.preventDefault();
+            var id = $(this).data('id');
+            var url = $(this).data('url');
+            var that = $(this);
+            Swal.fire({
+                title: 'Bạn có chắc chắn muốn mở khóa tài khoản không?',
+                text: "Tài khoản sẽ hoạt động lại bình thường!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Có, tôi đồng ý!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    $.ajax({
+                        type : 'GET',
+                        url : url,
+                        data : {
+                            'id' : id,
+                        },
+                        success : function (data) {
+                            if(data.code == 200) {
+                                that.parents('.body').find('.textStatus').removeClass().addClass('text-success').text('Hoạt động');
+                                that.css('display','none');
+                                that.parents('.body').find('.blockAccount').css('display', 'inline-block');
+                                Swal.fire(
+                                    'Thành công',
+                                    'Đã mở khóa tài khoản được chọn',
+                                    'success'
+                                )
+                            }
+                        }
+                    })
+                }
+            })
+            
         })
     </script>
     </body>

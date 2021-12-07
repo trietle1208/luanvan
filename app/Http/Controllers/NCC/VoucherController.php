@@ -4,7 +4,9 @@ namespace App\Http\Controllers\NCC;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VoucherAdd;
+use App\Http\Requests\VoucherUpdate;
 use App\Models\Voucher;
+use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -43,12 +45,29 @@ class VoucherController extends Controller
 
         $this->voucher->create($data);
 
-        Session::put('message','Thêm mã giảm giá thành công !!!');
+        Toastr::success('Thêm mã giảm giá thành công!','Thành công');
         return redirect()->route('sup.voucher.create');
     }
 
     public function edit($id) {
         $voucher = $this->voucher->where('mgg_id',$id)->first();
         return view('admin.nhacungcap.voucher.edit',compact('voucher'));
+    }
+
+    
+
+    public function update($id, VoucherUpdate $request) {
+        Voucher::find($id)->update([
+            'mgg_ten' => $request->name,
+            'mgg_macode' => $request->mgg_macode,
+            'mgg_dieukien' => $request->condition,
+            'mgg_mota' => $request->desc,
+            'mgg_hinhthuc' => $request->type,
+            'mgg_sotiengiam' => $request->price,
+            'mgg_soluong' => $request->qty,
+            'ncc_id' => Auth::user()->ncc->ncc_id,
+        ]);
+        Toastr::success('Cập nhật mã giảm giá thành công!','Thành công');
+        return redirect()->route('sup.voucher.list');
     }
 }

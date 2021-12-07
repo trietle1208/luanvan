@@ -282,11 +282,9 @@
                                             <button class="btn btn-success fillProductByDate" data-url="{{ route('sup.product.fillProductByDate') }}">Lọc</button>
                                         </div>
                                     </div>
-                                    
-                                    
                                 </div>
                                 <div class="col-6">
-                                <h4>Thống kê theo quý </h4>
+                                    <h4>Thống kê theo quý </h4>
                                     <div class="row">
                                         <div class="col-6">
                                             <select class="form-control type">

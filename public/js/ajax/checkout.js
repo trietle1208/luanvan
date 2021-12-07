@@ -61,43 +61,44 @@ $(document).on('click','.confirmCheckout',function (e){
     }
 });
 
-$(document).on('click','.add-address',function (e){
-    e.preventDefault();
-    var name = $( "input[type=text][name=name]").val();
-    var phone = $( "input[type=text][name=phone]").val();
-    var address = $( "input[type=text][name=address]").val();
-    var id = $('.ward').val();
-    var url = $(this).data('url')
-    var that = $(this);
-    $.ajax({
-        url : url,
-        type : 'POST',
-        data : $('#add_address').serialize(),
-        success : function (data) {
-            if(data.code == 200) {
-                $('.allAddress').html(data.output);
-                $( "input[type=text][name=name]" ).val('');
-                $( "input[type=text][name=phone]" ).val('');
-                $( "input[type=text][name=address]" ).val('');
-                $('.city').val(0);
-                $('.province').val(0);
-                $('.ward').val(0);
-                $('.fee').html(data.fee + ' VNĐ');
-                $('.total span').html(data.total + ' VND');
-                $('.total1 span').html(data.total1);
-                Swal.fire(
-                    'Thành công',
-                    'Thêm địa chỉ thành công',
-                    'success'
-                )
-                $('#exampleModalLong').modal('hide');
-            }else{
-                $.each(data.errors, function (key, value) {
-                    $('.'+key).text(value);
-                    $('.error').addClass('alert alert-danger')
-                });
-            }
-        }
+// $(document).on('click','.add-address',function (e){
+//     e.preventDefault();
+//     var name = $( "input[type=text][name=name]").val();
+//     var phone = $( "input[type=text][name=phone]").val();
+//     var address = $( "input[type=text][name=address]").val();
+//     var id = $('.ward').val();
+//     var url = $(this).data('url')
+//     var that = $(this);
+//     $.ajax({
+//         url : url,
+//         type : 'POST',
+//         data : $('#add_address').serialize(),
+//         success : function (data) {
+//             if(data.code == 200) {
+//                 $('.allAddress').html(data.output);
+//                 $( "input[type=text][name=name]" ).val('');
+//                 $( "input[type=text][name=phone]" ).val('');
+//                 $( "input[type=text][name=address]" ).val('');
+//                 $('.city').val(0);
+//                 $('.province').val(0);
+//                 $('.ward').val(0);
+//                 $('.fee').html(data.fee + ' VNĐ');
+//                 $('.total span').html(data.total + ' VND');
+//                 $('.total1 span').html(data.total1);
+//                 Swal.fire(
+//                     'Thành công',
+//                     'Thêm địa chỉ thành công',
+//                     'success'
+//                 )
+//                 $('#exampleModalLong').modal('hide');
+//             }else{
+//                 $.each(data.errors, function (key, value) {
+//                     $('.'+key).text(value);
+//                     $('.error').addClass('alert alert-danger')
+//                 });
+//             }
+//         }
 
-    })
-});
+//     })
+// });
+

@@ -73,10 +73,12 @@
 <script src="{{ asset('js/ajax/search.js') }}"></script>
 <script src="{{ asset('js/ajax/home-item.js') }}"></script>
 <script src="{{ asset('js/ajax/comment.js') }}"></script>
+<script src="{{ asset('js/ajax/image-3d.js') }}"></script>
 <script src="https://www.paypalobjects.com/api/checkout.js"></script>
-{{--    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>--}}
 <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/@mladenilic/threesixty.js/dist/threesixty.js"></script>
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v12.0" nonce="gTjU5dvx"></script>
 @yield('js')
 
     <script>
@@ -126,9 +128,11 @@
                             });
                         }
                     }, '#paypal-button');
+                    $('#payment').css('display','none');
                 }
             } else {
                 $('#paypal-button').html("");
+                $('#payment').css('display','block');
                 count = 0;
             }
 
@@ -181,7 +185,6 @@
             load_more_product(id);
         })
     </script>
-    FILLTER PRICE
     <script>
         $(document).ready(function (){
             $( "#slider-range" ).slider({
@@ -223,66 +226,6 @@
         })
     </script>
 {{--    FILLTER PRICE--}}
-{{--    CHECK QTY ADD CART--}}
-    <script>
-        function checkQty() {
-            var qty = $(this).val();
-            var that = $(this);
-            var id = $('.id-product').val();
-            $.ajax({
-                url : '{{ route('product.ajaxQty') }}',
-                type : 'GET',
-                data : {
-                    'qty' : qty,
-                    'id' : id,
-                },
-                success : function (data)
-                {
-                    if(data.code == 400) {
-                        that.val(data.qty);
-                        // alert(data.message);
-                        Swal.fire(
-                            'Vui lòng nhập số lượng thấp hơn số lượng còn lại trong kho!',
-                            `Hiện tại sản phẩm còn ${data.qty}`,
-                            'error',
-                        )
-                    }
-                }
-            })
-        }
-        $(document).on('change','.qty-product',checkQty);
-    </script>
-{{--    CHECK QTY ADD CART--}}
-    {{--    CHECK QTY ADD CART--}}
-    <script>
-        function checkQty() {
-            var qty = $(this).val();
-            var that = $(this);
-            var id = $(this).data('id');
-            $.ajax({
-                url : '{{ route('product.ajaxQty') }}',
-                type : 'GET',
-                data : {
-                    'qty' : qty,
-                    'id' : id,
-                },
-                success : function (data)
-                {
-                    if(data.code == 400) {
-                        that.val(data.qty);
-                        // alert(data.message);
-                        Swal.fire(
-                            'Vui lòng nhập số lượng thấp hơn số lượng còn lại trong kho!',
-                            'Hiên tại sản phẩm đang còn '+ data.qty,
-                            'error',
-                        )
-                    }
-                }
-            })
-        }
-        $(document).on('change','.cart_quantity_input',checkQty);
-    </script>
-    {{--    CHECK QTY ADD CART--}}
     <script>
         $(document).on('change','.choose',function (){
            var attr = $(this).attr('id');
@@ -367,27 +310,26 @@
     </script>
     <script type="text/javascript">
 
-    $('.container').imagesLoaded( function() {
-    $("#exzoom").exzoom({
-        autoPlay: false,
-    });
-    $("#exzoom").removeClass('hidden')
-    });
+        $('.container').imagesLoaded( function() {
+        $("#exzoom").exzoom({
+            autoPlay: false,
+        });
+        $("#exzoom").removeClass('hidden')
+        });
 
-    </script>
-    <script type="text/javascript">
+        </script>
+        <script type="text/javascript">
 
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-36251023-1']);
-    _gaq.push(['_setDomainName', 'jqueryscript.net']);
-    _gaq.push(['_trackPageview']);
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-36251023-1']);
+        _gaq.push(['_setDomainName', 'jqueryscript.net']);
+        _gaq.push(['_trackPageview']);
 
-    (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-
+        (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
     </script>
 </body>
 </html>

@@ -180,13 +180,18 @@ class CustomerController extends Controller
     }
 
     public function profile() {
+        $id_customer = Session::get('customer_id');
+        $customer = Customer::find($id_customer);
+        $wishlist = Wishlist::where('kh_id',$id_customer)->get();
+        $count_wistlist = $wishlist->count();
         $cateposts = CatePosts::all();
         $id = Session::get('customer_id');
         if($id) {
-            $user = Customer::findOrFail($id);
-            $address = $user->address->first();
-            $add = Address::where('kh_id',$id)->get();
-            return view('home.customer.profile',compact('user','address','add','cateposts'));
+            $user = Customer::findOrFail($id)->load(['order' => function ($query){
+                $query->where('dh_trangthai','!=',4)->orderBy('dh_thoigiandathang','DESC');
+            },'address']);
+            // dd($user->toArray());
+            return view('home.customer.profile',compact('count_wistlist','user','cateposts'));
         }
     }
 
@@ -305,9 +310,11 @@ class CustomerController extends Controller
            ]);
 
            $wishlist = Wishlist::where('kh_id',$kh_id)->get();
+           $count_wistlist = $wishlist->count();
            return response()->json([
               'code' => 200,
               'wishlist' =>  view('home.components.wishlist',compact('wishlist'))->render(),
+              'count_wistlist' => $count_wistlist,
            ],200);
        }
     }
@@ -319,9 +326,11 @@ class CustomerController extends Controller
             $data = Wishlist::where('kh_id',$kh_id)->where('sp_id',$sp_id)->first();
             Wishlist::find($data->id_yt)->delete();
             $wishlist = Wishlist::where('kh_id',$kh_id)->get();
+            $count_wistlist = $wishlist->count();
             return response()->json([
                 'code' => 200,
                 'wishlist' =>  view('home.components.wishlist',compact('wishlist'))->render(),
+                'count_wistlist' => $count_wistlist,
             ],200);
         }
     }

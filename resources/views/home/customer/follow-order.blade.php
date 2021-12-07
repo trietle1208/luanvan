@@ -1,4 +1,4 @@
-<div class="modal-dialog" role="document" style="width: 70vw">
+<div class="modal-dialog" role="document">
     <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title text-center" id="chitietdonhang">THEO DÕI ĐƠN HÀNG</h5>

@@ -37,4 +37,14 @@ class Customer extends Model
         return $this->belongsToMany(Product::class,'yeuthich','kh_id','sp_id');
     }
 
+    public function order()
+    {
+       return $this->hasManyThrough(Order::class,Address::class,'kh_id','dc_id','kh_id','dc_id');
+       //tham so dau tien la bang dich
+       //tham so thu 2 la bang trung gian
+       //tham so thu 3 la khoa ngoai cua bang chinh voi bang trung gian
+       //tham so thu 4 la khoa cua bang trung gian voi bang dich
+       //thma so thu 5 la khoa chinh cua bang chinh
+       //tham so thu 6 la khoa chinh cua bang trung gian 
+    }
 }

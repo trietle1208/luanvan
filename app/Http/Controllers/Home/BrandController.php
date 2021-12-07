@@ -23,7 +23,8 @@ class BrandController extends Controller
         if(isset($id_customer)) {
             $customer = Customer::find($id_customer);
             $wishlist = Wishlist::where('kh_id',$id_customer)->get();
-            return view('home.product.brand.list',compact('categories','brands','products','wishlist','customer','cateposts'));
+            $count_wistlist = $wishlist->count();
+            return view('home.product.brand.list',compact('count_wistlist','categories','brands','products','wishlist','customer','cateposts'));
         }else{
             return view('home.product.brand.list',compact('categories','brands','products','cateposts'));
         }

@@ -76,6 +76,7 @@ function updateQtyOrder(id,key,qty,url,that) {
 //delete Order
 
 $(document).on('click','.deleteOrder',function (e){
+    e.preventDefault();
     var id = $(this).data('id');
     var url = $(this).data('url');
     var that = $(this);
@@ -97,9 +98,7 @@ $(document).on('click','.deleteOrder',function (e){
                 },
                 success : function (data) {
                     if(data.code == 200) {
-                        that.parents('.order').find('.statusOrder').removeClass().addClass('text-danger statusOrder').text('Đã hủy');
-                        that.remove();
-                        that.parents('.order').find('.detailOrder').remove();
+                        that.parent().parent().remove();
                         Swal.fire(
                             'Đã hủy',
                             'Đơn hàng bạn chọn đã được hủy',
@@ -115,13 +114,21 @@ $(document).on('click','.deleteOrder',function (e){
     })
 });
 //add Wishlist
+$(document).on('hover','.addWishlist',function (e) {
+    e.preventDefault();
+    $(this).css('color', 'red');
+})
+
+
+
 $(document).on('click','.addWishlist',function (e){
     e.preventDefault();
     var id = $(this).data('id');
     var that = $(this);
-    if($(this).val() == 0){
+    var value = $(this).data('value');
+    if(value == 0){
         addWishlist(id,that);
-    }else if($(this).val() == 1){
+    }else if(value == 1){
         deleteWishlist(id,that);
     }
 });
@@ -135,9 +142,9 @@ function addWishlist(id,that){
         },
         success : function (data){
             if(data.code == 200){
-                that.removeClass('btn btn-success addWishlist').addClass('btn btn-danger addWishlist').val(1).text('Bỏ yêu thích').prepend('<i class="fa fa-plus-square"></i>');
-                $('#addWishlist').html(data.wishlist);
-                $('#addWishlist').modal('show');
+                that.data('value',1).text('Đã thêm').prepend('<i class="fa fas fa-heart" style="color : red"></i>');
+                $('#count_wistlist').show();
+                $('#count_wistlist').html(data.count_wistlist);
             }
         }
     })
@@ -152,9 +159,12 @@ function deleteWishlist(id,that){
         },
         success : function (data){
             if(data.code == 200){
-                that.removeClass('btn btn-danger addWishlist').addClass('btn btn-success addWishlist').val(0).text('Thêm yêu thích').prepend('<i class="fa fa-plus-square"></i>');
-                $('#addWishlist').html(data.wishlist);
-                $('#addWishlist').modal('show');
+                that.data('value',0).text('Thêm yêu thích').prepend('<i class="fa fas fa-heart"></i>');
+                if(data.count_wistlist == 0){
+                    $('#count_wistlist').css('display','none');
+                }else{
+                    $('#count_wistlist').html(data.count_wistlist);
+                }
             }
         }
     })

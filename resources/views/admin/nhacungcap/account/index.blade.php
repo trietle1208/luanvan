@@ -27,11 +27,11 @@
                     <div class="text-start mt-3">
                         <p class="text-muted mb-2 font-13"><strong>Họ và tên:</strong> <span class="ms-2">{{ $name->name }}</span></p>
 
-                        <p class="text-muted mb-2 font-13"><strong>Số điện thoại :</strong><span class="ms-2">(123) 123 1234</span></p>
+                        <p class="text-muted mb-2 font-13"><strong>Số điện thoại :</strong><span class="ms-2">{{ $name->info->tt_sdt ?? 'Chưa cập nhật' }}</span></p>
 
                         <p class="text-muted mb-2 font-13"><strong>Email :</strong> <span class="ms-2">{{ $name->email }}</span></p>
 
-                        <p class="text-muted mb-1 font-13"><strong>Địa chỉ :</strong> <span class="ms-2">USA</span></p>
+                        <p class="text-muted mb-1 font-13"><strong>Địa chỉ :</strong> <span class="ms-2">{{ $name->info->tt_diachi ?? 'Chưa cập nhật' }}</span></p>
                     </div>
 
 
@@ -74,23 +74,23 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            @if(empty($name->info->tt_gioitinh))
-                                                <label for="lastname" class="form-label">Giới tính</label><br>
-                                                <input type="radio" id="html" name="sex" value="0">
-                                                <label for="html">Nam</label><br>
-                                                <input type="radio" id="css" name="sex" value="1">
-                                                <label for="css">Nữ</label><br>
-                                            @elseif($name->info->tt_gioitinh == 0)
+                                            @if($name->tt_gioitinh == 0)
                                                 <label for="lastname" class="form-label">Giới tính</label><br>
                                                 <input checked type="radio" id="html" name="sex" value="0">
                                                 <label for="html">Nam</label><br>
                                                 <input type="radio" id="css" name="sex" value="1">
                                                 <label for="css">Nữ</label><br>
-                                            @elseif($name->info->tt_gioitinh == 1)
+                                            @elseif($name->tt_gioitinh == 1)
                                                 <label for="lastname" class="form-label">Giới tính</label><br>
                                                 <input  type="radio" id="html" name="sex" value="0">
                                                 <label for="html">Nam</label><br>
                                                 <input checked type="radio" id="css" name="sex" value="1">
+                                                <label for="css">Nữ</label><br>
+                                            @else
+                                                <label for="lastname" class="form-label">Giới tính</label><br>
+                                                <input type="radio" id="html" name="sex" value="0">
+                                                <label for="html">Nam</label><br>
+                                                <input type="radio" id="css" name="sex" value="1">
                                                 <label for="css">Nữ</label><br>
                                             @endif
                                         </div>
@@ -145,7 +145,6 @@
                                         <div class="mb-3">
                                             <label for="useremail" class="form-label">Hình đại diện</label><br>
                                             <input type="file" class="form-control"
-                                                   required
                                                    name="image"
                                                    value="{{ $name->info->tt_hinhanh ?? '' }}"
                                                    placeholder="Nhập vào họ và tên">

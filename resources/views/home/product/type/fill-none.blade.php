@@ -120,14 +120,22 @@
                 </div>
                 <div class="choose">
                     <ul class="nav nav-pills nav-justified">
-                        @if(Session::get('customer_id'))
-                            <li><button class="btn btn-{{ $customer->product_wishlist->contains($product->sp_id) ? 'danger' : 'success' }} addWishlist" style="float: left"
-                                        value="{{ $customer->product_wishlist->contains($product->sp_id) ? '1' : '0' }}"
-                                        data-id="{{ $product->sp_id }}"><i class="fa fa-plus-square"></i>{{ $customer->product_wishlist->contains($product->sp_id) ? 'Bỏ yêu thích' : 'Thêm yêu thích' }}</button></li>
-                        @else
-                            <li><button class="btn btn-success" style="float: left"><i class="fa fa-plus-square"></i>Thêm yêu thích</button></li>
-                        @endif
-                        <li><button class="btn btn-success quickView" data-id="{{ $product->sp_id }}" data-url="{{ route('customer.quickView') }}" style="float: right"><i class="fa fa-plus-square"></i>Xem nhanh</button></li>
+                    @if(Session::get('customer_id'))
+                        <li>
+                            <a class="addWishlist" data-id="{{ $product->sp_id }}" data-value="{{ $customer->product_wishlist->contains($product->sp_id) ? '1' : '0' }}" style="cursor : pointer">
+                                @if($customer->product_wishlist->contains($product->sp_id))
+                                    <i class="fa fas fa-heart " style="cursor : pointer ; color : red">
+                                    </i>Đã thêm
+                                @else
+                                    <i class="fa fas fa-heart" style="cursor : pointer">
+                                    </i>Thêm yêu thích
+                                @endif                                
+                            </a>
+                        </li>
+                    @else
+                        <li><a href=""><i class="fa fas fa-heart"></i>Thêm yêu thích</a></li>
+                    @endif
+                        <li><a href="" class="quickView" data-id="{{ $product->sp_id }}" data-url="{{ route('customer.quickView') }}"><i class="fa fa-search-plus"></i>Xem nhanh</a></li>
                     </ul>
                 </div>
             </div>

@@ -11,7 +11,7 @@
                 <div class="card-body">
                     <h4 class="header-title text-center">DANH SÁCH TÀI KHOẢN</h4>
                     <div class="table-responsive">
-                        <table class="table mb-0">
+                        <table class="table table-bordered table-hover mb-0" id="basic-datatable">
                             <thead class="table-light">
                             <tr>
                                 <th>ID</th>
@@ -24,15 +24,15 @@
                             </thead>
                             <tbody>
                             @foreach($accounts as $account)
-                                <tr>
+                                <tr class="body">
                                     <th scope="row">{{ $account['id'] }}</th>
                                     <td>{{ $account->name }}</td>
                                     <td>{{ $account->email }} </td>
                                     <td>{{ $account->created_at }}</td>
                                     @if($account->trangthai == 1)
-                                    <td class="text-success">Hoạt động</td>
+                                    <td class="text-success textStatus">Hoạt động</td>
                                     @else
-                                    <td class="text-danger">Tạm khóa</td>
+                                    <td class="text-danger textStatus">Tạm khóa</td>
                                     @endif
                                     <td>
                                         <a href="" class="btn btn-primary detailAccount" 
@@ -41,7 +41,13 @@
                                             Chi tiết
                                         </a>
                                         <a href="{{ route('sup.account.addRole',['id' =>$account['id'] ]) }}" class="btn btn-success add-role-account">Gán vai trò</a>
-                                        <a href="" class="btn btn-danger ">Khóa tài khoản</a>
+                                        @if($account->trangthai == 1)
+                                            <a class="btn btn-danger blockAccount" data-auth="{{ Auth::id() }}" data-id="{{ $account['id'] }}" data-url="{{ route('sup.account.blockAccount')  }}" style="display : inline-block">Khóa tài khoản</a>
+                                            <a class="btn btn-success openAccount" data-id="{{ $account['id'] }}" data-url="{{ route('sup.account.openAccount')  }}" style="display : none">Mở tài khoản</a>
+                                        @else
+                                            <a class="btn btn-danger blockAccount" data-id="{{ $account['id'] }}" data-url="{{ route('sup.account.blockAccount')  }}" style="display : none">Khóa tài khoản</a>
+                                            <a class="btn btn-success openAccount" data-id="{{ $account['id'] }}" data-url="{{ route('sup.account.openAccount')  }}" style="display : inline-block">Mở tài khoản</a>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

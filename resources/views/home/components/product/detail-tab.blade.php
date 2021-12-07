@@ -39,7 +39,11 @@
                     <span><b>Số điện thoại liên hệ :</b> {{ $product->ncc->ncc_sdt }}</span><br>
                 </div>
                 <div class="col-sm-6">
-                    <img src="{{ $product->ncc->ncc_hinhanh }}" class="img-fluid" style="width: 300px; height: 150px">
+                    <!-- <img src="{{ $product->ncc->ncc_hinhanh }}" class="img-fluid" style="width: 300px; height: 150px"> -->
+                    <span><b>Nhận các khuyến mãi đặc biệt</b></span><br>
+                    @foreach ($voucher as $item )
+                        <span><i class="fa fa-check" style="color: green"></i> <b>{{ $item->mgg_ten }}({{ $item->mgg_macode  }})</b>.{{ $item->mgg_mota }}</span><br>
+                    @endforeach
                 </div>
             </div>
 
@@ -175,6 +179,7 @@
                         margin-top: 10px;
                         margin-bottom: 10px
                     }
+                    
                 </style>
                 <div class="card">
                     <div class="row justify-content-left d-flex">
@@ -188,11 +193,11 @@
                                 <!-- <p class="">out of 5</p> -->
                             </div>
                             <div class="bar-star"> 
-                                <span class="fa fa-star {{ $count == 1 ||  $count == 2 ||  $count == 3 || $count == 4 || $count == 5 ? 'star-active' : 'star-inactive' }} mx-1"></span>
-                                <span class="fa fa-star {{ $count == 2 ||  $count == 3 || $count == 4 || $count == 5 ? 'star-active' : 'star-inactive' }} mx-1"></span>
-                                <span class="fa fa-star {{ $count == 3 || $count == 4 || $count == 5 ? 'star-active' : 'star-inactive' }} mx-1"></span>
-                                <span class="fa fa-star {{ $count == 4 || $count == 5 ? 'star-active' : 'star-inactive' }} mx-1"></span>
-                                <span class="fa fa-star {{ $count == 5 ? 'star-active' : 'star-inactive' }} mx-1"></span>
+                                <span class="fa fa-star {{ $rating == 1 ||  $rating == 2 ||  $rating == 3 || $rating == 4 || $rating == 5 ? 'star-active' : 'star-inactive' }} mx-1"></span>
+                                <span class="fa fa-star {{ $rating == 2 ||  $rating == 3 || $rating == 4 || $rating == 5 ? 'star-active' : 'star-inactive' }} mx-1"></span>
+                                <span class="fa fa-star {{ $rating == 3 || $rating == 4 || $rating == 5 ? 'star-active' : 'star-inactive' }} mx-1"></span>
+                                <span class="fa fa-star {{ $rating == 4 || $rating == 5 ? 'star-active' : 'star-inactive' }} mx-1"></span>
+                                <span class="fa fa-star {{ $rating == 5 ? 'star-active' : 'star-inactive' }} mx-1"></span>
                             </div>
                         </div>
                         <div class="col-md-8 bar">
@@ -276,13 +281,13 @@
                     </ul>
                     <p>{{ $comment->bl_noidung }}</p>
                     @if($comment->bl_hinhanh != null)
-                    <img src="{{ $comment->bl_hinhanh}}"><br>
+                    <img src="{{ $comment->bl_hinhanh}}" style="width: 300px; height: 200px"><br>
                     @endif
                     <?php
                     $id = Illuminate\Support\Facades\Session::get('customer_id');
                     ?>
                     @if(isset($id))
-                    <button type="button" class="repComment" data-id="{{ $comment->bl_id }}">Trả lời</button>
+                    <button type="button" class="repComment snip1582" data-id="{{ $comment->bl_id }}">Trả lời</button>
                     @endif
                     @php
                     $reps = \App\Models\Comment::where('bl_idcha',$comment->bl_id)->get();
@@ -352,7 +357,7 @@
                         @endfor
                     </ul>
                     <input type="file" name="image"><br>
-                    <button type="submit" class="btn btn-default">
+                    <button type="submit" class="btn btn-default snip1582">
                         Gữi bình luận
                     </button>
                 </form>

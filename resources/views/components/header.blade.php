@@ -50,11 +50,30 @@
                                 background-color : red;
                                 border-radius: 50%;
                             }
+
+                            #count_wistlist {
+                                padding: 3px;
+                                font-size: 13px;
+                                margin-left : 3px;
+                                width: 30px;
+                                height: 30px;
+                                color: white;
+                                background-color : red;
+                                border-radius: 50%;
+                            }
                         </style>
                         <ul class="nav navbar-nav">
                             @if(Session::get('customer_id') || Session::get('admin_id'))
-                            <li><a href="{{ route('customer.profile') }}"><i class="fa fa-user"></i> Thông tin cá nhân</a></li>
-                            <li><a style="cursor: pointer" class="showWishlist" data-id="{{ Session::get('customer_id') }}"><i class="fa fa-star"></i> Yêu thích</a></li>
+                            <li><a href="{{ route('customer.profile') }}"><i class="fa fa-user"></i> Thông tin cá nhân<br>&emsp;&ensp;({{ Session::get('customer_name') }})</a></li>
+                                @if($count_wistlist > 0)
+                                <li>
+                                    <a style="cursor: pointer" class="showWishlist" data-id="{{ Session::get('customer_id') }}"><i class="fa fa-star"></i> Yêu thích<span id="count_wistlist">{{ $count_wistlist }}<span></a>
+                                </li>
+                                @else
+                                <li>
+                                    <a style="cursor: pointer" class="showWishlist" data-id="{{ Session::get('customer_id') }}"><i class="fa fa-star"></i> Yêu thích<span id="count_wistlist" style="display: none"><span></a>
+                                </li>
+                                @endif
                             @endif
                             <li><a href="{{ route('checkout.index') }}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
                             @if(Session::get('cart'))
@@ -127,12 +146,30 @@
                     </div>
                 </div>
                 <div class="col-sm-3">
+                    <style>
+                        #button-mic {
+                            background-color: white;
+                            border-color: white;
+                            height : 30px;
+                            width :30px;
+                        }
+                        #input-search {
+                            border-color: white;
+                            height : 30px;
+                        }
+                    </style>
                     <form action="{{ route('search') }}" method="get" id="search-form">
                         @csrf
-                        <input id="input-search" type="text" name="name" placeholder="Search"/>
+                        <input id="input-search" type="text" name="name" placeholder="Tìm kiếm sản phẩm"/>
 
                     </form>
-
+                    <!-- <form action="{{ route('search') }}" class="search-bar" method="get" id="search-form">
+                    @csrf
+                        <input type="search" id="input-search" name="search" pattern=".*\S.*" required>
+                        <button class="search-btn" type="submit">
+                            <span>Search</span>
+                        </button>
+                    </form>                                 -->
                 </div>
             </div>
         </div>

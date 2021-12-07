@@ -11,7 +11,7 @@
                 <div class="card-body">
                     <h4 class="header-title text-center">DANH SÁCH ĐƠN HÀNG</h4>
                     <div class="table-responsive">
-                        <table class="table mb-0">
+                        <table class="table table-bordered table-hover mb-0 text-center" id="basic-datatable">
                             <thead class="table-light">
                             <tr>
                                 <th>ID</th>

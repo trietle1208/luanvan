@@ -7,78 +7,11 @@
                                 <i class="fe-maximize noti-icon"></i>
                             </a>
                         </li>
-                       
-                        <!-- <li class="dropdown notification-list topbar-dropdown">
-                            <a class="nav-link dropdown-toggle waves-effect waves-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                <i class="fe-bell noti-icon"></i>
-                                @if(isset($count))
-                                    @if($count!=0)
-                                    <span class="badge bg-danger rounded-circle noti-icon-badge count_order_notify">{{ $count }}</span>
-                                    @endif
-                                @endif
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end dropdown-lg">
-
-                                <div class="dropdown-item noti-title">
-                                    <h5 class="m-0">
-                            <span class="float-end">
-                            </span>Thông báo
-                                    </h5>
-                                </div>
-                                @if(isset($comments_0))
-                                <div class="noti-scroll" data-simplebar>
-                                    @foreach($comments_0 as $item)
-                                        <div class="notify-comment_{{ $item->bl_id }}">
-                                            <a href="javascript:void(0);" class="dropdown-item notify-item active">
-                                                <div class="notify-icon">
-                                                    <img src="{{ $item->product->sp_hinhanh  }}" class="img-fluid rounded-circle" alt="" />
-                                                </div>
-                                                <p class="notify-details"><strong>Người đăng tải :</strong> {{ $item->customer->kh_hovaten }}</p>
-                                                <p class="notify-details"><strong>Nội dung :</strong> {{ $item->bl_noidung }} </p>
-                                                <p style="color : #ffcc00; font-size : 15px" class="notify-details"><strong>Sao đánh giá :</strong> 
-                                                @for($i = 0 ; $i < $item->bl_sosao ; $i++)
-                                                    &#9733;
-                                                @endfor 
-                                                </p>
-                                                <p class="text-muted mb-0 user-msg">
-                                                    <small>{{ $item->created_at }}</small>
-                                                </p>
-                                            </a>
-                                        </div>
-                                    @endforeach
-                                </div>
-                                @endif
-
-                                @if(isset($orders_0))
-                                <div class="noti-scroll" data-simplebar>
-                                    @foreach($orders_0 as $item)
-                                        <div class="notify-order_{{ $item->dhncc_id }}">
-                                            <a href="javascript:void(0);" class="dropdown-item notify-item active">
-                                                <div class="notify-icon">
-                                                    <img src="{{ $item->orderAdmin->address->customer->kh_hinhanh ?? asset('assets/images/avt_null.jpg') }}" class="img-fluid rounded-circle" alt="" />
-                                                </div>
-                                                <p class="notify-details"><strong>Khách hàng :</strong> {{ $item->orderAdmin->address->customer->kh_hovaten }}</p>
-                                                <p class="notify-details"><strong>Ghi chú :</strong> {{ $item->orderAdmin->dh_ghichu ?? 'Không có ghi chú' }} </p>
-                                                </p>
-                                                <p class="notify-details"><strong>Tổng tiền :</strong> {{ number_format($item->tongtien) }} VNĐ</p>
-                                                </p>
-                                                <p class="text-muted mb-0 user-msg">
-                                                    <small>{{ $item->created_at }}</small>
-                                                </p>
-                                            </a>
-                                        </div>
-                                    @endforeach
-                                </div>
-                                @endif
-                               
-
-                            </div>
-                        </li> -->
                         <li class="dropdown notification-list topbar-dropdown" id="notification-list">
                         </li>
                         <li class="dropdown notification-list topbar-dropdown">
                             <a class="nav-link dropdown-toggle nav-user me-0 waves-effect waves-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                <img src="{{ asset('assets/images/users/user-1.jpg') }}" alt="user-image" class="rounded-circle">
+                                <img src="{{ Auth::user()->info->tt_hinhanh ?? asset('assets/images/avt_null.jpg') }}" alt="user-image" class="rounded-circle">
                                 <span class="pro-user-name ms-1">
                                      <i class="mdi mdi-chevron-down"></i>
                                 </span>

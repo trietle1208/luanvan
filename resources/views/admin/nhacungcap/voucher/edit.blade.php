@@ -9,15 +9,7 @@
         <div class="card">
             <div class="card-body">
                 <h2 class="header-title text-center">CẬP NHẬT MÃ GIẢM CHO SẢN PHẨM</h2>
-                <?php
-                $message = Session::get('message');
-                if($message)
-                {
-                    echo '<span class="text-primary">'.$message.'</span>';
-                    Session::put('message',null);
-                }
-                ?>
-                <form class="form-horizontal" action="{{ route('sup.voucher.store') }}" method="post">
+                <form class="form-horizontal" action="{{ route('sup.voucher.update',['id' => $voucher->mgg_id]) }}" method="post">
                     @csrf
                     <div class="row mb-3">
                         <label class="col-4 col-xl-3 col-form-label">Nhập tên mã giảm giá:</label>

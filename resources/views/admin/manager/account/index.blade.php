@@ -29,12 +29,12 @@
                                     <td>{{ $user['email'] }}</td>
                                     @if($user['trangthai'] == 0)
                                     <td>
-                                        <button class="btn btn-info change-status" id="status_{{ $user['id'] }}" data-id= "{{ $user['id'] }}" data-url="{{ route('admin.account.ajax') }}">Duyệt</button>
+                                        <button class="btn btn-danger change-status" id="status_{{ $user['id'] }}" data-id= "{{ $user['id'] }}" data-url="{{ route('admin.account.ajax') }}">Chưa duyệt</button>
                                     </td>
                                     @else
-                                        <td>
-                                        <button class="btn btn-success change-status" id="status_1_{{ $user['id'] }}" data-id= "{{ $user['id'] }}">Đã duyệt</button>
-                                        </td>
+                                    <td>
+                                        <button class="btn btn-success">Đã duyệt</button>
+                                    </td>
                                     @endif
                                 </tr>
                             @endforeach

@@ -37,7 +37,8 @@ class HomeController extends Controller
         if(isset($id_customer)){
             $customer = Customer::find($id_customer);
             $wishlist = Wishlist::where('kh_id',$id_customer)->get();
-            return view('home.home',compact('sliders','categories','brands','products','wishlist','customer','max','min','cateposts','product_rating'));
+            $count_wistlist = $wishlist->count();
+            return view('home.home',compact('sliders','categories','brands','products','wishlist','customer','max','min','cateposts','product_rating','count_wistlist'));
         }else{
             return view('home.home',compact('sliders','categories','brands','products','max','min','cateposts','product_rating'));
         }
@@ -50,8 +51,16 @@ class HomeController extends Controller
         $sliders = Slide::all();
         $categories = DanhMuc::all();
         $brands = Brand::all();
-        $products = Product::where('sp_ten','like','%'.$key_word.'%')->get();
-        return view('home.components.search',compact('sliders','categories','brands','products','cateposts'));
+        $products = Product::where('sp_ten','like','%'.$key_word.'%')->where('sp_trangthai',1)->get();
+        $id_customer = Session::get('customer_id');
+        if(isset($id_customer)){
+            $customer = Customer::find($id_customer);
+            $wishlist = Wishlist::where('kh_id',$id_customer)->get();
+            $count_wistlist = $wishlist->count();
+            return view('home.components.search',compact('count_wistlist','categories','brands','products','wishlist','customer','cateposts'));
+        }else{
+            return view('home.components.search',compact('sliders','categories','brands','products','cateposts'));
+        }
     }
 
     public function loadProduct(Request $request){

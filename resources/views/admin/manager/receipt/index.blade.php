@@ -28,7 +28,7 @@
                                 <tr>
                                     <th scope="row">{{ $receipt['pnh_id'] }}</th>
                                     <td>{{ $receipt['pnh_ten'] }}</td>
-                                    <td>{{ $receipt['pnh_tongcong'] }} VND</td>
+                                    <td>{{ number_format($receipt['pnh_tongcong']) }} VND</td>
                                     <td>{{ $receipt->userNhap->name }}</td>
                                     <td>{{ $receipt['created_at'] }}</td>
                                     <td>{{ $receipt->ncc->ncc_ten }}</td>

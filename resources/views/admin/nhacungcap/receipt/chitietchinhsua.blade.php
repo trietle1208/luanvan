@@ -52,7 +52,6 @@
                             <button class="btn btn-success saveProductReceipt"
                                     style="display: none;"
                                     data-product="{{ $product->sp_id }}"
-                                    data-qty="{{ $product->sp_soluong }}"
                                     data-url="{{ route('sup.receipt.saveUpdateProductReceipt') }}"
                                     data-receipt="{{ $receipt->pnh_id }}"
                                     data-id="{{ $product->receiptdetail($receipt->pnh_id)->first()->ctpn_id }}">

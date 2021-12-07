@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\CatePosts;
 use App\Models\Comment;
+use App\Models\Customer;
 use App\Models\DanhMuc;
 use App\Models\DetailPara;
 use App\Models\Product;
 use App\Models\ReceiptDetail;
 use App\Models\View;
 use App\Models\Voucher;
+use App\Models\Wishlist;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Cart;
@@ -23,6 +25,10 @@ class ProductController extends Controller
     private $sum_price = 0, $arr = [];
 
     public function detail(Request $request, $ncc,$slug) {
+        $id_customer = Session::get('customer_id');
+        $customer = Customer::find($id_customer);
+        $wishlist = Wishlist::where('kh_id',$id_customer)->get();
+        $count_wistlist = $wishlist->count();
         $quantityProduct = 0;
         $count = 0;
         $star_1 = 0;
@@ -34,13 +40,14 @@ class ProductController extends Controller
         $categories = DanhMuc::all();
         $brands = Brand::all();
         $product = Product::where('sp_slug',$slug)->first();
-        $productRecomments = Product::where('dm_id',$product->dm_id)->where('sp_trangthai',1)->get();
+        $productRecomments = Product::where('dm_id',$product->dm_id)->where('sp_trangthai',1)->take(6)->get();
         $receiptdetail = ReceiptDetail::where('sp_id',$product->sp_id)->orderBy('created_at','DESC')->first();
         $paradetail = DetailPara::where('sp_id',$product->sp_id)->get();
         $quantityProduct = $receiptdetail->soluong;
         $comments = Comment::where('sp_id',$product->sp_id)->where('bl_idcha','=',null)->where('trangthai',1)->get();
         $session = $request->getSession()->getId();
         $check = View::where('sp_id',$product->sp_id)->where('session',$session)->first();
+        $voucher = Voucher::where('ncc_id',$product->ncc->ncc_id)->get();
         if($check == null){
             $view = View::create([
                 'sp_id' => $product->sp_id,
@@ -73,10 +80,10 @@ class ProductController extends Controller
             Carbon::setLocale('vi');
             $now = Carbon::now('Asia/Ho_Chi_Minh');
             return view('home.product.detail',
-            compact('categories','brands','product','quantityProduct','productRecomments','comments','now','cateposts','view','count','star_1','star_2','star_3','star_4','star_5'));
+            compact('count_wistlist','voucher','categories','brands','product','quantityProduct','productRecomments','comments','now','cateposts','view','count','star_1','star_2','star_3','star_4','star_5'));
         }else{
             return view('home.product.detail',
-            compact('categories','brands','product','quantityProduct','productRecomments','cateposts','view','count','star_1','star_2','star_3','star_4','star_5'));
+            compact('count_wistlist','voucher','categories','brands','product','quantityProduct','productRecomments','cateposts','view','count','star_1','star_2','star_3','star_4','star_5'));
 
         }
     }
@@ -98,7 +105,10 @@ class ProductController extends Controller
 
     public function showCart() {
         // Session::forget('cart');
-        
+        $id_customer = Session::get('customer_id');
+        $customer = Customer::find($id_customer);
+        $wishlist = Wishlist::where('kh_id',$id_customer)->get();
+        $count_wistlist = $wishlist->count();
         $arr_voucher = [];
         $arr_voucher_sort1 = [];
         $totalDiscount = 0;
@@ -143,12 +153,12 @@ class ProductController extends Controller
                     });
                     $arr_voucher_sort1[$key1] = $arr_voucher_sort;
                 }
-                return view('home.product.cart.index', compact('arr_voucher_sort1', 'totalDiscount', 'totalCart','cateposts'));
+                return view('home.product.cart.index', compact('count_wistlist','arr_voucher_sort1', 'totalDiscount', 'totalCart','cateposts'));
             }else{
-                return view('home.product.cart.index', compact( 'totalDiscount', 'totalCart','cateposts'));
+                return view('home.product.cart.index', compact('count_wistlist','totalDiscount', 'totalCart','cateposts'));
             }
         }else{
-            return view('home.product.cart.empty',compact('cateposts'));
+            return view('home.product.cart.empty',compact('count_wistlist','cateposts'));
         }
     }
     public function addCart(Request $request) {

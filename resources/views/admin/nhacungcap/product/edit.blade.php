@@ -9,14 +9,6 @@
         <div class="card">
             <div class="card-body">
                 <h2 class="header-title text-center">CẬP NHẬT SẢN PHẨM</h2>
-                <?php
-                $message = Session::get('message');
-                if($message)
-                {
-                    echo '<span class="text-primary">'.$message.'</span>';
-                    Session::put('message',null);
-                }
-                ?>
                 <form class="form-horizontal" action="{{ route('sup.product.update',['id' => $products->sp_id]) }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="row mb-3">
@@ -53,10 +45,11 @@
                     <div class="row mb-3">
                         <label class="col-4 col-xl-3 col-form-label">Mô tả sản phẩm:</label>
                         <div class="col-8 col-xl-9">
-                            <input type="text" class="form-control" id="desc_product"
-                                   name="desc"
-                                   value="{{ $products->sp_mota }}"
-                                   placeholder="Nhập vào mô tả của sản phẩm">
+                            <textarea type="text" class="form-control" id="desc_product"
+                                name="desc"
+                                placeholder="Nhập vào mô tả của sản phẩm">
+                                {{ $products->sp_mota }}
+                            </textarea>
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -65,15 +58,6 @@
                             <textarea name="detail" id="detail_product" placeholder="Nhập vào chi tiết của sản phẩm">
                             {{ $products->sp_chitiet }}
                             </textarea>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label class="col-4 col-xl-3 col-form-label">Số lượng sản phẩm:</label>
-                        <div class="col-8 col-xl-9">
-                            <input type="text" class="form-control" id="inputPassword5"
-                                   name="quantity"
-                                   value="{{ $products->sp_soluong }}"
-                                   placeholder="Nhập vào số lượng của sản phẩm">
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -140,7 +124,7 @@
                     </div>
                     <div class="justify-content-end row">
                         <div class="col-8 col-xl-9">
-                            <button type="submit" class="btn btn-info waves-effect waves-light">Lưu</button>
+                            <button type="submit" class="btn btn-info waves-effect waves-light">Cập nhật</button>
                         </div>
                     </div>
                 </form>

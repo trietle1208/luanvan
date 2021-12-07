@@ -307,9 +307,6 @@
                             <li>
                                 <a href="{{ route('sup.product.statistical') }}">Thống kê sản phẩm</a>
                             </li>
-                            <li>
-                                <a href="icons-two-tone.html">Thống kê tài khoản</a>
-                            </li>
                         </ul>
                     </div>
                 </li>
@@ -317,7 +314,7 @@
                 @hasanyrole('Quản Lý Sản Phẩm|Admin nhà cung cấp')
                 <li>
                     <a href="#sidebarDashboards" data-bs-toggle="collapse">
-                        <i data-feather="airplay"></i>
+                        <i data-feather="box"></i>
                         <span> Quản Lý Sản Phẩm </span>
                         <span class="menu-arrow"></span>
 
@@ -340,7 +337,7 @@
                 @hasanyrole('Quản Lý Khuyến Mãi|Admin nhà cung cấp')
                 <li>
                     <a href="#sidebarLayouts" data-bs-toggle="collapse">
-                        <i data-feather="layout"></i>
+                        <i data-feather="gift"></i>
                         <span> Quản Lý Khuyến Mãi </span>
                         <span class="menu-arrow"></span>
                     </a>
@@ -359,7 +356,7 @@
                 @hasanyrole('Quản Lý Kho|Admin nhà cung cấp')
                 <li>
                     <a href="#sidebarEmail" data-bs-toggle="collapse">
-                        <i data-feather="mail"></i>
+                        <i data-feather="clipboard"></i>
                         <span> Quản Lý Phiếu Nhập </span>
                         <span class="menu-arrow"></span>
                     </a>
@@ -378,7 +375,7 @@
                 @hasanyrole('Quản Lý Khuyến Mãi|Admin nhà cung cấp')
                 <li>
                     <a href="#sidebarTickets" data-bs-toggle="collapse">
-                        <i data-feather="aperture"></i>
+                        <i data-feather="gift"></i>
                         <span> Quản Lý Mã Giảm Giá </span>
                         <span class="menu-arrow"></span>
                     </a>
@@ -397,7 +394,7 @@
                 
                 <li>
                     <a href="#sidebarTables" data-bs-toggle="collapse">
-                        <i data-feather="grid"></i>
+                        <i data-feather="truck"></i>
                         <span> Quản Lý Đơn Hàng </span>
                         <span class="menu-arrow"></span>
                     </a>
@@ -420,7 +417,7 @@
                 @hasanyrole('Quản Lý Tài Khoản|Admin nhà cung cấp')
                 <li>
                     <a href="#sidebarMaps" data-bs-toggle="collapse">
-                        <i data-feather="map"></i>
+                        <i data-feather="users"></i>
                         <span> Quản Lý Tài Khoản </span>
                         <span class="menu-arrow"></span>
                     </a>

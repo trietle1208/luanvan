@@ -11,15 +11,14 @@ Sản phẩm
             <div class="card-body">
                 <h4 class="header-title text-center">DANH SÁCH SẢN PHẨM</h4>
                 <div class="table-responsive">
-                    <table class="table mb-0">
-                        <thead class="table-light">
+                    <table class="table table-bordered table-hover mb-0" id="basic-datatable">
+                        <thead class="table-light" >
                             <tr>
                                 <th>ID</th>
                                 <th>Tên sản phẩm</th>
                                 <th>Hinh ảnh sản phẩm</th>
                                 {{-- <th>Mô tả</th>--}}
                                 <th>Giá bán ra</th>
-                                <th>Số lượng</th>
                                 <th>Thời gian bảo hành</th>
                                 <th>Trang thái</th>
                                 <th>Hành động</th>
@@ -35,7 +34,6 @@ Sản phẩm
                                 </td>
                                 {{-- <td>{{ $product['sp_mota'] }}</td>--}}
                                 <td>{{ number_format($product['sp_giabanra']) }} VNĐ</td>
-                                <td>{{ $product['sp_soluong'] }}</td>
                                 <td>{{ $product['sp_thoigianbaohanh'] }}</td>
                                 @if($product['sp_trangthai'] == 0)
                                 <td>Chưa duyệt</td>

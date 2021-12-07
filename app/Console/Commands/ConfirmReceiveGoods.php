@@ -40,28 +40,18 @@ class ConfirmReceiveGoods extends Command
      */
     public function handle()
     {
-        $orders = OrderNCC::all();
-        foreach ($orders as $item){
-            if($item->trangthai == 4){
-                OrderNCC::find($item->dhncc_id)->update([
-                    'trangthai' => 5,
-                    'thoigiannhanhang' => Carbon::now()->format('Y-m-d H:i:s'),
+        $order= Order::all();
+        foreach ($order as $item){
+            if($item->dh_trangthai == 3){
+                Order::find($item->dh_id)->update([
+                    'dh_trangthai' => 5,
+                    'dh_thoigiannhanhang' => Carbon::now()->format('Y-m-d H:i:s'),
                 ]);
-
-                $order_ncc = OrderNCC::find($item->dhncc_id);
-                $count = 0;
-                $check = 0;
-                $orderAdmin = Order::find($order_ncc->dh_id);
-                foreach ($orderAdmin->orderNCC as $item){
-                    $count++;
-                    if($item->trangthai == 5){
-                        $check++;
-                    }
-                }
-                if($count == $check) {
-                    $orderAdmin->update([
-                        'dh_trangthai' => 3,
-                        'dh_thoigiannhanhang' => Carbon::now()->format('Y-m-d H:i:s'),
+                $orders = Order::find($item->dh_id);
+                foreach ($orders->orderNCC as $orderNCC){
+                    OrderNCC::find($orderNCC->dhncc_id)->update([
+                        'trangthai' => 5,
+                        'thoigiannhanhang' => Carbon::now()->format('Y-m-d H:i:s'),
                     ]);
                 }
             }

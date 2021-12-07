@@ -7,6 +7,7 @@ use App\Models\Address;
 use App\Models\Brand;
 use App\Models\CatePosts;
 use App\Models\City;
+use App\Models\Customer;
 use App\Models\DanhMuc;
 use App\Models\Order;
 use App\Models\OrderDetail;
@@ -15,6 +16,7 @@ use App\Models\Province;
 use App\Models\Shipping;
 use App\Models\User;
 use App\Models\Ward;
+use App\Models\Wishlist;
 use App\Notifications\OrderNCCNotification;
 use App\Notifications\OrderNotification;
 use Illuminate\Http\Request;
@@ -27,7 +29,10 @@ use Illuminate\Support\Facades\Notification;
 class CheckoutController extends Controller
 {
     public function index() {
-
+        $id_customer = Session::get('customer_id');
+        $customer = Customer::find($id_customer);
+        $wishlist = Wishlist::where('kh_id',$id_customer)->get();
+        $count_wistlist = $wishlist->count();
         $subtotal = 0;
         $discount = 0;
         $total = 0;
@@ -53,13 +58,13 @@ class CheckoutController extends Controller
                 $fee_ship = 0;
             }
             $total = $subtotal - $discount + $fee_ship;
-            return view('home.product.cart.checkout',compact('total','shipping','city','address','carts','subtotal','total','discount','cateposts','fee_ship'));
+            return view('home.product.cart.checkout',compact('count_wistlist','total','shipping','city','address','carts','subtotal','total','discount','cateposts','fee_ship'));
         }else{
             $cateposts = CatePosts::all();
             $shipping = Shipping::orderBy('ht_id','DESC')->get();
             $city = City::orderBy('tp_id','ASC')->get();
             $address = Address::where('kh_id',Session::get('customer_id'))->orderBy('dc_id','DESC')->get();
-            return view('home.product.cart.checkout',compact('shipping','city','address','cateposts'));
+            return view('home.product.cart.checkout',compact('count_wistlist','shipping','city','address','cateposts'));
         }
     }
     public function selectAdd(Request $request) {
@@ -188,100 +193,105 @@ class CheckoutController extends Controller
     }
 
     public function payment(Request $request) {
-        
+            try{
+                DB::beginTransaction();
                 $dt = Carbon::now('Asia/Ho_Chi_Minh')->toDateTimeString();
-            do {
-                $number = random_int(0, 999);
-                $code = 'MDH'.$number;
-            } while (Order::where("dh_madonhang", "=", $code)->first());
-            
-            if($request) {
-                $carts = Session::get('cart');
-                $kh_id = Session::get('customer_id');
-                $dataCreateOrder = Order::insertGetId([
-                    'dh_madonhang' => $code,
-                    'dh_tongtien' => $request->total,
-                    'dh_trangthai' => 0,
-                    'dh_ghichu' => $request->note,
-                    'dh_thoigiandathang' => $dt,
-                    'ht_id' => $request->ship,
-                    'dc_id' => $request->address,
-                    'created_at' => $dt,
-                    'updated_at' => $dt,
-                ]);
-
-                //lay tong tien va id_mgg
-                foreach ($carts as $key => $cart){
-                    $total_product_ncc[$key] = 0;
-                    $voucher_id[$key] = '';
-                    $voucher_price[$key] = 0;
-                    foreach ($cart as $key2 => $item) {
-                        if($key2 != 0) {
-                            $total_product_ncc[$key] += $item['total'];
-                        }else if($key2 == 0 && count($item) > 0){
-                            $voucher_id[$key] = (int)$item['id'];
-                            $voucher_price[$key] = (int)$item['voucherPrice'];
-                        }
-                    }
-                }
-                //insert vao csdl
-                foreach ($carts as $key =>$cart) {
-                    if($voucher_id[$key] != ''){
-                        $dataCreateOrderNCC = OrderNCC::insertGetId([
-                        'dh_id' => $dataCreateOrder,
-                        'ncc_id' => $key,
-                        'mgg_id' => $voucher_id[$key],
-                        'tongtien' => $total_product_ncc[$key] - $voucher_price[$key],
+                do {
+                    $number = random_int(0, 999);
+                    $code = 'MDH'.$number;
+                } while (Order::where("dh_madonhang", "=", $code)->first());
+                
+                if($request) {
+                    $carts = Session::get('cart');
+                    $kh_id = Session::get('customer_id');
+                    $dataCreateOrder = Order::insertGetId([
+                        'dh_madonhang' => $code,
+                        'dh_tongtien' => $request->total,
+                        'dh_trangthai' => 0,
+                        'dh_ghichu' => $request->note,
+                        'dh_thoigiandathang' => $dt,
+                        'ht_id' => $request->ship,
+                        'dc_id' => $request->address,
                         'created_at' => $dt,
                         'updated_at' => $dt,
-                        'trangthai' => 0,
                     ]);
-                        $order_ncc_new = OrderNCC::find($dataCreateOrderNCC)->load('orderAdmin.address.customer');
-                        $users = User::where('ncc_id',$key)->role(['Quản Lý Đơn Hàng','Admin nhà cung cấp'])->get();
-                        Notification::send($users, new OrderNCCNotification($order_ncc_new));
-                    }else{ 
-                        $dataCreateOrderNCC = OrderNCC::insertGetId([
-                            'dh_id' => $dataCreateOrder,
-                            'ncc_id' => $key,
-                            'tongtien' => $total_product_ncc[$key],
-                            'trangthai' => 0,
-                            'created_at' => $dt,
-                            'updated_at' => $dt,
-                        ]);
-                        $order_ncc_new = OrderNCC::find($dataCreateOrderNCC)->load('orderAdmin.address.customer');
-                        $users = User::where('ncc_id',$key)->role(['Quản Lý Đơn Hàng','Admin nhà cung cấp'])->get();
-                        Notification::send($users, new OrderNCCNotification($order_ncc_new));
-                    }
-                    foreach ($cart as $key2 => $item){
-                        if($key2 != 0){
-                            if($item['id_discount'] != 0){
-                                $dataCreateOrderDetail = OrderDetail::create([
-                                    'dhncc_id' => $dataCreateOrderNCC,
-                                    'sp_id' => $key2,
-                                    'km_id' => $item['id_discount'],
-                                    'gia' => $item['price_discount'],
-                                    'soluong' => $item['qty'],
-                                ]);
-                            }else{
-                                $dataCreateOrderDetail = OrderDetail::create([
-                                    'dhncc_id' => $dataCreateOrderNCC,
-                                    'sp_id' => $key2,
-                                    'gia' => $item['price_discount'],
-                                    'soluong' => $item['qty'],
-                                ]);
+    
+                    //lay tong tien va id_mgg
+                    foreach ($carts as $key => $cart){
+                        $total_product_ncc[$key] = 0;
+                        $voucher_id[$key] = '';
+                        $voucher_price[$key] = 0;
+                        foreach ($cart as $key2 => $item) {
+                            if($key2 != 0) {
+                                $total_product_ncc[$key] += $item['total'];
+                            }else if($key2 == 0 && count($item) > 0){
+                                $voucher_id[$key] = (int)$item['id'];
+                                $voucher_price[$key] = (int)$item['voucherPrice'];
                             }
                         }
                     }
+                    //insert vao csdl
+                    foreach ($carts as $key =>$cart) {
+                        if($voucher_id[$key] != ''){
+                            $dataCreateOrderNCC = OrderNCC::create([
+                            'dh_id' => $dataCreateOrder,
+                            'ncc_id' => $key,
+                            'mgg_id' => $voucher_id[$key],
+                            'tongtien' => $total_product_ncc[$key] - $voucher_price[$key],
+                            'created_at' => $dt,
+                            'updated_at' => $dt,
+                            'trangthai' => 0,
+                        ]);
+                            $order_ncc_new = OrderNCC::find($dataCreateOrderNCC->dhncc_id)->load('orderAdmin.address.customer');
+                            $users = User::where('ncc_id',$key)->role(['Quản Lý Đơn Hàng','Admin nhà cung cấp'])->get();
+                            Notification::send($users, new OrderNCCNotification($order_ncc_new));
+                        }else{ 
+                            $dataCreateOrderNCC = OrderNCC::create([
+                                'dh_id' => $dataCreateOrder,
+                                'ncc_id' => $key,
+                                'tongtien' => $total_product_ncc[$key],
+                                'trangthai' => 0,
+                                'created_at' => $dt,
+                                'updated_at' => $dt,
+                            ]);
+                            $order_ncc_new = OrderNCC::find($dataCreateOrderNCC->dhncc_id)->load('orderAdmin.address.customer');
+                            $users = User::where('ncc_id',$key)->role(['Quản Lý Đơn Hàng','Admin nhà cung cấp'])->get();
+                            Notification::send($users, new OrderNCCNotification($order_ncc_new));
+                        }
+                        foreach ($cart as $key2 => $item){
+                            if($key2 != 0){
+                                if($item['id_discount'] != 0){
+                                    $dataCreateOrderDetail = OrderDetail::create([
+                                        'dhncc_id' => $dataCreateOrderNCC->dhncc_id,
+                                        'sp_id' => $key2,
+                                        'km_id' => $item['id_discount'],
+                                        'gia' => $item['price_discount'],
+                                        'soluong' => $item['qty'],
+                                    ]);
+                                }else{
+                                    $dataCreateOrderDetail = OrderDetail::create([
+                                        'dhncc_id' => $dataCreateOrderNCC->dhncc_id,
+                                        'sp_id' => $key2,
+                                        'gia' => $item['price_discount'],
+                                        'soluong' => $item['qty'],
+                                    ]);
+                                }
+                            }
+                        }
+                    }
+                    Session::forget('cart');
+                    $order_new = Order::find($dataCreateOrder)->load('address.customer');
+                    $users = User::whereNull('ncc_id')->where('loaitaikhoan',0)->get();
+                    Notification::send($users, new OrderNotification($order_new));
+                    
+                    DB::commit();
+                    return response()->json([
+                        'code' => 200,
+                        'url' => route('trangchu'),
+                    ],200);
                 }
-                Session::forget('cart');
-                $order_new = Order::find($dataCreateOrder)->load('address.customer');
-                $users = User::whereNull('ncc_id')->where('loaitaikhoan',0)->get();
-                Notification::send($users, new OrderNotification($order_new));
-                
-                return response()->json([
-                    'code' => 200,
-                    'url' => route('trangchu'),
-                ],200);
+            }catch(\Exception $e){
+                DB::rollBack();
             }
     }
 }

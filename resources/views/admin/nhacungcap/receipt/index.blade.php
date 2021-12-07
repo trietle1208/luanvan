@@ -11,7 +11,7 @@
                 <div class="card-body">
                     <h4 class="header-title text-center">DANH SÁCH PHIẾU NHẬP HÀNG</h4>
                     <div class="table-responsive">
-                        <table class="table align-middle">
+                        <table class="table table-bordered table-hover mb-0" id="basic-datatable">
                             <thead class="table align-middle">
                             <tr>
                                 <th>ID</th>
@@ -44,7 +44,6 @@
                                         <a href="" data-id="{{ $receipt->pnh_id }}" class="btn btn-primary detail">Chi tiết</a>
                                     </td>
                                     @endif
-
                                 </tr>
                             @endforeach
                             </tbody>
