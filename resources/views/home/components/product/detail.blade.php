@@ -9,12 +9,11 @@
         </style>
         <div class="exzoom" id="exzoom">
             <div class="exzoom_img_box">
-                
                 <ul class='exzoom_img_ul'>
                     <li><img src="{{ $product->sp_hinhanh }}"/></li>
-                    @foreach($product->images as $key => $image)
-                        <li><img src="{{ $image->ha_duongdan }}"/></li>
-                    @endforeach
+                        @foreach($product->images as $key => $image)
+                            <li><img src="{{ $image->ha_duongdan }}"/></li>
+                        @endforeach
                 </ul>
             </div>
             <div class="exzoom_nav"></div>
@@ -27,18 +26,18 @@
             <p>{!! $product->sp_mota !!}</p>
         </div>
         <div>
-        <button type="button" class="btn btn-primary image-360" data-toggle="modal" data-target="#exampleModal">
-            Launch demo image 3D
-        </button>
+            <button type="button" class="btn btn-primary image-360" data-toggle="modal" data-target="#exampleModal" data-image="{{ asset('assets/images/3d1.jpg') }}">
+                Launch demo image 3D
+            </button>
 
         </div>
     </div>
     <div class="col-sm-7">
         <div class="product-information"><!--/product-information-->
-            <img src="images/product-details/new.jpg"  alt="" />
+            <!-- <img src="images/product-details/new.jpg"  alt="" /> -->
             <h2>{{ $product->sp_ten }}</h2>
             <p>Mã số ID: {{ $product->sp_id }}</p><i class="fa fa-eye"> {{ $view }} </i><br>
-            <div class="fb-share-button" data-href="https://thegioilinhkien.com/" data-layout="button_count" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Chia sẻ</a></div>
+            <div class="fb-share-button" data-href="{{ $url }}"      data-layout="button_count" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{$url}}&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Chia sẻ</a></div>
             <ul class="list-inline" title="Average Rating">
                 @php
                     $rating = $product->comment()->avg('bl_sosao');

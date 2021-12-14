@@ -28,7 +28,8 @@ use Illuminate\Support\Facades\Notification;
 
 class CheckoutController extends Controller
 {
-    public function index() {
+    public function index(Request $request) {
+        $url = $request->url();
         $id_customer = Session::get('customer_id');
         $customer = Customer::find($id_customer);
         $wishlist = Wishlist::where('kh_id',$id_customer)->get();
@@ -58,13 +59,13 @@ class CheckoutController extends Controller
                 $fee_ship = 0;
             }
             $total = $subtotal - $discount + $fee_ship;
-            return view('home.product.cart.checkout',compact('count_wistlist','total','shipping','city','address','carts','subtotal','total','discount','cateposts','fee_ship'));
+            return view('home.product.cart.checkout',compact('url','count_wistlist','total','shipping','city','address','carts','subtotal','total','discount','cateposts','fee_ship'));
         }else{
             $cateposts = CatePosts::all();
             $shipping = Shipping::orderBy('ht_id','DESC')->get();
             $city = City::orderBy('tp_id','ASC')->get();
             $address = Address::where('kh_id',Session::get('customer_id'))->orderBy('dc_id','DESC')->get();
-            return view('home.product.cart.checkout',compact('count_wistlist','shipping','city','address','cateposts'));
+            return view('home.product.cart.checkout',compact('url','count_wistlist','shipping','city','address','cateposts'));
         }
     }
     public function selectAdd(Request $request) {

@@ -16,7 +16,8 @@ use Illuminate\Support\Facades\Session;
 
 class TypeController extends Controller
 {
-    public function index($slug, $id) {
+    public function index(Request $request,$slug, $id) {
+        $url = $request->url();
         $cateposts = CatePosts::all();
         $categories = DanhMuc::all();
         $brands = Brand::all();
@@ -28,9 +29,9 @@ class TypeController extends Controller
             $customer = Customer::find($id_customer);
             $wishlist = Wishlist::where('kh_id',$id_customer)->get();
             $count_wistlist = $wishlist->count();
-            return view('home.product.type.list',compact('count_wistlist','categories','brands','products','wishlist','customer','cateposts','type','id'));
+            return view('home.product.type.list',compact('url','count_wistlist','categories','brands','products','wishlist','customer','cateposts','type','id'));
         }else{
-            return view('home.product.type.list',compact('categories','brands','products','cateposts','type','id'));
+            return view('home.product.type.list',compact('url','categories','brands','products','cateposts','type','id'));
         }
     }
 

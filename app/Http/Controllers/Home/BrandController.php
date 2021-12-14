@@ -14,7 +14,8 @@ use Illuminate\Support\Facades\Session;
 
 class BrandController extends Controller
 {
-    public function index($slug, $id) {
+    public function index(Request $request,$slug, $id) {
+        $url = $request->url();
         $cateposts = CatePosts::all();
         $categories = DanhMuc::all();
         $brands = Brand::all();
@@ -24,9 +25,9 @@ class BrandController extends Controller
             $customer = Customer::find($id_customer);
             $wishlist = Wishlist::where('kh_id',$id_customer)->get();
             $count_wistlist = $wishlist->count();
-            return view('home.product.brand.list',compact('count_wistlist','categories','brands','products','wishlist','customer','cateposts'));
+            return view('home.product.brand.list',compact('url','count_wistlist','categories','brands','products','wishlist','customer','cateposts'));
         }else{
-            return view('home.product.brand.list',compact('categories','brands','products','cateposts'));
+            return view('home.product.brand.list',compact('url','categories','brands','products','cateposts'));
         }
     }
 }

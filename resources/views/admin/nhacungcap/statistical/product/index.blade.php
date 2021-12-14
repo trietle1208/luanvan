@@ -209,7 +209,7 @@
                                 </thead>
                                 <tbody>
                                 @foreach ($comments as $comment)
-                                    @if($comment['product'] != NULL)
+                                    @if($comment['product'] != null &&  $comment['customer'] != null)
                                         <tr>
                                             <td style="width: 36px;">
                                                 <img src="{{ $comment['product']['sp_hinhanh'] }}" alt="contact-img" title="contact-img" class="rounded-circle avatar-sm" />

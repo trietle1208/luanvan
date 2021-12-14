@@ -25,6 +25,7 @@ class ProductController extends Controller
     private $sum_price = 0, $arr = [];
 
     public function detail(Request $request, $ncc,$slug) {
+        $url = $request->url();
         $id_customer = Session::get('customer_id');
         $customer = Customer::find($id_customer);
         $wishlist = Wishlist::where('kh_id',$id_customer)->get();
@@ -80,10 +81,10 @@ class ProductController extends Controller
             Carbon::setLocale('vi');
             $now = Carbon::now('Asia/Ho_Chi_Minh');
             return view('home.product.detail',
-            compact('count_wistlist','voucher','categories','brands','product','quantityProduct','productRecomments','comments','now','cateposts','view','count','star_1','star_2','star_3','star_4','star_5'));
+            compact('url','count_wistlist','voucher','categories','brands','product','quantityProduct','productRecomments','comments','now','cateposts','view','count','star_1','star_2','star_3','star_4','star_5'));
         }else{
             return view('home.product.detail',
-            compact('count_wistlist','voucher','categories','brands','product','quantityProduct','productRecomments','cateposts','view','count','star_1','star_2','star_3','star_4','star_5'));
+            compact('url','count_wistlist','voucher','categories','brands','product','quantityProduct','productRecomments','cateposts','view','count','star_1','star_2','star_3','star_4','star_5'));
 
         }
     }
@@ -103,8 +104,9 @@ class ProductController extends Controller
         }
     }
 
-    public function showCart() {
+    public function showCart(Request $request) {
         // Session::forget('cart');
+        $url = $request->url();
         $id_customer = Session::get('customer_id');
         $customer = Customer::find($id_customer);
         $wishlist = Wishlist::where('kh_id',$id_customer)->get();
@@ -153,12 +155,12 @@ class ProductController extends Controller
                     });
                     $arr_voucher_sort1[$key1] = $arr_voucher_sort;
                 }
-                return view('home.product.cart.index', compact('count_wistlist','arr_voucher_sort1', 'totalDiscount', 'totalCart','cateposts'));
+                return view('home.product.cart.index', compact('url','count_wistlist','arr_voucher_sort1', 'totalDiscount', 'totalCart','cateposts'));
             }else{
-                return view('home.product.cart.index', compact('count_wistlist','totalDiscount', 'totalCart','cateposts'));
+                return view('home.product.cart.index', compact('url','count_wistlist','totalDiscount', 'totalCart','cateposts'));
             }
         }else{
-            return view('home.product.cart.empty',compact('count_wistlist','cateposts'));
+            return view('home.product.cart.empty',compact('url','count_wistlist','cateposts'));
         }
     }
     public function addCart(Request $request) {

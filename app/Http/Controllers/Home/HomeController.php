@@ -19,7 +19,8 @@ use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
-    public function index() {
+    public function index(Request $request) {
+        $url = $request->url();
         $cateposts = CatePosts::all();
         $sliders = Slide::all();
         $categories = DanhMuc::all();
@@ -38,14 +39,15 @@ class HomeController extends Controller
             $customer = Customer::find($id_customer);
             $wishlist = Wishlist::where('kh_id',$id_customer)->get();
             $count_wistlist = $wishlist->count();
-            return view('home.home',compact('sliders','categories','brands','products','wishlist','customer','max','min','cateposts','product_rating','count_wistlist'));
+            return view('home.home',compact('url','sliders','categories','brands','products','wishlist','customer','max','min','cateposts','product_rating','count_wistlist'));
         }else{
-            return view('home.home',compact('sliders','categories','brands','products','max','min','cateposts','product_rating'));
+            return view('home.home',compact('url','sliders','categories','brands','products','max','min','cateposts','product_rating'));
         }
 
     }
 
     public function search(Request $request){
+        $url = $request->url();
         $cateposts = CatePosts::all();
         $key_word = $request->name;
         $sliders = Slide::all();
@@ -57,9 +59,9 @@ class HomeController extends Controller
             $customer = Customer::find($id_customer);
             $wishlist = Wishlist::where('kh_id',$id_customer)->get();
             $count_wistlist = $wishlist->count();
-            return view('home.components.search',compact('count_wistlist','categories','brands','products','wishlist','customer','cateposts'));
+            return view('home.components.search',compact('url','count_wistlist','categories','brands','products','wishlist','customer','cateposts'));
         }else{
-            return view('home.components.search',compact('sliders','categories','brands','products','cateposts'));
+            return view('home.components.search',compact('url','sliders','categories','brands','products','cateposts'));
         }
     }
 

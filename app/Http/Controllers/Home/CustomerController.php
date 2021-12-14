@@ -179,7 +179,8 @@ class CustomerController extends Controller
         return redirect()->route('trangchu');
     }
 
-    public function profile() {
+    public function profile(Request $request) {
+        $url = $request->url();
         $id_customer = Session::get('customer_id');
         $customer = Customer::find($id_customer);
         $wishlist = Wishlist::where('kh_id',$id_customer)->get();
@@ -191,7 +192,7 @@ class CustomerController extends Controller
                 $query->where('dh_trangthai','!=',4)->orderBy('dh_thoigiandathang','DESC');
             },'address']);
             // dd($user->toArray());
-            return view('home.customer.profile',compact('count_wistlist','user','cateposts'));
+            return view('home.customer.profile',compact('url','count_wistlist','user','cateposts'));
         }
     }
 

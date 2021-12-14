@@ -25,7 +25,7 @@
             @endforeach
         </div><!--/category-products-->
 
-        <!-- <div class="brands_products">
+        <div class="brands_products">
             <h2>THƯƠNG HIỆU SẢN PHẨM</h2>
             <div class="brands-name">
                 <ul class="nav nav-pills nav-stacked">
@@ -34,7 +34,7 @@
                     @endforeach
                 </ul>
             </div>
-        </div> -->
+        </div>
         <hr>
         @include('components.price-range')
         <hr>

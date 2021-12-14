@@ -4,6 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
+    <link rel="canonical" href="{{ $url }}" />
     @yield('title')
     <link href="{{ asset('Eshopper/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('Eshopper/css/font-awesome.min.css') }}" rel="stylesheet">
