@@ -13,5 +13,5 @@ $(document).ready(function(){
         next: document.getElementById('next')
       });
       
-      // threesixty.play();
+      threesixty.play();
 })

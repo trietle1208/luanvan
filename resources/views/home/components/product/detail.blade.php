@@ -27,13 +27,20 @@
         </div>
         <div>
             <div class="iamge-array"
-                 data-image1="{{ asset('assets/images/h1.jpg') }}"
-                 data-image2="{{ asset('assets/images/h2.jpg') }}"
-                 data-image3="{{ asset('assets/images/h3.jpg') }}"
-                 data-image4="{{ asset('assets/images/h4.jpg') }}"
-                 data-image5="{{ asset('assets/images/h5.jpg') }}"
-                 data-image6="{{ asset('assets/images/h6.jpg') }}"
-                 data-image7="{{ asset('assets/images/h7.jpg') }}">
+                 data-image1="{{ asset('assets/images/m1.jpg') }}"
+                 data-image2="{{ asset('assets/images/m2.jpg') }}"
+                 data-image3="{{ asset('assets/images/m3.jpg') }}"
+                 data-image4="{{ asset('assets/images/m4.jpg') }}"
+                 data-image5="{{ asset('assets/images/m5.jpg') }}"
+                 data-image6="{{ asset('assets/images/m6.jpg') }}"
+                 data-image7="{{ asset('assets/images/m7.jpg') }}"
+                 data-image1="{{ asset('assets/images/m8.jpg') }}"
+                 data-image2="{{ asset('assets/images/m9.jpg') }}"
+                 data-image3="{{ asset('assets/images/m10.jpg') }}"
+                 data-image4="{{ asset('assets/images/m11.jpg') }}"
+                 data-image5="{{ asset('assets/images/m12.jpg') }}"
+                 data-image6="{{ asset('assets/images/m13.jpg') }}"
+                 data-image7="{{ asset('assets/images/m14.jpg') }}">
             </div>
             <button type="button" class="btn btn-primary image-360" data-toggle="modal" data-target="#exampleModal" data-image="{{ asset('assets/images/3d1.jpg') }}">
                 Hình ảnh 3D
