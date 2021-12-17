@@ -4,7 +4,9 @@ namespace App\Http\Controllers\NCC;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AccountAdd;
+use App\Http\Requests\AccountAddNV;
 use App\Http\Requests\AccountShipperAdd;
+use App\Http\Requests\AccountUpdate;
 use App\Models\Info;
 use App\Models\Manufacture;
 use App\Models\Shipper;
@@ -33,7 +35,7 @@ class AccountController extends Controller
         return view('admin.nhacungcap.account.index',compact('info','name','ncc','roles'));
     }
 
-    public function store(Request $request) {
+    public function store(AccountUpdate $request) {
         $dataUpload = $this->storageTraitUpload($request, 'image', 'ncc');
         if($dataUpload){
             $info = Info::updateOrCreate(
@@ -108,22 +110,29 @@ class AccountController extends Controller
     }
     public function checkEmail(Request $request) {
         $user = User::where('email',$request->value)->first();
-        $shipper = Shipper::where('gh_email',$request->value)->first();
+        $shipper = Shipper::where('email',$request->value)->first();
         if($user || $shipper){
             return response()->json([
                 'code' => 200,
             ],200);
         }
     }
-    public function store_account(AccountShipperAdd $shipper) {
+    public function store_account(AccountAddNV $request) {
         $account = User::create([
-            'name' => $shipper->name,
-            'email' => $shipper->gh_email,
-            'password' => bcrypt($shipper->password),
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
             'email_verified_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'ncc_id' => Auth::user()->ncc_id,
             'trangthai' => 1,
         ]);
+        $info = Info::create([
+            'tt_diachi' => $request->address,
+            'tt_sdt' => $request->phone,
+            'tt_gioitinh' => 0,
+            'tt_ngaysinh' => $request->date,
+            'us_id' => $account->id,
+        ]); 
         Toastr::success('Thêm tài khoản mới thành công!', 'Thành công');
         return back();
     }

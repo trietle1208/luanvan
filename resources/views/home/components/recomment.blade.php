@@ -6,6 +6,7 @@
             @foreach($product_rating as $key => $productRecomment)
                 @php
                     $quantity =  $productRecomment->receipt()->first();
+                    $price = $productRecomment->price()->first();
                 @endphp
                 @if($key % 3 == 0)
                     <div class="item {{$key == 0 ? 'active' : '' }}">
@@ -16,7 +17,7 @@
                                     <div class="single-products">
                                         <div class="productinfo text-center">
                                             <img src="{{ $productRecomment->sp_hinhanh }}" style="height: 250px ; width: 250px" alt="" />
-                                            <h2>{{ number_format($productRecomment->sp_giabanra) }} VND</h2>
+                                            <h2>{{ number_format($price->pivot->giabanra) }} VND</h2>
                                             <p>{{ $productRecomment->sp_ten }}</p>
                                             <ul class="list-inline" title="Average Rating">
                                                 @php

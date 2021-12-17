@@ -26,10 +26,18 @@
             <p>{!! $product->sp_mota !!}</p>
         </div>
         <div>
+            <div class="iamge-array"
+                 data-image1="{{ asset('assets/images/h1.jpg') }}"
+                 data-image2="{{ asset('assets/images/h2.jpg') }}"
+                 data-image3="{{ asset('assets/images/h3.jpg') }}"
+                 data-image4="{{ asset('assets/images/h4.jpg') }}"
+                 data-image5="{{ asset('assets/images/h5.jpg') }}"
+                 data-image6="{{ asset('assets/images/h6.jpg') }}"
+                 data-image7="{{ asset('assets/images/h7.jpg') }}">
+            </div>
             <button type="button" class="btn btn-primary image-360" data-toggle="modal" data-target="#exampleModal" data-image="{{ asset('assets/images/3d1.jpg') }}">
-                Launch demo image 3D
+                Hình ảnh 3D
             </button>
-
         </div>
     </div>
     <div class="col-sm-7">
@@ -41,6 +49,7 @@
             <ul class="list-inline" title="Average Rating">
                 @php
                     $rating = $product->comment()->avg('bl_sosao');
+                    $price = $product->price()->first();
                 @endphp
                 @for($count = 1; $count<=5; $count++)
                     @if(isset($rating))
@@ -73,11 +82,11 @@
             <span>
                  @if(isset($product->discount->km_hinhanh))
                     <?php
-                    $new_price = $product->sp_giabanra - ($product->sp_giabanra*$product->discount->km_giamgia)/100
+                    $new_price = $price->pivot->giabanra - ($price->pivot->giabanra*$product->discount->km_giamgia)/100
                     ?>
                     <span>{{ number_format($new_price) }} VND</span>
                 @else
-                    <span>{{ number_format($product->sp_giabanra) }} VND</span>
+                    <span>{{ number_format($price->pivot->giabanra) }} VND</span>
                 @endif
                 <label>Số lượng:</label>
                 <input name="quantity" class="qty-product" type="number" min="1" value="1" /><br>
@@ -116,24 +125,15 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Hình ảnh 3d của sản phẩm</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
       <div class="wrapper">
-        <h1>ThreeSixty.js</h1>
         <div id="threesixty"></div>
-        <div class="buttons-wrapper">
-            <button class="button" id="prev">Prev</button>
-            <button class="button" id="next">Next</button>
         </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
   </div>

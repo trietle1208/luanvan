@@ -26,11 +26,6 @@ class HomeController extends Controller
         $categories = DanhMuc::all();
         $brands = Brand::all();
         $products = Product::where('sp_trangthai',1)->latest()->get();
-        // foreach ($products as $product){
-        //     $quantity = $product->receipt()->first();
-        // }
-        $quantity = Product::find(13)->receipt()->first();
-        // dd($quantity->toArray());
         $product_rating = Product::where('sp_trangthai',1)->withAvg('comment','bl_sosao')->orderBy('comment_avg_bl_sosao','DESC')->take(6)->get();
         $max = Product::where('sp_trangthai',1)->min('sp_giabanra');
         $min = Product::where('sp_trangthai',1)->max('sp_giabanra');

@@ -61,7 +61,11 @@ class Product extends Model
     }
 
     public function receipt(){
-        return $this->belongsToMany(Receipt::class,'chitietphieunhap','sp_id','pnh_id')->withPivot('soluong')->orderBy('chitietphieunhap.created_at','DESC')->get();
+        return $this->belongsToMany(Receipt::class,'chitietphieunhap','sp_id','pnh_id')->withPivot('soluong')->where('pnh_trangthai',1)->orderBy('chitietphieunhap.created_at','DESC')->get();
+    }
+
+    public function price(){
+        return $this->belongsToMany(Receipt::class,'chitietphieunhap','sp_id','pnh_id')->withPivot('giabanra')->where('pnh_trangthai',1)->orderBy('chitietphieunhap.created_at','DESC')->get();
     }
 
     public function receiptdetail($id) {

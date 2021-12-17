@@ -29,13 +29,13 @@
                                 <div class="table-responsive cart_info">
                                     <table class="table table-condensed">
                                         <thead>
-                                        <tr class="cart_menu text-center">
+                                        <!-- <tr class="cart_menu text-center">
                                             <td class="">Hình ảnh</td>
                                             <td class="">Giá</td>
                                             <td class="">Số lượng</td>
                                             <td class="">Thành tiền</td>
                                             <td class="">Xóa</td>
-                                        </tr>
+                                        </tr> -->
                                         </thead>
                                         <tbody>
                                         <?php

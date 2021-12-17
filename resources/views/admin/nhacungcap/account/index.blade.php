@@ -67,6 +67,7 @@
                                         <div class="mb-3">
                                             <label for="firstname" class="form-label">Họ và tên</label>
                                             <input type="text" class="form-control"
+                                                   required
                                                    id="firstname"
                                                    value="{{ $name->name }}"
                                                    placeholder="Nhập vào họ và tên">
@@ -106,7 +107,11 @@
                                                    id="userbio"
                                                    name = "address"
                                                    value="{{ $name->info->tt_diachi ?? '' }}"
+                                                   class="@error('address') is-invalid @enderror"
                                                    placeholder="Nhập vào địa chỉ">
+                                            @error('address')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div> <!-- end col -->
                                     <div class="col-6">
@@ -116,7 +121,11 @@
                                                    required
                                                    name = "phone"
                                                    value="{{ $name->info->tt_sdt ?? '' }}"
+                                                   class="@error('phone') is-invalid @enderror"
                                                    placeholder="Nhập vào số điện thoại">
+                                            @error('phone')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div> <!-- end col -->
                                 </div> <!-- end row -->
@@ -130,7 +139,11 @@
                                                    name = "age"
                                                    id="useremail"
                                                    value="{{ $name->info->tt_ngaysinh ?? '' }}"
+                                                   class="@error('age') is-invalid @enderror"
                                                    placeholder="Nhập vào họ và tên">
+                                            @error('age')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-6">

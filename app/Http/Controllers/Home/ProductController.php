@@ -166,10 +166,11 @@ class ProductController extends Controller
     public function addCart(Request $request) {
         $qty_kho = ReceiptDetail::where('sp_id',$request->id)->orderBy('created_at','DESC')->first();
         $product = Product::findOrFail($request->id);
-        $price_discount = $product->sp_giabanra;
+        $price = $product->price()->first();
+        $price_discount = $price->pivot->giabanra;
         $id_discount = 0;
         if(isset($product->discount->km_ten)){
-            $price_discount = $product->sp_giabanra - ($product->sp_giabanra*$product->discount->km_giamgia)/100;
+            $price_discount = $price->pivot->giabanra - ($price->pivot->giabanra*$product->discount->km_giamgia)/100;
             $id_discount = $product->discount->km_id;
         }
         $session_cart = Session::get('cart');
@@ -191,7 +192,7 @@ class ProductController extends Controller
         }else {
             $session_cart[$request->ncc_id][$request->id] = [
                 'name' => $product->sp_ten,
-                'price' => $product->sp_giabanra,
+                'price' => $price->pivot->giabanra,
                 'price_discount' => $price_discount,
                 'id_discount' => $id_discount,
                 'image' => $product->sp_hinhanh,
@@ -203,8 +204,6 @@ class ProductController extends Controller
             $session_cart[$request->ncc_id][0] = [];
         }
         Session::put('cart',$session_cart);
-//        Session::forget('cart');
-//        var_dump(Session::get('cart'));
         $count_cart = 0;
         foreach ($session_cart as $key => $ncc){
             foreach ($ncc as $key1 => $item){
@@ -257,23 +256,6 @@ class ProductController extends Controller
         }else{
             unset($carts[$request->idNCC][$rowId]);
             $output = '';
-            // if (count($carts[$request->idNCC]) > 1){
-            //     if(count($carts[$request->idNCC][0]) > 0){
-            //         $subtotal = 0;
-            //         foreach ($carts[$request->idNCC] as $key => $product) {
-            //             if ($key == 0) continue;
-            //             $subtotal += $product['total'];
-            //         }
-            //         if($subtotal < $carts[$request->idNCC][0]['voucherCondition']){
-            //             $carts[$request->idNCC][0] = [];
-            //             $voucher_has_deleted = Voucher::where('ncc_id',$request->idNCC)->where('mgg_dieukien','<=',$subtotal)->get();
-            //             $output = view('home.product.cart.select',compact('voucher_has_deleted'))->render();
-            //         }
-            //     }
-            // }
-            // else{
-            //     unset($carts[$request->idNCC]);
-            // }
             if(count($carts[$request->idNCC]) <= 1){
                 unset($carts[$request->idNCC]);
             }

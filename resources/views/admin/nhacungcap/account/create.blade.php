@@ -16,7 +16,7 @@
                     <div class="row mb-3">
                         <label class="col-4 col-xl-3 col-form-label">Nhập vào họ và tên:</label>
                         <div class="col-8 col-xl-9">
-                            <input type="text" class="form-control" id="inputPassword3"
+                            <input type="text" class="form-control"
                                    name="name"
                                    class="@error('name') is-invalid @enderror"
                                    placeholder="Nhập vào tên tài khoản muốn tạo">
@@ -28,12 +28,48 @@
                     <div class="row mb-3">
                         <label class="col-4 col-xl-3 col-form-label">Nhập vào email:</label>
                         <div class="col-8 col-xl-9">
-                            <input type="email" class="form-control inputEmail" id="inputPassword5"
-                                   name="gh_email"
+                            <input type="email" class="form-control inputEmail"     
+                                   name="email"
                                    data-url="{{ route('sup.account.checkEmail') }}"
-                                   class="@error('gh_email') is-invalid @enderror"
+                                   class="@error('email') is-invalid @enderror"
                                    placeholder="Nhập vào email">
-                            @error('gh_email')
+                            @error('email')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-4 col-xl-3 col-form-label">Nhập vào địa chỉ:</label>
+                        <div class="col-8 col-xl-9">
+                            <input type="text" class="form-control" 
+                                   name="address"
+                                   class="@error('address') is-invalid @enderror"
+                                   placeholder="Nhập vào địa chỉ">
+                            @error('address')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-4 col-xl-3 col-form-label">Nhập vào số điện thoại:</label>
+                        <div class="col-8 col-xl-9">
+                            <input type="text" class="form-control" 
+                                   name="phone"
+                                   class="@error('phone') is-invalid @enderror"
+                                   placeholder="Nhập vào số điện thoại">
+                            @error('phone')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-4 col-xl-3 col-form-label">Ngày sinh:</label>
+                        <div class="col-8 col-xl-9">
+                            <input type="date" class="form-control" 
+                                   name="date"
+                                   class="@error('date') is-invalid @enderror"
+                                   placeholder="Nhập vào số điện thoại">
+                            @error('date')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
@@ -41,7 +77,7 @@
                     <div class="row mb-3">
                         <label class="col-4 col-xl-3 col-form-label">Nhập vào mật khẩu:</label>
                         <div class="col-8 col-xl-9">
-                            <input type="password" class="form-control" id="inputPassword5"
+                            <input type="password" class="form-control" 
                                    name="password"
                                    class="@error('password') is-invalid @enderror"
                                    placeholder="Nhập vào mật khẩu">

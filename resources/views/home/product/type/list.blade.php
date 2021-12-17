@@ -67,6 +67,7 @@
                                     @foreach($products as $product)
                                     @php
                                         $quantity =  $product->receipt()->first();
+                                        $price = $product->price()->first();
                                     @endphp
                                         <a href="{{ route('product.detail', ['ncc' => $product->ncc_id ,'slug' => $product->sp_slug]) }}">
                                             <div class="col-sm-4">
@@ -76,9 +77,9 @@
                                                             @if(isset($product->discount->km_hinhanh))
                                                                 <img class="img-fluid float-right" src="{{ $product->discount->km_hinhanh }}" style="height: 50px; width: 80px; float: right" alt="" />
                                                                 <img src="{{ $product->sp_hinhanh }}" style="width: 250px; height: 250px" alt="" />
-                                                                <h2><del>{{ number_format($product->sp_giabanra) }} VND</del></h2>
+                                                                <h2><del>{{ number_format($price->pivot->giabanra) }} VND</del></h2>
                                                                 <?php
-                                                                $new_price = $product->sp_giabanra - ($product->sp_giabanra*$product->discount->km_giamgia)/100
+                                                                $new_price = $price->pivot->giabanra - ($price->pivot->giabanra*$product->discount->km_giamgia)/100
                                                                 ?>
                                                                 <h2>{{ number_format($new_price) }} VND</h2>
                                                                 <p>{{ $product->sp_ten }}</p>
@@ -131,7 +132,7 @@
                                                                 @endif
                                                             @else
                                                                 <img src="{{ $product->sp_hinhanh }}" style="width: 250px; height: 250px" alt="" />
-                                                                <h2>{{ number_format($product->sp_giabanra) }} VND</h2>
+                                                                <h2>{{ number_format($price->pivot->giabanra) }} VND</h2>
                                                                 <p>{{ $product->sp_ten }}</p>
                                                                 <ul class="list-inline" title="Average Rating">
                                                                     @php

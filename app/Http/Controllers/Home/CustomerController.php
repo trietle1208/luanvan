@@ -382,12 +382,13 @@ class CustomerController extends Controller
             'name' => 'required|max:255',
             'phone' => 'required|numeric',
             'sex' => 'required',
-            'date' => 'required',
+            'date' => 'required|before: 18 years ago',
         ],[
             'name.required' => 'Vui lòng không để trống mục họ và tên.',
             'phone.required' => 'Vui lòng không để trống mục số điện thoại.',
             'sex.required' => 'Vui lòng chọn giới tính.',
             'date.required' => 'Vui lòng không để trống mục ngày sinh.',
+            'date.before' => 'Tuổi của bạn phải đủ 18 tuổi.',
             'phone.numeric' => 'Số điện thoại nhập vào phải là kiểu số.',
         ]);
         if ($validator->fails()) {

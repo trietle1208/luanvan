@@ -9,25 +9,6 @@ Danh mục sản phẩm
     <div class="card">
         <div class="card-body">
             <h2 class="header-title text-center">THÊM DANH MỤC SẢN PHẨM</h2>
-            <?php
-            $message = Session::get('message');
-            if($message)
-            {
-                echo '<span class="text-danger">'.$message.'</span>';
-                Session::put('message',null);
-            }
-            ?>
-{{--            <div class="row mb-3">--}}
-{{--                @if ($errors->any())--}}
-{{--                    <div class="alert alert-danger">--}}
-{{--                        <ul>--}}
-{{--                            @foreach ($errors->all() as $error)--}}
-{{--                                <li>{{ $error }}</li>--}}
-{{--                            @endforeach--}}
-{{--                        </ul>--}}
-{{--                    </div>--}}
-{{--                @endif--}}
-{{--            </div>--}}
             <form class="form-horizontal" action="{{ route('admin.cate.store') }}" method="post">
                 @csrf
                 <div class="row mb-3">
