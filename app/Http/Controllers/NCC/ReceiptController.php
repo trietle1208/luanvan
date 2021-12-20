@@ -115,12 +115,13 @@ class ReceiptController extends Controller
                         'idsp' => $idsp,
                         'quantity' => $request->arr_quantity[$key],
                         'price' => $request->arr_price[$key],
+                        'price_sell' => $request->arr_price_sell[$key],
                         'total' => $request->arr_quantity[$key] * $request->arr_price[$key],
                     ];
                 }
             }
             Session::put('product', $product);
-
+            dd($product->toArray());
             $product_get = Session::get('product');
             foreach ($product_get as $item) {
                 $sum += $item['total'];
@@ -159,7 +160,7 @@ class ReceiptController extends Controller
                     'soluong' => $item['quantity'],
                     'soluonggoc' => $item['quantity'],
                     'giagoc' => $item['price'],
-                    'giabanra' => $product->sp_giabanra,
+                    'giabanra' => $item['price_sell'],
                 ]);
             }
             Session::forget('product');
@@ -178,6 +179,8 @@ class ReceiptController extends Controller
 
     public function select(Request $request){
        $products = Product::where('ncc_id',$request->id)->get();
+    //    $product = Session::get('product');
+    //    dd($product);
        return response()->json([
           'code' => 200,
           'output' => view('admin.nhacungcap.receipt.select',compact('products'))->render(),
@@ -194,6 +197,7 @@ class ReceiptController extends Controller
                         'id' => $request->id,
                         'quantity' => $request->qty,
                         'price' => $request->price,
+                        'price_sell' => $request->price_sell,
                         'total' => $request->qty * $request->price,
                     ];
                 }
@@ -209,6 +213,7 @@ class ReceiptController extends Controller
                 'name' => $name,
                 'qty' => $request->qty,
                 'price' => number_format($request->price),
+                'price_sell' => number_format($request->price_sell),
             ]);
         }
     }
@@ -260,6 +265,7 @@ class ReceiptController extends Controller
             'soluong' => $request->qty,
             'soluonggoc' => $request->qty,
             'giagoc' => $request->price,
+            'giabanra' => $request->price_sell,
         ]);
         $receipt = Receipt::find($request->idReceipt);
         foreach ($receipt->receipt_detail as $detail) {

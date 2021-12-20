@@ -36,6 +36,42 @@
                         </div>
                     </div>
                     <div class="row mb-3">
+                        <label class="col-4 col-xl-3 col-form-label">Nhập vào địa chỉ:</label>
+                        <div class="col-8 col-xl-9">
+                            <input type="text" class="form-control" 
+                                   name="address"
+                                   class="@error('address') is-invalid @enderror"
+                                   placeholder="Nhập vào địa chỉ">
+                            @error('address')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-4 col-xl-3 col-form-label">Nhập vào số điện thoại:</label>
+                        <div class="col-8 col-xl-9">
+                            <input type="text" class="form-control" 
+                                   name="phone"
+                                   class="@error('phone') is-invalid @enderror"
+                                   placeholder="Nhập vào số điện thoại">
+                            @error('phone')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-4 col-xl-3 col-form-label">Ngày sinh:</label>
+                        <div class="col-8 col-xl-9">
+                            <input type="date" class="form-control" 
+                                   name="date"
+                                   class="@error('date') is-invalid @enderror"
+                                   placeholder="Nhập vào số điện thoại">
+                            @error('date')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="row mb-3">
                         <label class="col-4 col-xl-3 col-form-label">Nhập vào mật khẩu:</label>
                         <div class="col-8 col-xl-9">
                             <input type="password" class="form-control" id="inputPassword5"

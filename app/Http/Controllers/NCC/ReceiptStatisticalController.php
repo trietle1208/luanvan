@@ -377,12 +377,12 @@ class ReceiptStatisticalController extends Controller
 
         foreach ($count_receipt as $item){
             if($item['trangthai'] == 0){
-                $count_delete = $item['count'];
+                $count_delete += $item['count'];
             }
             else if($item['trangthai'] == 1)
             {
-                $count_success = $item['count'];
-                $total_receipt = $item['tongtien'];
+                $count_success += $item['count'];
+                $total_receipt += $item['tongtien'];
             }
         }
 
@@ -391,8 +391,8 @@ class ReceiptStatisticalController extends Controller
             $total = 0;
             foreach ($count_receipt_success as $item){
                 if($item['month'] == $month){
-                    $count = $item['count'];
-                    $total = $item['tongtien'];
+                    $count += $item['count'];
+                    $total += $item['tongtien'];
                     break;
                 }
             }
@@ -404,7 +404,7 @@ class ReceiptStatisticalController extends Controller
             $count = 0;
             foreach ($count_receipt_delete as $item){
                 if($item['month'] == $month){
-                    $count = $item['count'];
+                    $count += $item['count'];
                     break;
                 }
             }

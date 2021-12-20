@@ -1025,9 +1025,10 @@
             var url = $(this).data('url');
             var qty = $('.qty_' + id).val();
             var price = $('.price_' + id).val();
+            var price_sell = $('.price_sell_' + id).val();
             var qty_old = $('.qty_old_' + id).html();
             var intRegex = /^\d+$/;
-            if(qty == '' || price == ''){
+            if(qty == '' || price == '' || price_sell == ''){
                 Swal.fire(
                 'Cảnh báo',
                 'Vui lòng không để trống mục số lượng hoặc giá gốc',
@@ -1039,7 +1040,14 @@
                 'Vui lòng không nhập mục số lượng hoặc giá gốc là số âm',
                 'error'
                 );
-            }else if(!intRegex.test(price) || !intRegex.test(qty)) {
+            }else if(price_sell < price){
+                Swal.fire(
+                'Cảnh báo',
+                'Giá bán ra không được nhỏ hơn giá nhập vào',
+                'error'
+                );
+            }
+            else if(!intRegex.test(price) || !intRegex.test(qty) || !intRegex.test(price_sell)) {
                 Swal.fire(
                 'Cảnh báo',
                 'Vui lòng nhập mục số lượng hoặc giá gốc là kiểu số',
@@ -1054,6 +1062,7 @@
                         'id' : id,
                         'qty' : qty,
                         'price' : price,
+                        'price_sell' : price_sell,
                     },
                     success : function (data) {
                         if(data.code == 200){
@@ -1061,6 +1070,7 @@
                             that.css('display','none');
                             $('.qty_' + id).attr('readonly',true);
                             $('.price_' + id).attr('readonly',true);
+                            $('.price_sell_' + id).attr('readonly',true);
                             $('.sum').val(data.sum);
                             $('.select-product').append(data.name);
                         }
@@ -1086,6 +1096,7 @@
                         that.parent().find('.addProductReceipt').css('display','block');
                         $('.qty_' + id).val('').attr('readonly',false);
                         $('.price_' + id).val('').attr('readonly',false);
+                        $('.price_sell_' + id).val('').attr('readonly',false);
                         that.css('display','none');
                         $('.sum').val(data.sum);
 
@@ -1120,6 +1131,7 @@
     <script>
         $(document).on('click','.changeProductReceipt',function (){
             $(this).parents('tr').find('.price').attr('readonly',false);
+            $(this).parents('tr').find('.price_sell').attr('readonly',false);
             $(this).parents('tr').find('.qty').attr('readonly',false);
             $(this).css('display','none');
             $(this).parents('tr').find('.saveProductReceipt').css('display','block');
@@ -1135,11 +1147,14 @@
             var url = $(this).data('url');
             var intRegex = /^\d+$/;
             var price_up = $(this).parents('tr').find('.price').val();
+            var price_sell_up = $(this).parents('tr').find('.price_sell').val();
             var qty_up = $(this).parents('tr').find('.qty').val();
-            if(price_up == '' || qty_up == ''){
+            if(price_up == '' || qty_up == '' || price_sell_up == ''){
                 alert('Vui lòng không để trống 1 trống 2 mục số lượng và giá nhập vào!');
-            }else if(!intRegex.test(price_up) || !intRegex.test(qty_up)){
+            }else if(!intRegex.test(price_up) || !intRegex.test(qty_up) || !intRegex.test(price_sell_up)){
                 alert('Giá nhập vào và số lượng của sản phẩm phải là kiểu số!');
+            }else if(price_sell_up < price_up){
+                alert('Giá bán ra không được nhỏ hơn giá nhập vào!');
             }else{
                 $.ajax({
                     type : 'GET',
@@ -1150,6 +1165,7 @@
                       'idReceipt' : idReceipt,
                       'qty' : qty_up,
                       'price' : price_up,
+                      'price_sell' : price_sell_up,
                     },
 
                     success : function (data) {

@@ -84,7 +84,7 @@ class ProductController extends Controller
             'name' => 'required|max:255',
             'desc' => 'required',
             'detail' => 'required',
-            'price' => 'required|numeric',
+            // 'price' => 'required|numeric',
             'insurance' => 'required|numeric',
             'cate' => 'required',
             'brand' => 'required',
@@ -97,11 +97,11 @@ class ProductController extends Controller
             'desc.required' => 'Vui lòng không để trống mục mô tả của sản phẩm',
             'detail.required' => 'Vui lòng không để trống mục chi tiết của sản phẩm.',
             'insurance.required' => 'Vui lòng không để trống mục thời gian bảo hành của sản phẩm.',
-            'price.required' => 'Vui lòng không để trống mục giá của sản phẩm.',
+            // 'price.required' => 'Vui lòng không để trống mục giá của sản phẩm.',
             'cate.required' => 'Vui lòng chọn danh mục cho sản phẩm.',
             'brand.required' => 'Vui lòng chọn thương hiệu cho sản phẩm.',
             'insurance.numeric' => 'Thời gian bảo hành của sản phẩm nhập vào phải là kiểu số',
-            'price.numeric' => 'Giá tiền của sản phẩm nhập vào phải là kiểu số.',
+            // 'price.numeric' => 'Giá tiền của sản phẩm nhập vào phải là kiểu số.',
             'chitietthongso.required' => 'Vui lòng không để trống mục chi tiết thông số.',
             'chitietthongso.*.max' => 'Vui lòng nhập không vượt quá 255 kí tự.',
             'thongso.required' => 'Vui lòng không để trống mục thông số.',
@@ -115,7 +115,7 @@ class ProductController extends Controller
         }
         $dataProduct = [
             'sp_ten' => $request->name,
-            'sp_giabanra' => $request->price,
+            // 'sp_giabanra' => $request->price,
             'sp_mota' => $request->desc,
             'sp_slug' => str_slug($request->name),
             'sp_chitiet' => $request->detail,
@@ -234,7 +234,7 @@ class ProductController extends Controller
     {
         $dataUpdate = [
             'sp_ten' => $request->name,
-            'sp_giabanra' => $request->price,
+            // 'sp_giabanra' => $request->price,
             'sp_mota' => $request->desc,
             'sp_slug' => str_slug($request->name),
             'sp_chitiet' => $request->detail,

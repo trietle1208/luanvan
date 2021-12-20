@@ -29,6 +29,7 @@
                     <th>Hình ảnh sản phẩm</th>
                     <th>Số lượng nhập vào</th>
                     <th>Giá nhập vào</th>
+                    <th>Giá bán ra</th>
                     <th>Hành động</th>
                 </tr>
                 </thead>
@@ -46,6 +47,9 @@
                         </td>
                         <td>
                             <input class="form-control price" value="{{ $product->receiptdetail($receipt->pnh_id)->first()->giagoc }}" readonly>
+                        </td>
+                        <td>
+                            <input class="form-control price_sell" value="{{ $product->receiptdetail($receipt->pnh_id)->first()->giabanra }}" readonly>
                         </td>
                         <td>
                             <button class="btn btn-primary changeProductReceipt" style="display: block;">Chỉnh sửa</button>

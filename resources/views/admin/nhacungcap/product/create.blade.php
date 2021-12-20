@@ -68,7 +68,7 @@
                             <div class="error detail"></div>
                         </div>
                     </div>
-                    <div class="row mb-3">
+                    <!-- <div class="row mb-3">
                         <label class="col-4 col-xl-3 col-form-label">Giá bán ra của sản phẩm:</label>
                         <div class="col-8 col-xl-9">
                             <input type="number" class="form-control price" id="inputPassword5"
@@ -78,7 +78,7 @@
                             <div class="error price"></div>
                         </div>
 
-                    </div>
+                    </div> -->
                     <div class="row mb-3">
                         <label class="col-4 col-xl-3 col-form-label">Thời gian bảo hành:</label>
                         <div class="col-8 col-xl-9">

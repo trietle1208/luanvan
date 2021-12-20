@@ -665,6 +665,7 @@ class ProductStatisticalController extends Controller
         $arr_product_total_receipt = [];
         $total_sales = 0;
         $total_receipt = 0;
+        dd($product_sales->toArray());
         foreach($product_sales as $item){
             $total_sales = 0;
             if($item['orderdetail'] != null){

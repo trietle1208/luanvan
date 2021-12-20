@@ -205,10 +205,9 @@ $(document).on('click','.fillByMonth',function(e){
 //Thống kê theo từng quý
 $(document).on('click','.fillBy3Month',function(e){
     e.preventDefault();
-    var type = $('.typeOption').val();
+    var type = $('.type').val();
     var year = $('.valYear').val();
     var url = $(this).data('url');
-
     $.ajax({
         type : 'GET',
         url : url,

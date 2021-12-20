@@ -18,7 +18,7 @@ class AccountController extends Controller
         $this->user = $user;
     }
     public function index() {
-        $users= $this->user->latest()->paginate(10);
+        $users= $this->user->latest()->get();
         return view('admin.manager.account.index', compact('users',));
     }
 

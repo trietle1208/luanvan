@@ -92,7 +92,7 @@
                                 <li>
                                     <a href="{{ route('product.showCart') }}" id="show_cart"><i class="fa fa-shopping-cart"></i> Giỏ hàng<span id="count_cart">{{ $count_cart }}<span></a>
                                     <div id="hover_cart" style="display: block; width: 100px">
-                                        <ul>
+                                        <!-- <ul>
                                             <li>
                                                 <a>
                                                     <img src="{{ asset('asset/images/avt_null.jpg') }}" style="width : 100px; height : 100px">
@@ -114,14 +114,14 @@
                                                     <p>5000000</p>
                                                 </a>
                                             </li>
-                                        </ul>
+                                        </ul> -->
                                     </div>
                                 </li>
                             @else
                             <li>
                                 <a href="{{ route('product.showCart') }}" id="show_cart"><i class="fa fa-shopping-cart"></i> Giỏ hàng<span id="count_cart" style="display: none"><span></a>
                                 <div id="hover_cart" style="display: none; width: 100px">
-                                    <ul class="ul-cart">
+                                    <!-- <ul class="ul-cart">
                                         <li>
                                             <a>
                                                 <img src="{{ asset('assets/images/avt_null.jpg') }}" style="width : 100px; height : 100px">
@@ -143,7 +143,7 @@
                                                 <p>5000000</p>
                                             </a>
                                         </li>
-                                    </ul>
+                                    </ul> -->
                                 </div>
                             </li>
                             @endif

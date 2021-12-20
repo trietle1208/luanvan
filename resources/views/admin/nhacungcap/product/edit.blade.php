@@ -60,7 +60,7 @@
                             </textarea>
                         </div>
                     </div>
-                    <div class="row mb-3">
+                    <!-- <div class="row mb-3">
                         <label class="col-4 col-xl-3 col-form-label">Giá bán ra của sản phẩm:</label>
                         <div class="col-8 col-xl-9">
                             <input type="text" class="form-control" id="inputPassword5"
@@ -68,7 +68,7 @@
                                    value="{{ $products->sp_giabanra }}"
                                    placeholder="Nhập vào giá bán ra của sản phẩm">
                         </div>
-                    </div>
+                    </div> -->
                     <div class="row mb-3">
                         <label class="col-4 col-xl-3 col-form-label">Thời gian bảo hành:</label>
                         <div class="col-8 col-xl-9">

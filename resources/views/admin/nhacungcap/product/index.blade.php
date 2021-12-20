@@ -18,7 +18,7 @@ Sản phẩm
                                 <th>Tên sản phẩm</th>
                                 <th>Hinh ảnh sản phẩm</th>
                                 {{-- <th>Mô tả</th>--}}
-                                <th>Giá bán ra</th>
+                                <!-- <th>Giá bán ra</th> -->
                                 <th>Thời gian bảo hành</th>
                                 <th>Trang thái</th>
                                 <th>Hành động</th>
@@ -33,7 +33,7 @@ Sản phẩm
                                     <img src="{{ $product['sp_hinhanh'] }}" style="width: 180px ; height: 120px">
                                 </td>
                                 {{-- <td>{{ $product['sp_mota'] }}</td>--}}
-                                <td>{{ number_format($product['sp_giabanra']) }} VNĐ</td>
+                                <!-- <td>{{ number_format($product['sp_giabanra']) }} VNĐ</td> -->
                                 <td>{{ $product['sp_thoigianbaohanh'] }}</td>
                                 @if($product['sp_trangthai'] == 0)
                                 <td>Chưa duyệt</td>
@@ -87,7 +87,7 @@ Sản phẩm
                         <p><strong>Thuộc danh mục : </strong>{{ $product->cate->dm_ten }}</p>
                         <p><strong>Thuộc thương hiệu : </strong>{{ $product->brand->th_ten }}</p>
                         <p><strong>Thời gian bảo hành : </strong>{{ $product->sp_thoigianbaohanh }} tháng</p>
-                        <p><strong>Giá : </strong>{{ number_format($product->sp_giabanra) }} VNĐ</p>
+                        <!-- <p><strong>Giá : </strong>{{ number_format($product->sp_giabanra) }} VNĐ</p> -->
                         <img src="{{ $product->sp_hinhanh }}" class="img-fuild" style="width:150px ; height:150px">
                     </div>
                     <div class="col-6">
