@@ -62,13 +62,16 @@
                                 </li>
                             @endfor
                         </ul>
+                        @php
+                            $price = $product->price()->first();
+                        @endphp
                         @if(isset($product->discount->km_hinhanh))
                             <?php
-                            $new_price = $product->sp_giabanra - ($product->sp_giabanra*$product->discount->km_giamgia)/100
+                            $new_price = $price->pivot->giabanra - ($price->pivot->giabanra*$product->discount->km_giamgia)/100
                             ?>
                             <h3 class="price_product"><strong>{{ number_format($new_price) }} VND</strong></h3>
                         @else
-                            <h3 class="price_product"><strong>{{ number_format($product->sp_giabanra) }} VND</strong></h3>
+                            <h3 class="price_product"><strong>{{ number_format($price->pivot->giabanra) }} VND</strong></h3>
                         @endif
                         @if($quantityProduct > 0)
                             <strong>Tình trạng : </strong> Còn {{ $quantityProduct }} sản phẩm<br>

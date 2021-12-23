@@ -127,7 +127,7 @@
                                 <label for="exampleInputEmail1">Ngày sinh</label>
                                 <input type="date" name="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Nhập vào tài khoản Email">
                             </div>
-                            <button type="submit" class="btn btn-success btn-block">Đăng kí</button>
+                            <button type="submit" class="btn btn-success btn-block register">Đăng kí</button>
                             <p class="signin_link">Bạn đã có tài khoản? <a class="toLogin">Đăng nhập tại đây</a></p> 
                         </form>
                     </div>

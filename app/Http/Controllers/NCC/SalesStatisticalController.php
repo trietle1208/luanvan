@@ -16,99 +16,100 @@ class SalesStatisticalController extends Controller
     public function index(){   
         $sum_voucher = 0;
         $sum_discount = 0;
-
+        $total_receipt = 0;
+        $total_order = 0;
         $receipt = Receipt::where('ncc_id',Auth::user()->ncc_id)->get();
         $total_receipt = $receipt->where('pnh_trangthai',1)->sum('pnh_tongcong');
         
         $order = OrderNCC::where('ncc_id',Auth::user()->ncc_id)->get();
         $total_order = $order->WhereIn('trangthai',[4,5])->sum('tongtien');
-
-        $total_sales = $total_order - $total_receipt;
-        $percent_sales = $total_order/$total_receipt;
+        // if(!$receipt->isEmpty() && !$total_receipt->isEmpty() && !$order->isEmpty() && !$total_order->isEmpty()){
+            $total_sales = $total_order - $total_receipt;
+            $percent_sales = $total_order/$total_receipt;
+            
+            $discount =  OrderNCC::where('ncc_id',Auth::user()->ncc_id)->with(['voucher'])->get();
+            if(!$discount->isEmpty()){
+                foreach ($discount as $item){
+                    if($item['voucher']){
+                        if($item['voucher']['mgg_hinhthuc'] == 0)
+                        {
+                            $sum_voucher += $item['voucher']['mgg_sotiengiam'];
+                        }
+                        else
+                        {
+                            $sum_voucher +=  $item['tongtien']*$item['voucher']['mgg_sotiengiam'];
+                        }
+                    }
+                }
+            }
+            $arr_month = [1,2,3,4,5,6,7,8,9,10,11,12];
+            $arr_receipt = [];
+            $arr_order = [];
+            $arr_sales = [];
+            $arr_total_once_receipt = Receipt::where('ncc_id',Auth::user()->ncc_id)->where('pnh_trangthai',1)    
+                                    ->select(DB::raw('count(*) count , MONTH(created_at) month, SUM(pnh_tongcong) tongtien'))
+                                    ->groupBy('month')
+                                    ->get();
+    
+            $arr_total_once_order = OrderNCC::where('ncc_id',Auth::user()->ncc_id)->WhereIn('trangthai',[4,5])   
+                                    ->select(DB::raw('count(*) count , MONTH(created_at) month, SUM(tongtien) tongtien'))
+                                    ->groupBy('month')
+                                    ->get();
+    
+            foreach ($arr_month as $month){
+                $total = 0;
+                $count = 0;
+                foreach($arr_total_once_receipt as $item){
+                    if($item['month'] == $month){
+                        $total = $item['tongtien'];
+                        $count = $item['count'];
+                    }
+                }
+                $arr_receipt[] = $total;
+            }
+    
+            foreach ($arr_month as $month){
+                $total = 0;
+                $count = 0;
+                foreach($arr_total_once_order as $item){
+                    if($item['month'] == $month){
+                        $total = $item['tongtien'];
+                        $count = $item['count'];
+                    }
+                }
+                $arr_order[] = $total;
+            }
+    
+            foreach ($arr_month as $month){
+                $receipt = 0;
+                $order = 0;
+                $sales = 0;
+                foreach($arr_total_once_receipt as $item){
+                    if($item['month'] == $month){
+                        $receipt = $item['tongtien'];
+                    }
+                }
+                foreach($arr_total_once_order as $item){
+                    if($item['month'] == $month){
+                        $order = $item['tongtien'];
+                    }
+                }
+                $sales = $order - $receipt;
+                $arr_sales[] = $sales;
+            }
+    
+            $total = [
+                'total_receipt' => $total_receipt,
+                'total_order' => $total_order,
+                'total_sales' => $total_sales,
+                'percent_sales' => $percent_sales,
+                'arr_receipt' => json_encode($arr_receipt),
+                'arr_order' => json_encode($arr_order),
+                'arr_sales' => json_encode($arr_sales),
+                'arr_month' => json_encode($arr_month),
+            ];
+            return view('admin.nhacungcap.statistical.sales.index',$total);
         
-        $discount =  OrderNCC::where('ncc_id',Auth::user()->ncc_id)->with(['voucher'])->get();
-        
-        foreach ($discount as $item){
-            if($item['voucher']){
-                if($item['voucher']['mgg_hinhthuc'] == 0)
-                {
-                    $sum_voucher += $item['voucher']['mgg_sotiengiam'];
-                }
-                else
-                {
-                    $sum_voucher +=  $item['tongtien']*$item['voucher']['mgg_sotiengiam'];
-                }
-            }
-        }
-        
-        $arr_month = [1,2,3,4,5,6,7,8,9,10,11,12];
-        $arr_receipt = [];
-        $arr_order = [];
-        $arr_sales = [];
-        $arr_total_once_receipt = Receipt::where('ncc_id',Auth::user()->ncc_id)->where('pnh_trangthai',1)    
-                                ->select(DB::raw('count(*) count , MONTH(created_at) month, SUM(pnh_tongcong) tongtien'))
-                                ->groupBy('month')
-                                ->get();
-
-        $arr_total_once_order = OrderNCC::where('ncc_id',Auth::user()->ncc_id)->WhereIn('trangthai',[4,5])   
-                                ->select(DB::raw('count(*) count , MONTH(created_at) month, SUM(tongtien) tongtien'))
-                                ->groupBy('month')
-                                ->get();
-
-        foreach ($arr_month as $month){
-            $total = 0;
-            $count = 0;
-            foreach($arr_total_once_receipt as $item){
-                if($item['month'] == $month){
-                    $total = $item['tongtien'];
-                    $count = $item['count'];
-                }
-            }
-            $arr_receipt[] = $total;
-        }
-
-        foreach ($arr_month as $month){
-            $total = 0;
-            $count = 0;
-            foreach($arr_total_once_order as $item){
-                if($item['month'] == $month){
-                    $total = $item['tongtien'];
-                    $count = $item['count'];
-                }
-            }
-            $arr_order[] = $total;
-        }
-
-        foreach ($arr_month as $month){
-            $receipt = 0;
-            $order = 0;
-            $sales = 0;
-            foreach($arr_total_once_receipt as $item){
-                if($item['month'] == $month){
-                    $receipt = $item['tongtien'];
-                }
-            }
-            foreach($arr_total_once_order as $item){
-                if($item['month'] == $month){
-                    $order = $item['tongtien'];
-                }
-            }
-            $sales = $order - $receipt;
-            $arr_sales[] = $sales;
-        }
-
-        $total = [
-            'total_receipt' => $total_receipt,
-            'total_order' => $total_order,
-            'total_sales' => $total_sales,
-            'percent_sales' => $percent_sales,
-            'arr_receipt' => json_encode($arr_receipt),
-            'arr_order' => json_encode($arr_order),
-            'arr_sales' => json_encode($arr_sales),
-            'arr_month' => json_encode($arr_month),
-        ];
-
-        return view('admin.nhacungcap.statistical.sales.index',$total);
     }
 
     public function fillByMonth(Request $request){

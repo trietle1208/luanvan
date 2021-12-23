@@ -67,6 +67,26 @@
                 .progressbar li.active + li:after {
                     background-color: #43D018;
                 }
+
+                .fw-bold {
+                    color : #F74545;
+                }
+
+                .fw-bold1 {
+                    color : #0D5BB5;
+                }
+                
+                .subtotal {
+                    color : #0D5BB5;
+                }
+
+                .order-subtotal {
+                    color : #F74545;
+                }
+
+                .fee-ship {
+                    color : #E65516;
+                }
             </style>
             <div class="container">
                 <ul class="progressbar">
@@ -114,35 +134,35 @@
                             @else
                             <td class="text-danger"><strong>Không sử dụng khuyến mãi</strong></td>
                             @endif
-                            <td>{{ number_format($item->gia) }} VNĐ</td>
+                            <td class="subtotal"><b>{{ number_format($item->gia) }} VNĐ</b></td>
                             <input class="price_{{ $item->product->sp_id }}" type="hidden" value="{{ $item->gia }}">
                             @if($orderNCC->dh_trangthai == 0 && $order->ht_id == 2)
                                 <td class="text-center">
-                                    <span class="qty_{{ $item->product->sp_id }}">{{ $item->soluong }}</span>
+                                    <span class="qty_{{ $item->product->sp_id }}"><b>{{ $item->soluong }}</b></span>
                                 </td>
                             @else
-                                <td class="text-center">{{ $item->soluong }}</td>
+                                <td class="text-center"><b>{{ $item->soluong }}</b></td>
                             @endif
-                            <td class="order-subtotal">{{ number_format($item->soluong * $item->gia)  }} VNĐ</td>
+                            <td class="order-subtotal"><b>{{ number_format($item->soluong * $item->gia)  }} VNĐ</b></td>
                         </tr>
                     @endforeach
                     
                 @endforeach
                 <tr>
                     <th scope="row" colspan="1" class="text-end">Tạm tính : </th>
-                    <td><div class="fw-bold">{{ number_format($subtotal) }} VNĐ</div></td>
+                    <td><div class="fw-bold1"><b>{{ number_format($subtotal) }} VNĐ</b></div></td>
                 </tr>
                 <tr>
                     <th scope="row" colspan="1" class="text-end">Phí vận chuyện :</th>
-                    <td>{{ number_format($fee) }} VNĐ</td>
+                    <td class="fee-ship"><b>{{ number_format($fee) }} VNĐ</b></td>
                 </tr>
                 <tr>
                     <th scope="row" colspan="1" class="text-end">Số tiền được giảm :</th>
-                    <td>{{ number_format($voucher) }} VNĐ</td>
+                    <td class="fw-bold1"><b>{{ number_format($voucher) }} VNĐ</b></td>
                 </tr>
                 <tr>
                     <th scope="row" colspan="1" class="text-end">Tổng tiền :</th>
-                    <td><div class="fw-bold">{{ number_format($order->dh_tongtien) }} VNĐ</div></td>
+                    <td><div class="fw-bold"><b>{{ number_format($order->dh_tongtien) }} VNĐ</b></div></td>
                 </tr>
                 </tbody>
                 <div class="col-md-12">
@@ -192,7 +212,7 @@
                         data-dismiss="modal">Xác nhận nhận hàng
                 </button>
             @endif
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
         </div>
     </div>
 </div>

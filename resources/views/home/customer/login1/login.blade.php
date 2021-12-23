@@ -47,7 +47,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 </div>
                 <div class="pom-agile">
                     <input  placeholder="Điền vào số điện thoại" name="phone" class="pass" type="text" >
-                </div>
+                </div>  
                 <div class="pom-agile">
                     <select name="sex" required>
                         <option value="">--- Chọn giới tính ---</option>
@@ -105,6 +105,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             $('.login').css('display','none');
         })
     </script>
+    
     <!--//main-->
     <!--footer-->
     <!--//footer-->

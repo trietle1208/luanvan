@@ -284,7 +284,6 @@ class CheckoutController extends Controller
                     $order_new = Order::find($dataCreateOrder)->load('address.customer');
                     $users = User::whereNull('ncc_id')->where('loaitaikhoan',0)->get();
                     Notification::send($users, new OrderNotification($order_new));
-                    
                     DB::commit();
                     return response()->json([
                         'code' => 200,

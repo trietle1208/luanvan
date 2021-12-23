@@ -108,18 +108,10 @@ $(document).on('click','.fillProductByMonth',function(e){
 
                             <td>
                                 <h5 class="m-0 fw-normal">${ value['sp_ten'] }</h5>
-                                <p class="mb-0 text-muted"><small>${ value['created_at'] }</small></p>
                             </td>
 
                             <td>
                                 ${ value['orderdetail_sum_soluong'] } sản phẩm
-                            </td>
-
-                            <td>
-                                <a href="" class="btn btn-xs btn-light detail_product"
-                                data-id="${ value['sp_id'] }"
-                                data-url="{{ route('sup.product.detail') }}"
-                                >Chi tiết</a>
                             </td>
                         </tr> 
                     `)
@@ -167,18 +159,10 @@ $(document).on('click','.fillProductBy3Month',function(e) {
 
                             <td>
                                 <h5 class="m-0 fw-normal">${ value['sp_ten'] }</h5>
-                                <p class="mb-0 text-muted"><small>${ value['created_at'] }</small></p>
                             </td>
 
                             <td>
                                 ${ value['orderdetail_sum_soluong'] } sản phẩm
-                            </td>
-
-                            <td>
-                                <a href="" class="btn btn-xs btn-light detail_product"
-                                data-id="${ value['sp_id'] }"
-                                data-url="{{ route('sup.product.detail') }}"
-                                >Chi tiết</a>
                             </td>
                         </tr> 
                     `)
@@ -225,18 +209,10 @@ $(document).on('click','.fillProductByDate',function(e){
 
                             <td>
                                 <h5 class="m-0 fw-normal">${ value['sp_ten'] }</h5>
-                                <p class="mb-0 text-muted"><small>${ value['created_at'] }</small></p>
                             </td>
 
                             <td>
                                 ${ value['orderdetail_sum_soluong'] } sản phẩm
-                            </td>
-
-                            <td>
-                                <a href="" class="btn btn-xs btn-light detail_product"
-                                data-id="${ value['sp_id'] }"
-                                data-url="{{ route('sup.product.detail') }}"
-                                >Chi tiết</a>
                             </td>
                         </tr> 
                     `)
@@ -281,19 +257,12 @@ $(document).on('click','.fillProductSalesByMonth',function(e){
 
                         <td>
                             <h5 class="m-0 fw-normal">${ value['sp_ten'] }</h5>
-                            <p class="mb-0 text-muted"><small>${ value['created_at'] }</small></p>
                         </td>
 
                         <td>
                             ${ Intl.NumberFormat('vi-VN').format(value['total']) } VNĐ
                         </td>
 
-                        <td>
-                            <a href="" class="btn btn-xs btn-light detail_product"
-                            data-id="${ value['sp_id'] }"
-                            data-url="{{ route('sup.product.detail') }}"
-                            >Chi tiết</a>
-                        </td>
                     </tr> 
                 `)
                 })    
@@ -332,19 +301,13 @@ $(document).on('click','.fillProductSalesBy3Month',function(e){
 
                         <td>
                             <h5 class="m-0 fw-normal">${ value['sp_ten'] }</h5>
-                            <p class="mb-0 text-muted"><small>${ value['created_at'] }</small></p>
                         </td>
 
                         <td>
                             ${ Intl.NumberFormat('vi-VN').format(value['total']) } VNĐ
                         </td>
 
-                        <td>
-                            <a href="" class="btn btn-xs btn-light detail_product"
-                            data-id="${ value['sp_id'] }"
-                            data-url="{{ route('sup.product.detail') }}"
-                            >Chi tiết</a>
-                        </td>
+                        
                     </tr> 
                 `)
                 })    
@@ -390,19 +353,13 @@ $(document).on('click','.fillProductSalesByDate',function(e){
 
                             <td>
                                 <h5 class="m-0 fw-normal">${ value['sp_ten'] }</h5>
-                                <p class="mb-0 text-muted"><small>${ value['created_at'] }</small></p>
                             </td>
 
                             <td>
                                 ${ Intl.NumberFormat('vi-VN').format(value['total']) } VNĐ
                             </td>
 
-                            <td>
-                                <a href="" class="btn btn-xs btn-light detail_product"
-                                data-id="${ value['sp_id'] }"
-                                data-url="{{ route('sup.product.detail') }}"
-                                >Chi tiết</a>
-                            </td>
+                            
                         </tr> 
                     `)
                     })    

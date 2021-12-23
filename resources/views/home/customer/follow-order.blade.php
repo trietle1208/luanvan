@@ -67,6 +67,10 @@
                 .progressbar li.active + li:after {
                     background-color: #43D018;
                 }
+
+                .order-subtotal {
+                    color : #F74545;
+                }
             </style>
             <div class="container">
                 <ul class="progressbar">
@@ -115,7 +119,7 @@
                             @endif
                             <td>{{ number_format($item->gia) }} VNĐ</td>
                             <td class="text-center">{{ $item->soluong }}</td>
-                            <td class="order-subtotal">{{ number_format($item->soluong * $item->gia)  }} VNĐ</td>
+                            <td class="order-subtotal"><b>{{ number_format($item->soluong * $item->gia)  }} VNĐ</b></td>
                         </tr>
                     @endforeach
                 </tbody>

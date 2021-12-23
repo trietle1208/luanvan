@@ -391,7 +391,7 @@
                     </div>
                 </li>
                 @endhasanyrole
-                
+                @hasanyrole('Quản Lý Đơn Hàng|Admin nhà cung cấp')
                 <li>
                     <a href="#sidebarTables" data-bs-toggle="collapse">
                         <i data-feather="truck"></i>
@@ -400,11 +400,9 @@
                     </a>
                     <div class="collapse" id="sidebarTables">
                         <ul class="nav-second-level">
-                            @hasanyrole('Quản Lý Đơn Hàng|Admin nhà cung cấp')
                             <li>
                                 <a href="{{ route('sup.order.list') }}">Danh sách đơn hàng</a>
                             </li>
-                            @endhasanyrole
                             @hasrole('Quản Lý Giao Hàng')
                             <li>
                                 <a href="{{ route('sup.order.listOrderShipper') }}">Danh sách giao hàng</a>
@@ -413,7 +411,7 @@
                         </ul>
                     </div>
                 </li>
-                
+                @endhasanyrole
                 @hasanyrole('Quản Lý Tài Khoản|Admin nhà cung cấp')
                 <li>
                     <a href="#sidebarMaps" data-bs-toggle="collapse">

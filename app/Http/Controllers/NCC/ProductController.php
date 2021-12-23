@@ -154,7 +154,8 @@ class ProductController extends Controller
         }
         return response()->json([
             'code' => 200,
-            'message' => 'Thêm sản phẩm thành công !!!',
+            'title' => 'Thành công',
+            'message' => 'Thêm sản phẩm thành công!',
         ]);
     }
 

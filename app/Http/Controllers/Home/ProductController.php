@@ -181,7 +181,7 @@ class ProductController extends Controller
                     'message' => 'success',
                     'count' => $qty_kho->soluong - $session_cart[$request->ncc_id][$request->id]['qty'],
                 ]);
-            }else{
+            }else{ 
                 if($request->qty == 1) {
                     $session_cart[$request->ncc_id][$request->id]['qty'] = $session_cart[$request->ncc_id][$request->id]['qty'] + 1;
                 }else {

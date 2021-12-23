@@ -10,7 +10,6 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
                     <th scope="col">Tên</th>
                     <th scope="col">Hình ảnh</th>
                     <th scope="col">Giá</th>
@@ -18,11 +17,13 @@
                 </thead>
                 <tbody>
                 @foreach($wishlist as $item)
+                @php
+                    $price = $item->product->price()->first();
+                @endphp
                 <tr>
-                    <th scope="row">{{ $item->product->sp_id }}</th>
                     <td><a href="{{ route('product.detail', ['ncc' => $item->product->ncc_id ,'slug' => $item->product->sp_slug]) }}">{{ $item->product->sp_ten }}</a></td>
                     <td><a href="{{ route('product.detail', ['ncc' => $item->product->ncc_id ,'slug' => $item->product->sp_slug]) }}"><img src="{{ $item->product->sp_hinhanh }}" class="img-fluid" style="width: 200px; height: 200px"></a></td>
-                    <td>{{ number_format($item->product->sp_giabanra) }} VND</td>
+                    <td>{{ number_format($price->pivot->giabanra) }} VND</td>
                 </tr>
                 @endforeach
                 </tbody>

@@ -130,12 +130,13 @@
         <!-- Datatables init -->
         <script src="{{ asset('assets/js/pages/datatables.init.js') }}"></script>
 {{--        CHANGE-STATUS-USER--}}
-        <script>
+        <!-- <script>
             $(document).ready(function (){
                 $('.change-status').click(function (){
                     var id = $(this).data('id');
                     var that = $(this);
                     var url = $(this).data('url');
+                    alert(id);
                     Swal.fire({
                     title: 'Bạn có chắc chắn muốn duyệt tài khoản không?',
                     text: "Tài khoản sẽ được cấp quyền hoạt động!",
@@ -168,7 +169,7 @@
                     })
                 })
             })
-        </script>
+        </script> -->
 
         {{--        CHANGE-STATUS-RECEIPT--}}
         <script>
@@ -948,9 +949,10 @@
                         processData : false,
                         success : function (data) {
                             if(data.code == 200) {
-                                $('#success').text(data.message);
-                                $('#success1').text(data.message);
-                                $('#success').addClass('alert alert-success')
+                                // $('#success').text(data.message);
+                                // $('#success1').text(data.message);
+                                // $('#success').addClass('alert alert-success')
+                                toastr.success(data.message,data.title);
                                 that[0].reset();
                                 CKEDITOR.instances['detail_product'].setData('');
                                 CKEDITOR.instances['desc_product'].setData('');
@@ -1034,19 +1036,20 @@
                 'Vui lòng không để trống mục số lượng hoặc giá gốc',
                 'error'
                 );
-            }else if(qty < 0 || price < 0){
+            }else if(qty < 0 || price < 0 || price_sell < 0){
                 Swal.fire(
                 'Cảnh báo',
                 'Vui lòng không nhập mục số lượng hoặc giá gốc là số âm',
                 'error'
                 );
-            }else if(price_sell < price){
-                Swal.fire(
-                'Cảnh báo',
-                'Giá bán ra không được nhỏ hơn giá nhập vào',
-                'error'
-                );
             }
+            // }else if(price_sell < price){
+            //     Swal.fire(
+            //     'Cảnh báo',
+            //     'Giá bán ra không được nhỏ hơn giá nhập vào',
+            //     'error'
+            //     );
+            // }
             else if(!intRegex.test(price) || !intRegex.test(qty) || !intRegex.test(price_sell)) {
                 Swal.fire(
                 'Cảnh báo',

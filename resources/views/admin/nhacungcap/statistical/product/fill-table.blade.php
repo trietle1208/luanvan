@@ -4,10 +4,8 @@
         <thead class="table-light">
             <tr>
                 <th colspan="2">Hình ảnh</th>
-                <th>Giá</th>
                 <th>Loại</th>
                 <th>Bảo hành</th>
-                <th>Hành động</th>
             </tr>
         </thead>
         <tbody>
@@ -21,18 +19,14 @@
                     <h5 class="m-0 fw-normal">{{ $product->sp_ten }}</h5>
                     <p class="mb-0 text-muted"><small>{{ $product->created_at }}</small></p>
                 </td>
-                <td>
-                    {{ number_format($product->sp_giabanra) }} VNĐ
-                </td>
+                
                 <td>
                 {{ $product->type->loaisp_ten }}
                 </td>
                 <td>
                     {{ $product->sp_thoigianbaohanh }} tháng
                 </td>
-                <td>
-                    <a href="" class="btn btn-xs btn-light">Chi tiết</a>
-                </td>
+                
             </tr>  
             @endforeach
         </tbody>

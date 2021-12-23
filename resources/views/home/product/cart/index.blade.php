@@ -43,6 +43,15 @@
                                             $total = 0;
                                             $cart = Session::get('cart');
                                         ?>
+                                        <style>
+                                            .name-manufacture b{
+                                                color : #3F5DB0;
+                                                font-weight: 600;
+                                            }
+                                            .name-manufacture i{
+                                                color : #F74545;
+                                            }
+                                        </style>
                                         @if($cart != null)
                                             @foreach(Session::get('cart') as $key => $value)
                                                 @php
@@ -50,7 +59,7 @@
                                                 @endphp
                                                     <div>
                                                     <tr id="name_{{ $key }}">
-                                                        <td colspan="5" style="padding: 35px;"><input type="checkbox">&emsp;{{ \App\Models\Manufacture::getData($key)->ncc_ten ?? ''}}</td>
+                                                        <td colspan="5" style="padding: 35px;"><p class="name-manufacture"><i class="fa fa-map-marker"></i> <b>{{ \App\Models\Manufacture::getData($key)->ncc_ten ?? ''}}</b></p></td>
                                                     </tr>
                                                     <tr class="parent_tr">
                                                         <td colspan="5">
@@ -58,13 +67,13 @@
                                                                 @foreach($value as $key1 => $product)
                                                                     @if($key1 == 0 && count($product) > 0)
                                                                         @php
-                                                                            $discount_id = $product['id'];
+                                                                            $discount_id = $product['id'];  
                                                                         @endphp
                                                                     @endif
                                                                     @if($key1 != 0)
                                                                     <tr class="product product_{{ $key }}">
                                                                         <td class="cart_product">
-                                                                            <input type="checkbox" style="float: left"><br>
+                                                                            <!-- <input type="checkbox" style="float: left"><br> -->
                                                                             <a href="{{ route('product.detail', ['ncc' => $key ,'slug' => $product['slug']]) }}"><img src="{{ $product['image']  }}" style="height: 150px; width: 150px" alt=""></a><br>
                                                                             <h4><a href="">{{ $product['name'] }}</a></h4>
                                                                         </td>

@@ -6,6 +6,18 @@
                 height: 140px;
                 max-width: 100%;
             }
+
+            .voucher p{
+                width: 400px;
+            }
+
+            .voucher .voucher-title{
+                color: rgb(0, 109, 204);
+            }
+
+            .voucher .voucher-name{
+                color: rgb(53, 166, 64);
+            }
         </style>
         <div class="exzoom" id="exzoom">
             <div class="exzoom_img_box">
@@ -34,15 +46,16 @@
                  data-image5="{{ asset('assets/images/m5.jpg') }}"
                  data-image6="{{ asset('assets/images/m6.jpg') }}"
                  data-image7="{{ asset('assets/images/m7.jpg') }}"
-                 data-image1="{{ asset('assets/images/m8.jpg') }}"
-                 data-image2="{{ asset('assets/images/m9.jpg') }}"
-                 data-image3="{{ asset('assets/images/m10.jpg') }}"
-                 data-image4="{{ asset('assets/images/m11.jpg') }}"
-                 data-image5="{{ asset('assets/images/m12.jpg') }}"
-                 data-image6="{{ asset('assets/images/m13.jpg') }}"
-                 data-image7="{{ asset('assets/images/m14.jpg') }}">
+                 data-image8="{{ asset('assets/images/m8.jpg') }}"
+                 data-image9="{{ asset('assets/images/m9.jpg') }}"
+                 data-image10="{{ asset('assets/images/m10.jpg') }}"
+                 data-image11="{{ asset('assets/images/m11.jpg') }}"
+                 data-image12="{{ asset('assets/images/m12.jpg') }}"
+                 data-image13="{{ asset('assets/images/m13.jpg') }}"
+                 data-image14="{{ asset('assets/images/m14.jpg') }}"
+                 >
             </div>
-            <button type="button" class="btn btn-primary image-360" data-toggle="modal" data-target="#exampleModal" data-image="{{ asset('assets/images/3d1.jpg') }}">
+            <button type="button" class="btn btn-default image-360" data-toggle="modal" data-target="#exampleModal" data-image="{{ asset('assets/images/3d1.jpg') }}">
                 Hình ảnh 3D
             </button>
         </div>
@@ -115,12 +128,15 @@
                     @endif
                     <p><b>Trạng thái:</b> Mới nhất</p>
                     <p><b>Thương hiệu:</b> {{ $product->brand->th_ten }}</p>
-                    @if($voucher->isEmpty() != true)
-                        <p><b>Nhận các khuyến mãi đặc biệt</b></p>
-                        @foreach ($voucher as $item )
-                            <p><i class="fa fa-check" style="color: green"></i> <b>{{ $item->mgg_ten }}({{ $item->mgg_macode  }})</b>.{{ $item->mgg_mota }}</p>
-                        @endforeach
-                    @endif
+                    <div class="voucher">
+                        @if($voucher->isEmpty() != true)
+                            <p><b class="voucher-title">Nhận các khuyến mãi đặc biệt</b></p>
+                            @foreach ($voucher as $item )
+                                <p><i class="fa fa-check" style="color: green"></i> <b class="voucher-name">{{ $item->mgg_ten }}({{ $item->mgg_macode  }})</b>:{{ $item->mgg_mota }}</p>
+                            @endforeach
+                        @endif
+                    </div>
+                    
             </div>
            
             

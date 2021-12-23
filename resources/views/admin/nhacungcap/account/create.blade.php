@@ -18,6 +18,7 @@
                         <div class="col-8 col-xl-9">
                             <input type="text" class="form-control"
                                    name="name"
+                                   value="{{old('name')}}"
                                    class="@error('name') is-invalid @enderror"
                                    placeholder="Nhập vào tên tài khoản muốn tạo">
                             @error('name')
@@ -30,6 +31,7 @@
                         <div class="col-8 col-xl-9">
                             <input type="email" class="form-control inputEmail"     
                                    name="email"
+                                   value="{{old('email')}}"
                                    data-url="{{ route('sup.account.checkEmail') }}"
                                    class="@error('email') is-invalid @enderror"
                                    placeholder="Nhập vào email">
@@ -43,6 +45,7 @@
                         <div class="col-8 col-xl-9">
                             <input type="text" class="form-control" 
                                    name="address"
+                                   value="{{old('address')}}"
                                    class="@error('address') is-invalid @enderror"
                                    placeholder="Nhập vào địa chỉ">
                             @error('address')
@@ -55,6 +58,7 @@
                         <div class="col-8 col-xl-9">
                             <input type="text" class="form-control" 
                                    name="phone"
+                                   value="{{old('phone')}}"
                                    class="@error('phone') is-invalid @enderror"
                                    placeholder="Nhập vào số điện thoại">
                             @error('phone')
@@ -67,6 +71,7 @@
                         <div class="col-8 col-xl-9">
                             <input type="date" class="form-control" 
                                    name="date"
+                                   value="{{old('date')}}"
                                    class="@error('date') is-invalid @enderror"
                                    placeholder="Nhập vào số điện thoại">
                             @error('date')
@@ -79,6 +84,7 @@
                         <div class="col-8 col-xl-9">
                             <input type="password" class="form-control" 
                                    name="password"
+                                   value="{{old('password')}}"
                                    class="@error('password') is-invalid @enderror"
                                    placeholder="Nhập vào mật khẩu">
                             @error('password')

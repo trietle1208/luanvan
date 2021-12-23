@@ -2,6 +2,7 @@
     @if($detail_para['product'] != null && $detail_para['product']['loaisp_id'] == $id_type)
     @php
         $quantity =  $detail_para['product']->receipt()->first();
+        $price = $detail_para['product']->price()->first();
     @endphp
     <a href="{{ route('product.detail', ['ncc' => $detail_para['product']->ncc_id ,'slug' => $detail_para['product']->sp_slug]) }}">
         <div class="col-sm-4">
@@ -13,7 +14,7 @@
                             <img src="{{ $detail_para['product']->sp_hinhanh }}" style="width: 250px; height: 250px" alt="" />
                             <h2><del>{{ number_format($detail_para['product']->sp_giabanra) }} VND</del></h2>
                             <?php
-                            $new_price = $detail_para['product']->sp_giabanra - ($detail_para['product']->sp_giabanra*$detail_para['product']->discount->km_giamgia)/100
+                            $new_price = $price->pivot->giabanra - ($price->pivot->giabanra*$product->discount->km_giamgia)/100
                             ?>
                             <h2>{{ number_format($new_price) }} VND</h2>
                             <p>{{ $detail_para['product']->sp_ten }}</p>
@@ -66,7 +67,7 @@
                             @endif
                         @else
                             <img src="{{ $detail_para['product']->sp_hinhanh }}" style="width: 250px; height: 250px" alt="" />
-                            <h2>{{ number_format($detail_para['product']->sp_giabanra) }} VND</h2>
+                            <h2>{{ number_format($price->pivot->giabanra) }} VND</h2>
                             <p>{{ $detail_para['product']->sp_ten }}</p>
                             <ul class="list-inline" title="Average Rating">
                                 @php

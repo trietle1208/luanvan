@@ -26,7 +26,7 @@
                         </div>
                         <div class="col-6">
                             <div class="text-end">
-                                <h3 class="text-dark mt-1"><span data-plugin="counterup">{{ $product->count() }}</span></h3>
+                                <h3 class="text-dark mt-1"><span data-plugin="">{{ $product->count() }}</span></h3>
                                 <p class="text-muted mb-1 text-truncate">Sản phẩm</p>
                             </div>
                         </div>
@@ -46,7 +46,7 @@
                         </div>
                         <div class="col-6">
                             <div class="text-end">
-                                <h3 class="text-dark mt-1"><span data-plugin="counterup"></span>{{ $comment->sum('comment_count') }}</h3>
+                                <h3 class="text-dark mt-1"><span data-plugin=""></span>{{ $comment->count() }}</h3>
                                 <p class="text-muted mb-1 text-truncate">Bình luận</p>
                             </div>
                         </div>
@@ -66,7 +66,7 @@
                         </div>
                         <div class="col-6">
                             <div class="text-end">
-                                <h3 class="text-dark mt-1"><span data-plugin="counterup">{{ $view->sum('view_count') }}</span></h3>
+                                <h3 class="text-dark mt-1"><span data-plugin="">{{ $view->sum('view_count') }}</span></h3>
                                 <p class="text-muted mb-1 text-truncate">Lượt truy cập</p>
                             </div>
                         </div>
@@ -94,10 +94,8 @@
                                 <thead class="table-light">
                                     <tr>
                                         <th colspan="2">Hình ảnh</th>
-                                        <th>Giá</th>
                                         <th>Loại</th>
                                         <th>Bảo hành</th>
-                                        <th>Hành động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -111,24 +109,12 @@
                                             <h5 class="m-0 fw-normal">{{ $product->sp_ten }}</h5>
                                             <p class="mb-0 text-muted"><small>{{ $product->created_at->format('Y-m-d') }}</small></p>
                                         </td>
-
-                                        <td>
-                                            {{ number_format($product->sp_giabanra) }} VNĐ
-                                        </td>
-
                                         <td>
                                         {{ $product->type->loaisp_ten }}
                                         </td>
 
                                         <td>
                                             {{ $product->sp_thoigianbaohanh }} tháng
-                                        </td>
-
-                                        <td>
-                                            <a href="" class="btn btn-xs btn-light detail_product"
-                                            data-id="{{ $product->sp_id }}"
-                                            data-url="{{ route('sup.product.detail') }}"
-                                            >Chi tiết</a>
                                         </td>
                                     </tr>  
                                     @endforeach
@@ -144,56 +130,7 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="header-title mb-3 text-center text-uppercase">Các bình luận gần đây</h4>
-                    @php
-                        $count = 0;
-                        $count_1 = 0;
-                        $count_2 = 0;
-                        $count_3 = 0;
-                        $count_4 = 0;
-                        $count_5 = 0;
-                        foreach ($comments as $comment){
-                            if($comment->bl_sosao != NULL && $comment['product'] != NULL){
-                                $count++;
-                            }
-                        }
-
-                        foreach ($comments as $comment){
-                            if($comment->bl_sosao == 1 && $comment['product'] != NULL){
-                                $count_1++;
-                            }else if($comment->bl_sosao == 2 && $comment['product'] != NULL){
-                                $count_2++;
-                            }else if($comment->bl_sosao == 3 && $comment['product'] != NULL){
-                                $count_3++;
-                            }else if($comment->bl_sosao == 4 && $comment['product'] != NULL){
-                                $count_4++;
-                            }else if($comment->bl_sosao == 5 && $comment['product'] != NULL){
-                                $count_5++;
-                            }
-                        }
-                    @endphp
-                    <!-- <div class="progress mb-2">
                         
-                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width: {{ ($count_5/$count)*100 }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <div class="progress mb-2">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width: {{ ($count_4/$count)*100 }}%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <div class="progress mb-2">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" style="width: {{ ($count_3/$count)*100 }}%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <div class="progress mb-2">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: {{ ($count_2/$count)*100 }}%"></div>
-                    </div>
-                    <div class="progress mb-2">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" style="width: {{ ($count_1/$count)*100 }}%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div> -->
-                    <select class="form-control text-center selectTypeStatisticalProduct" data-url="{{ route('sup.product.fillGood') }}">
-                        <option value="1" class="selected text-center">Bán chạy</option>
-                        <option value="2">Lượt xem cao</option>
-                        <option value="3">Yêu thích</option>
-                        <option value="4">Rating cao</option>
-                    </select>
-                    <hr>
                     <div class="">
                         <div class="table-responsive">
                             <table class="table table-borderless table-hover table-nowrap table-centered m-0">
@@ -322,7 +259,6 @@
                                             <tr>
                                                 <th colspan="2">Hình ảnh</th>
                                                 <th>Đã bán</th>
-                                                <th>Hành động</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -334,18 +270,10 @@
 
                                                     <td>
                                                         <h5 class="m-0 fw-normal">{{ $product->sp_ten }}</h5>
-                                                        <p class="mb-0 text-muted"><small>{{ $product->created_at->format('Y-m-d') }}</small></p>
                                                     </td>
 
                                                     <td>
                                                         {{ $product['orderdetail_sum_soluong'] }} sản phẩm
-                                                    </td>
-
-                                                    <td>
-                                                        <a href="" class="btn btn-xs btn-light detail_product"
-                                                        data-id="{{ $product->sp_id }}"
-                                                        data-url="{{ route('sup.product.detail') }}"
-                                                        >Chi tiết</a>
                                                     </td>
                                                 </tr> 
                                             @endforeach
@@ -422,7 +350,6 @@
                                             <tr>
                                                 <th colspan="2">Hình ảnh</th>
                                                 <th>Lợi nhuận</th>
-                                                <th>Hành động</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -434,19 +361,13 @@
 
                                                     <td>
                                                         <h5 class="m-0 fw-normal">{{ $product->sp_ten }}</h5>
-                                                        <p class="mb-0 text-muted"><small>{{ $product->created_at->format('Y-m-d') }}</small></p>
                                                     </td>
 
                                                     <td>
                                                         {{ number_format($product['total']) }} VNĐ
                                                     </td>
 
-                                                    <td>
-                                                        <a href="" class="btn btn-xs btn-light detail_product"
-                                                        data-id="{{ $product->sp_id }}"
-                                                        data-url="{{ route('sup.product.detail') }}"
-                                                        >Chi tiết</a>
-                                                    </td>
+                                                    
                                                 </tr> 
                                             @endforeach
                                         </tbody>

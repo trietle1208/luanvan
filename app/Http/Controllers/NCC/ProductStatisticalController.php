@@ -32,7 +32,6 @@ class ProductStatisticalController extends Controller
                                 }],'soluong')
                                 ->orderBy('orderdetail_sum_soluong','DESC')
                                 ->take(5)->get();
-        
         $comments = Comment::where('trangthai',1)
                     ->whereHas('product')
                     ->with(['product'=> function($query){
@@ -41,6 +40,9 @@ class ProductStatisticalController extends Controller
         ->with('customer')
         ->orderBy('created_at','DESC')
         ->get();
+        $arr_product_sell = [];
+        $arr_product_sell[0][] = [];
+        $arr_product_sell[1][] = [];
 
         $product_count = Product::where('ncc_id',Auth::user()->ncc_id)
                         ->whereHas('orderdetail')
@@ -54,17 +56,19 @@ class ProductStatisticalController extends Controller
                         }],'soluong')
                         ->get();
         
-        $arr_product_sell = [];
-        foreach($product_count as $key => $item){
-            if($item['orderdetail_sum_soluong'] != NULL){
-                $arr_product_sell[0][] = $item['sp_ten'];
-                $arr_product_sell[1][] = (int)$item['orderdetail_sum_soluong'];
-            }else{
-                $product_count->forget($key);
+        if(!$product_count->isEmpty()){
+            foreach($product_count as $key => $item){
+            
+                if($item['orderdetail_sum_soluong'] != NULL){
+                    $arr_product_sell[0][] = $item['sp_ten'];
+                    $arr_product_sell[1][] = (int)$item['orderdetail_sum_soluong'];
+                }else{
+                    $product_count->forget($key);
+                }
             }
         }
-        // dd($product_count->toArray());
         
+        // dd($comment->count());
         $product_sales = Product::where('ncc_id',Auth::user()->ncc_id)
                         ->whereHas('orderdetail')
                         ->with(['orderdetail' => function ($query){
@@ -82,8 +86,9 @@ class ProductStatisticalController extends Controller
                             });
                         }])
                         ->get();
-        // dd($product_sales->toArray());
         $arr_product_sales = [];
+        $arr_product_sales[0] = [];
+        $arr_product_sales[1] = [];
         $arr_product_total_sales = [];
         $arr_product_total_receipt = [];
         $total_sales = 0;
@@ -110,21 +115,20 @@ class ProductStatisticalController extends Controller
             $arr_product_sales[1][] = (int)$arr_product_total_sales[$key] - (int)$arr_product_total_receipt[$key];
         }
 
-        foreach ($product_sales as $key =>$product){
+        foreach ($product_sales as $key => $product1){
             $total_sales = 0;
-            if($product['orderdetail'] != null){
-                foreach($product['orderdetail'] as $row){
+            if($product1['orderdetail'] != null){
+                foreach($product1['orderdetail'] as $row){
                     $total_sales += (int)$row['gia'] * (int)$row['soluong'];
                 }
             }
             $total_receipt = 0;
-                foreach($product['detailreceipt'] as $row){
+                foreach($product1['detailreceipt'] as $row){
                     $total_receipt += (int)$row['giagoc'] * (int)$row['soluonggoc'];
                 }
             $total = $total_sales - $total_receipt;
             $product_sales[$key]['total'] = $total;
         }
-
         $arr = [
             'arr_product_name' => JSON_ENCODE($arr_product_sell[0]),
             'arr_product_qty' => JSON_ENCODE($arr_product_sell[1]),

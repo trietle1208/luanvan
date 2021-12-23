@@ -1,7 +1,7 @@
 $(document).ready(function(){
     // var image = $('.iamge-array').data('image');
     var image = new Array();
-    for(let i = 1 ; i < 8 ; i++){
+    for(let i = 1 ; i < 14 ; i++){
         image.push($('.iamge-array').data('image' + i));
     }
     console.log(image);
@@ -13,5 +13,5 @@ $(document).ready(function(){
         next: document.getElementById('next')
       });
       
-      threesixty.play();
+    //   threesixty.play();
 })
